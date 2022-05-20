@@ -1,0 +1,32 @@
+{
+  "name": "winners-c8-bn-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "babel src -d dist --copy-files",
+    "test": "npm run build && nyc --reporter=text --reporter=html mocha dist/test",
+    "coverage": "nyc  report --reporter=text-lcov | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atlp-rwanda/winners-c8-bn-be.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atlp-rwanda/winners-c8-bn-be/issues"
+  },
+  "homepage": "https://github.com/atlp-rwanda/winners-c8-bn-be#readme",
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
+    "nyc": "^15.1.0"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
+    "dotenv": "^16.0.1"
+  }
+}
