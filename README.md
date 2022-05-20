@@ -11,7 +11,8 @@ ROOT FOLDER: WINNERS-C8-BN-BE
 │   │   ├───models
 │   │   └───seeders
 │   ├───routes
-│   └───validations
+    ├───test
+    └───validations
 ├───node_modules                  : /node_modules folder is mentioned in the .gitignore file
 │   ├─── ...
 │   └─── ...
@@ -25,6 +26,7 @@ ROOT FOLDER: WINNERS-C8-BN-BE
     │   ├───models
     │   └───seeders
     ├───routes
+    ├───test
     └───validations
 ```
 
