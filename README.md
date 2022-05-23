@@ -83,3 +83,6 @@ To use dotenv, one should:
 - **To undo seeders**
 
   - Run `npm run dbseed:undo` to undo the seeders
+
+### Integrate githubCI with README  BADGES
+
