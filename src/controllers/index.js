@@ -1,0 +1,1 @@
+// This folder will contain js files for the middlewares that will querry the database, to serve requests from API's endpoints.
