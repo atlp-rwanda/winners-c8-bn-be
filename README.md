@@ -1,7 +1,7 @@
 # winners-c8-bn-be
 
 # Example:
-[![CircleCI](https://circleci.com/gh/atlp-rwanda/winners-c8-bn-be/tree/develop.svg?style=svg)](https://circleci.com/gh/atlp-rwanda/winners-c8-bn-be/tree/develop)
+[![CircleCI](https://circleci.com/gh/atlp-rwanda/winners-c8-bn-be/tree/ch-integrate-readme-bagde.svg?style=svg)](https://circleci.com/gh/atlp-rwanda/winners-c8-bn-be/tree/ch-integrate-readme-bagde)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 
 ## Basic folder structure:
