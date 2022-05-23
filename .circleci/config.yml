@@ -30,12 +30,12 @@ jobs:
           name: Run tests
           command: npm test
       - run:
-          name: "Set environment variables"
+          name: Set environment variables
           command: echo ${TEST_DB_USERNAME}
-          command: echo ${TEST_DB_PASSWORD}
-          command: echo ${TEST_DB_NAME}
-          command: echo ${TEST_DB_HOSTNAME}
-          command: echo ${TEST_DB_PORT}
+          # command: echo ${TEST_DB_PASSWORD}
+          # command: echo ${TEST_DB_NAME}
+          # command: echo ${TEST_DB_HOSTNAME}
+          # command: echo ${TEST_DB_PORT}
 
 
 workflows:
