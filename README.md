@@ -1,5 +1,7 @@
 # winners-c8-bn-be
 
+[![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+
 ## Basic folder structure:
 
 ```
@@ -42,7 +44,7 @@ To use dotenv, one should:
    ```
 2. Next, use `import 'dotenv/config';` in any JS file (in the `/src` folder) to ensure that the `process.env` object's properties will include those from the `.env` file.
    for e.g, as a continuation to the example given above, the JS file may look like:
-   ` import 'dotenv/config'; console.log(process.env.SOME_TEXT); // This displays "this_is_a_text" console.log(process.env.SOME_KEY); // This displays "this_is_a_key" `
+   `import 'dotenv/config'; console.log(process.env.SOME_TEXT); // This displays "this_is_a_text" console.log(process.env.SOME_KEY); // This displays "this_is_a_key"`
    Note that the JS file will need to be compiled using babel.
 
 ---
