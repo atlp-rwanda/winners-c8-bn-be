@@ -1,3 +1,5 @@
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
 import fs from 'fs';
 import path from 'path';
 import { Sequelize } from 'sequelize';
