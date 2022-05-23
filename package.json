@@ -8,7 +8,11 @@
     "dev": "npx nodemon lib/index.js",
     "start-lint": "eslint **/*.js",
     "lint": "eslint -r *.js",
-    "build": "npx babel src --out-dir lib"
+    "build": "npx babel src --out-dir lib",
+    "dbmigrate": "npx sequelize-cli db:migrate",
+    "dbmigrate:undo": "npx sequelize-cli db:migrate:undo",
+    "dbseed": "npx sequelize-cli db:seed:all",
+    "dbseed:undo": "npx sequelize-cli db:seed:undo"
   },
   "repository": {
     "type": "git",
@@ -25,6 +29,7 @@
     "@babel/cli": "^7.17.10",
     "@babel/core": "^7.17.12",
     "@babel/preset-env": "^7.17.12",
+    "@babel/plugin-transform-runtime": "^7.17.12",
     "eslint": "^8.15.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -39,10 +44,16 @@
     "corejs": "^1.0.0",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "nodemon": "^2.0.16",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.19.2"
+    "sequelize": "^6.19.2",
+    "@babel/node": "^7.17.10",
+    "@babel/register": "^7.17.7",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
   },
-  "description": ""
+  "description": "",
+  "jshintConfig": {
+    "esversion": 6
+  }
 }
