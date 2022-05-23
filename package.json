@@ -1,6 +1,6 @@
 {
   "name": "winners-c8-bn-be",
-  "version": "1.0.0",   
+  "version": "1.0.0",
   "main": "test.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -52,5 +52,8 @@
     "fs": "^0.0.1-security",
     "path": "^0.12.7"
   },
-  "description": ""
+  "description": "",
+  "jshintConfig": {
+    "esversion": 6
+  }
 }
