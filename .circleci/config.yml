@@ -32,10 +32,6 @@ jobs:
       - run:
           name: Set environment variables
           command: echo ${TEST_DB_USERNAME}
-          # command: echo ${TEST_DB_PASSWORD}
-          # command: echo ${TEST_DB_NAME}
-          # command: echo ${TEST_DB_HOSTNAME}
-          # command: echo ${TEST_DB_PORT}
 
 
 workflows:
