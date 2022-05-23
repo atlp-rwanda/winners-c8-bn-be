@@ -1,6 +1,7 @@
 # winners-c8-bn-be
 
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+[![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/winners-c8-bn-be/badge.svg?branch=chore-coveralls-integration-182209989)](https://coveralls.io/github/atlp-rwanda/winners-c8-bn-be?branch=chore-coveralls-integration-182209989)
 
 ## Basic folder structure:
 
