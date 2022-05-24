@@ -1,5 +1,5 @@
-import assert from 'assert'
-import {sum} from './sum'
+import assert from 'assert';
+import {sum} from './sum';
 
 describe('coveralls testing', (done)=>{
 
