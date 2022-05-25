@@ -24,7 +24,7 @@ app.use(express.json());
 app.use("/api", routes);
 
 app.get("/", async (req, res) => {
-  res.send({
+  res.status(200).send({
     message: "Hello World!",
   });
 });
@@ -32,3 +32,5 @@ app.get("/", async (req, res) => {
 app.listen(port, () => {
   console.log("Server has started!");
 });
+
+export default app;

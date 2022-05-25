@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "test.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --recursive --exit --timeout 10000 --require @babel/register",
     "start": "node lib/index.js",
     "dev": "nodemon --exec npx babel-node src/index.js",
     "start-lint": "eslint **/*.js",
@@ -30,6 +30,8 @@
     "@babel/core": "^7.17.12",
     "@babel/plugin-transform-runtime": "^7.17.12",
     "@babel/preset-env": "^7.17.12",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "eslint": "^8.15.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -37,6 +39,7 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
+    "mocha": "^10.0.0",
     "nodemon": "^2.0.16",
     "sequelize-cli": "^6.4.1"
   },
