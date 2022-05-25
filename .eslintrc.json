@@ -1,12 +1,20 @@
 {
 "root": true,
 "extends": "airbnb-base",
+"plugins": ["@babel"],
 "env": {
   "node": true,
   "es6": true,
   "mocha": true
 },
+
+"parser": "esprima",
 "rules": {
+  "@babel/new-cap": "error",
+  "@babel/no-invalid-this": "error",
+  "@babel/no-unused-expressions": "error",
+  "@babel/object-curly-spacing": "error",
+  "@babel/semi": "error",
   "one-var": 0,
   "one-var-declaration-per-line": 0,
   "new-cap": 0,
@@ -31,3 +39,5 @@
   }]
 }
 }
+
+ 
