@@ -1,0 +1,29 @@
+version: '3.9'
+
+services: 
+    node_backend:
+        container_name: barefoot-nomad
+        image: barefoot-nomad:0.0.1
+        build: 
+            context: .
+        ports: 
+            - "${PORT}:${PORT}"
+        environment: 
+            - PORT=${PORT}
+        depends_on: 
+            - node_db
+    node_db:
+        container_name: node_db
+        image: "postgres:12"
+        restart: always
+        ports: 
+            - "5432:5432"
+        environment: 
+            - POSTGRES_USER=${PGUSER}
+            - POSTGRES_PASSWORD=${PGPASSWORD}
+            - POSTGRES_DB=${DEV_PGDATABASE}
+        volumes: 
+            - nps_data:/var/lib/postgresql/data
+    
+volumes: 
+    nps_data: {}
