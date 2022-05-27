@@ -1,6 +1,6 @@
 {
 "root": true,
-"extends": "airbnb-base",
+"extends": ["airbnb-base", "prettier"],
 "plugins": ["@babel"],
 "env": {
   "node": true,
@@ -10,6 +10,7 @@
 
 "parser": "esprima",
 "rules": {
+  "prettier/prettier": "error",
   "@babel/new-cap": "error",
   "@babel/no-invalid-this": "error",
   "@babel/no-unused-expressions": "error",
