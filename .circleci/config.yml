@@ -30,6 +30,9 @@ jobs:
           name: Run tests
           command: npm test
       - run:
+          name: coverage
+          command: npm run coverage    
+      - run:
           name: Set environment variables
           command: echo ${TEST_DB_USERNAME}
 
@@ -44,3 +47,7 @@ workflows:
       - build-and-test
       # For running simple node tests, you could optionally use the node/test job from the orb to replicate and replace the job above in fewer lines.
       # - node/test
+
+notify: 
+  webhooks: 
+    - url: https://coveralls.io/webhook?repo_token=${COVERALLS_REPO_TOKEN}      
