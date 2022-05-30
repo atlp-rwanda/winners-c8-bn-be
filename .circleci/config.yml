@@ -33,9 +33,9 @@ jobs:
       - run:
           name: coverage
           command: npm run coverage
-          
-      - coveralls/upload
-
+      - coveralls/upload:
+          path_to_lcov: ./coverage/lcov/project.lcov
+      
       - store_artifacts:
           path: test-results
 
