@@ -6,7 +6,7 @@
 		"test": "mocha  --env test ./node_modules/.bin/mocha --timeout 100000 --exit --require @babel/register",
 		"start": "node lib/index.js",
 		"dev": "nodemon --exec npx babel-node src/index.js",
-		"start-lint": "eslint **/*.js",
+		"start-lint": "eslint src/**/*.js",
 		"lint": "eslint -r *.js",
 		"build": "npx babel src --out-dir lib",
 		"dbmigrate": "npx sequelize-cli db:migrate",
