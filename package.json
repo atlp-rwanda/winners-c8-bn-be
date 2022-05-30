@@ -4,7 +4,7 @@
   "main": "test.js",
   "scripts": {
     "build": "npx babel src --out-dir lib",
-    "test": "npm run build && nyc --reporter=text --reporter=html mocha lib/test",
+    "test": "nyc --reporter=text --reporter=html mocha --recursive --require @babel/polyfill --require @babel/register src/test",
     "coverage": "nyc  report --reporter=text-lcov | coveralls",
     "start": "node lib/index.js",
     "dev": "nodemon --exec npx babel-node src/index.js",
@@ -38,13 +38,14 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
-    "nodemon": "^2.0.16",
     "mocha": "^10.0.0",
+    "nodemon": "^2.0.16",
     "nyc": "^15.1.0",
     "sequelize-cli": "^6.4.1"
   },
   "dependencies": {
     "@babel/node": "^7.17.10",
+    "@babel/polyfill": "^7.12.1",
     "@babel/register": "^7.17.7",
     "core-js": "^3.22.5",
     "corejs": "^1.0.0",
