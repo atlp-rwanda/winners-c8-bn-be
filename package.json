@@ -1,66 +1,62 @@
 {
-  "name": "winners-c8-bn-be",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node lib/index.js",
-    "dev": "nodemon --exec npx babel-node src/index.js",
-    "start-lint": "eslint . --ext .js",
-    "lint": "eslint -r *.js",
-    "prettier": "npx prettier src/test --check",
-    "prettier:fix": "npm run prettier -- --write",
-    "build": "npx babel src --out-dir lib",
-    "dbmigrate": "npx sequelize-cli db:migrate",
-    "dbmigrate:undo": "npx sequelize-cli db:migrate:undo",
-    "dbseed": "npx sequelize-cli db:seed:all",
-    "dbseed:undo": "npx sequelize-cli db:seed:undo"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/atlp-rwanda/winners-c8-bn-be.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/atlp-rwanda/winners-c8-bn-be/issues"
-  },
-  "homepage": "https://github.com/atlp-rwanda/winners-c8-bn-be#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.18.2",
-    "@babel/eslint-parser": "^7.18.2",
-    "@babel/eslint-plugin": "^7.17.7",
-    "@babel/plugin-transform-runtime": "^7.17.12",
-    "@babel/preset-env": "^7.17.12",
-    "prettier": "^2.6.2",
-    "eslint": "^8.16.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-babel": "^5.3.1",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.30.0",
-    "eslint-plugin-react-hooks": "^4.5.0",
-    "nodemon": "^2.0.16",
-    "sequelize-cli": "^6.4.1"
-  },
-  "dependencies": {
-    "@babel/node": "^7.17.10",
-    "@babel/register": "^7.17.7",
-    "core-js": "^3.22.5",
-    "corejs": "^1.0.0",
-    "dotenv": "^16.0.1",
-    "esprima": "^4.0.1",
-    "express": "^4.18.1",
-    "fs": "^0.0.1-security",
-    "path": "^0.12.7",
-    "pg": "^8.7.3",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.19.2"
-  },
-  "description": ""
+	"name": "winners-c8-bn-be",
+	"version": "1.0.0",
+	"main": "test.js",
+	"scripts": {
+		"test": "mocha  --env test ./node_modules/.bin/mocha --timeout 100000 --exit --require @babel/register",
+		"start": "node lib/index.js",
+		"dev": "nodemon --exec npx babel-node src/index.js",
+		"start-lint": "eslint **/*.js",
+		"lint": "eslint -r *.js",
+		"build": "npx babel src --out-dir lib",
+		"dbmigrate": "npx sequelize-cli db:migrate",
+		"dbmigrate:undo": "npx sequelize-cli db:migrate:undo",
+		"dbseed": "npx sequelize-cli db:seed:all",
+		"dbseed:undo": "npx sequelize-cli db:seed:undo"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/atlp-rwanda/winners-c8-bn-be.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/atlp-rwanda/winners-c8-bn-be/issues"
+	},
+	"homepage": "https://github.com/atlp-rwanda/winners-c8-bn-be#readme",
+	"devDependencies": {
+		"@babel/cli": "^7.17.10",
+		"@babel/core": "^7.17.12",
+		"@babel/plugin-transform-runtime": "^7.17.12",
+		"@babel/preset-env": "^7.17.12",
+		"eslint": "^8.15.0",
+		"eslint-config-airbnb": "^19.0.4",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-jsx-a11y": "^6.5.1",
+		"eslint-plugin-react": "^7.30.0",
+		"eslint-plugin-react-hooks": "^4.5.0",
+		"nodemon": "^2.0.16",
+		"sequelize-cli": "^6.4.1"
+	},
+	"dependencies": {
+		"@babel/node": "^7.17.10",
+		"@babel/register": "^7.17.7",
+		"c8": "^7.11.3",
+		"chai": "^4.3.6",
+		"core-js": "^3.22.5",
+		"corejs": "^1.0.0",
+		"cross-env": "^7.0.3",
+		"dotenv": "^16.0.1",
+		"express": "^4.18.1",
+		"fs": "^0.0.1-security",
+		"mocha": "^10.0.0",
+		"nyc": "^15.1.0",
+		"path": "^0.12.7",
+		"pg": "^8.7.3",
+		"pg-hstore": "^2.3.4",
+		"sequelize": "^6.19.2"
+	},
+	"description": ""
 }
