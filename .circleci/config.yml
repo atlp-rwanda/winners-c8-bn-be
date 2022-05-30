@@ -7,7 +7,7 @@ orbs:
   # Orbs reduce the amount of configuration required for common tasks.
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
   node: circleci/node@4.7
-  coveralls: coveralls/coveralls@1.0.5
+  coveralls: coveralls/coveralls@1.0.6
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
@@ -32,7 +32,18 @@ jobs:
           command: npm test
       - run:
           name: coverage
-          command: npm run coverage    
+          command: npm run coverage
+          
+      - coveralls/upload
+
+      - store_artifacts:
+          path: test-results
+
+      - store_artifacts:
+          path: coverage
+
+      - store_test_results:
+          path: test-result        
       - run:
           name: Set environment variables
           command: echo ${TEST_DB_USERNAME}
