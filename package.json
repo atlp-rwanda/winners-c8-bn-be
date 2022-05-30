@@ -8,7 +8,7 @@
     "dev": "nodemon --exec npx babel-node src/index.js",
     "start-lint": "eslint . --ext .js",
     "lint": "eslint -r *.js",
-    "prettier": "npx prettier src test --check",
+    "prettier": "npx prettier src/test --check",
     "prettier:fix": "npm run prettier -- --write",
     "build": "npx babel src --out-dir lib",
     "dbmigrate": "npx sequelize-cli db:migrate",

@@ -8,7 +8,7 @@
   "mocha": true
 },
 
-"parser": "esprima",
+"parser": "babel/eslint-parser",
 "rules": {
   "prettier/prettier": "error",
   "@babel/new-cap": "error",
