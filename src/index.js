@@ -28,9 +28,7 @@ app.use(express.json());
 app.use("/api", routes);
 routes.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.get("/", async (req, res) => {
-  res.send({
-    message: "Hello World!",
-  });
+  res.send( "Hello World!");
 });
 
 app.listen(PORT, () => {
