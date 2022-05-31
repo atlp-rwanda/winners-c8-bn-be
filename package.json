@@ -11,8 +11,10 @@
     "build": "npx babel src --out-dir lib",
     "dbmigrate": "npx sequelize-cli db:migrate",
     "dbmigrate:undo": "npx sequelize-cli db:migrate:undo",
+    "dbmigrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
     "dbseed": "npx sequelize-cli db:seed:all",
-    "dbseed:undo": "npx sequelize-cli db:seed:undo"
+    "dbseed:undo": "npx sequelize-cli db:seed:undo",
+    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all"
   },
   "repository": {
     "type": "git",

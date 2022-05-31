@@ -24,11 +24,9 @@ app.use(express.json());
 app.use("/api", routes);
 
 app.get("/", async (req, res) => {
-  res.send({
-    message: "Hello World!",
-  });
+  res.send( "Hello World!");
 });
 
 app.listen(port, () => {
-  console.log("Server has started!");
+  console.log(`Server has started! at Port ${port}`);
 });
