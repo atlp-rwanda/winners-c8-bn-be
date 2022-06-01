@@ -2,7 +2,7 @@ import "core-js/stable";
 import swaggerDocs from './docs';
 import swaggerUI from 'swagger-ui-express';
 import "regenerator-runtime/runtime";
-import DB from "./database";
+import DB from "./database/index";
 import express from "express";
 import routes from "./routes/index";
 import "dotenv/config";
