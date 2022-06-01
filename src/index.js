@@ -1,8 +1,8 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-import DB from "./database";
+import DB from "./database/index";
 import express from "express";
-import routes from "./routes/index";
+import routes from "./routes/index"
 import cors from "cors";
 
 import "dotenv/config"; // Now, the "process.env" object's properties will include those from the .env file
