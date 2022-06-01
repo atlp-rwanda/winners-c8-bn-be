@@ -6,6 +6,7 @@ import DB from "./database";
 import express from "express";
 import routes from "./routes/index";
 import "dotenv/config";
+import cors from "cors";
 
 // connecting to database
 DB.authenticate()
@@ -21,6 +22,7 @@ DB.authenticate()
 const {PORT=4000}= process.env;
 
 const app = express();
+app.use(cors())
 
 // allow to parse json in body
 app.use(express.json());
@@ -28,7 +30,7 @@ app.use(express.json());
 app.use("/api", routes);
 routes.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.get("/", async (req, res) => {
-  res.send( "Hello World!");
+  res.send({ message:'Hello there!' });
 });
 
 app.listen(PORT, () => {
