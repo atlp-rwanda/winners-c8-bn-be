@@ -1,4 +1,3 @@
-import "core-js/stable";
 import DB from "./database/index";
 import express from "express";
 import routes from "./routes/index"
