@@ -1,6 +1,9 @@
 # winners-c8-bn-be
 
+# Example:
+[![CircleCI](https://circleci.com/gh/atlp-rwanda/winners-c8-bn-be/tree/ch-integrate-readme-bagde.svg?style=svg)](https://circleci.com/gh/atlp-rwanda/winners-c8-bn-be/tree/ch-integrate-readme-bagde)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+[![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/winners-c8-bn-be/badge.svg?branch=chore-coveralls-integration-182209989)](https://coveralls.io/github/atlp-rwanda/winners-c8-bn-be?branch=chore-coveralls-integration-182209989)
 
 ## Basic folder structure:
 
@@ -83,3 +86,6 @@ To use dotenv, one should:
 - **To undo seeders**
 
   - Run `npm run dbseed:undo` to undo the seeders
+
+### Integrate githubCI with README  BADGES
+
