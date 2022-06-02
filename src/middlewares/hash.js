@@ -10,6 +10,12 @@ class Protection {
     });
     return token;
   }
+	static async signToken(data) {
+		const token = sign(data, process.env.TOKEN_SECRET, {
+			expiresIn: '24h',
+		});
+		return token;
+	}
 
   static async verifyToken(token) {
     const data = verify(token, process.env.TOKEN_SECRET);
@@ -21,6 +27,11 @@ class Protection {
     return hashSync(password, genSaltSync(10));
   }
 
+
+	// eslint-disable-next-line require-jsdoc
+	static checkPassword(password, hashed) {
+		return compareSync(password, hashed);
+	}
   // eslint-disable-next-line require-jsdoc
   static checkPassword(password, hashed) {
     return compareSync(password, hashed);
