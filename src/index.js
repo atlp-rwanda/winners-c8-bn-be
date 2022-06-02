@@ -1,4 +1,6 @@
 import "core-js/stable";
+import swaggerDocs from './docs';
+import swaggerUI from 'swagger-ui-express';
 import "regenerator-runtime/runtime";
 import DB from "./database";
 import express from "express";
@@ -17,12 +19,13 @@ DB.authenticate()
 
 const port = process.env.PORT || 5000;
 
+
 const app = express();
 
 app.use(express.json());
 
 app.use("/api", routes);
-
+routes.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.get("/", async (req, res) => {
   res.send({
     message: "Hello World!",
