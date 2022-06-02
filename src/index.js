@@ -1,34 +1,29 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-import DB from "./database";
-import express from "express";
-import routes from "./routes/index";
-
-import "dotenv/config"; // Now, the "process.env" object's properties will include those from the .env file
-
-DB.authenticate()
-  .then(() => {
-    console.log("Database Connected");
-  })
-  .catch((err) => {
-    console.log("Database unable to connect");
-    console.error(err);
-  });
-
-const port = process.env.PORT || 5000;
+import express, { json } from 'express';
+import { urlencoded } from 'body-parser';
+import DB from './database';
+import routes from './routes';
+import 'dotenv/config'; 
 
 const app = express();
 
-app.use(express.json());
+const port = process.env.PORT || 5000;
 
-app.use("/api", routes);
+app.use(json());
+app.use(urlencoded({ extended: true }));
 
-app.get("/", async (req, res) => {
-  res.send({
-    message: "Hello World!",
-  });
-});
+app.use('/api', routes);
+
+DB.authenticate()
+	.then(() => {
+		console.log('Database Connected');
+	})
+	.catch((err) => {
+		console.log('Database unable to connect');
+		console.error(err);
+	});
 
 app.listen(port, () => {
-  console.log("Server has started!");
+	console.log('Server has started!', port);
 });
+
+export default app;

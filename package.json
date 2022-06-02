@@ -5,14 +5,14 @@
 	"scripts": {
 		"test": "mocha  --env test ./node_modules/.bin/mocha --timeout 100000 --exit --require @babel/register",
 		"start": "node lib/index.js",
-		"dev": "nodemon --exec npx babel-node src/index.js",
+		"migrate": "npx sequelize-cli db:migrate",
+		"dev": "nodemon --exec babel-node src/index.js",
 		"start-lint": "eslint **/*.js",
 		"lint": "eslint -r *.js",
 		"build": "npx babel src --out-dir lib",
-		"dbmigrate": "npx sequelize-cli db:migrate",
-		"dbmigrate:undo": "npx sequelize-cli db:migrate:undo",
-		"dbseed": "npx sequelize-cli db:seed:all",
-		"dbseed:undo": "npx sequelize-cli db:seed:undo"
+		"unmigrate": "npx sequelize-cli db:migrate:undo:all",
+		"seed": "npx sequelize-cli db:seed:all",
+		"unseed": "npx sequelize-cli db:seed:undo"
 	},
 	"repository": {
 		"type": "git",
@@ -28,6 +28,7 @@
 	"devDependencies": {
 		"@babel/cli": "^7.17.10",
 		"@babel/core": "^7.17.12",
+		"@babel/eslint-parser": "^7.18.2",
 		"@babel/plugin-transform-runtime": "^7.17.12",
 		"@babel/preset-env": "^7.17.12",
 		"eslint": "^8.15.0",
@@ -43,6 +44,8 @@
 	"dependencies": {
 		"@babel/node": "^7.17.10",
 		"@babel/register": "^7.17.7",
+		"bcrypt": "^5.0.1",
+		"body-parser": "^1.20.0",
 		"c8": "^7.11.3",
 		"chai": "^4.3.6",
 		"core-js": "^3.22.5",
@@ -51,6 +54,8 @@
 		"dotenv": "^16.0.1",
 		"express": "^4.18.1",
 		"fs": "^0.0.1-security",
+		"joi": "^17.6.0",
+		"jsonwebtoken": "^8.5.1",
 		"mocha": "^10.0.0",
 		"nyc": "^15.1.0",
 		"path": "^0.12.7",
