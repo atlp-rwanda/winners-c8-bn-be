@@ -14,8 +14,9 @@
     "dbmigrate:undo": "npx sequelize-cli db:migrate:undo",
     "dbmigrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
     "dbseed": "npx sequelize-cli db:seed:all",
-    "dbseed:undo": "npx sequelize-cli db:seed:undo",
-    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all"
+    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all",
+    "seed-roles":"npx sequelize db:seed --seed 20220603100237-seed-roles",
+    "dbseed:undo": "npx sequelize-cli db:seed:undo"
   },
   "repository": {
     "type": "git",
