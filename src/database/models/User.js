@@ -1,5 +1,7 @@
-"use strict";
-const { Model } = require("sequelize");
+/* eslint-disable require-jsdoc */
+/* eslint-disable no-unused-vars */
+const { Model } = require('sequelize');
+us
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
