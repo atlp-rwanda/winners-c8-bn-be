@@ -3,10 +3,10 @@
 import express from "express";
 const router = express.Router();
 
-router.get("/users/", async (req, res) => {
-    res.send({
-      "message": "Nothing is set yet!"
-    });
+router.get("/", async (req, res) => {
+  res.send({
+    message: "Welcome to winner api!",
   });
+});
 
-export default router
+export default router;
