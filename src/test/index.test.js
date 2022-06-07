@@ -1,6 +1,6 @@
 import chai from "chai";
 import chaiHttp from "chai-http";
-import server from "../src";
+import server from "..";
 
 //Assertion
 chai.should();
