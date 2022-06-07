@@ -5,7 +5,7 @@
   "scripts": {
     "build": "npx babel src --out-dir lib",
     "test": "mocha src/test/**/*.js --recursive --exit --timeout 10000 --require @babel/register",
-    "coverage": "nyc  report --reporter=text-lcov --reporter=lcov",
+    "coverage": "nyc   --reporter=text-lcov --reporter=lcov --reporter=text --reporter=html npm run test",
     "start": "node lib/index.js",
     "dev": "nodemon --exec npx babel-node src/index.js",
     "start-lint": "eslint **/*.js",
