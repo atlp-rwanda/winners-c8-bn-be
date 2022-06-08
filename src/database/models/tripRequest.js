@@ -17,10 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       departure: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          notEmpty: true,
-          len: [3, 100],
-        },
         name: "Departure",
       },
       destination: {
@@ -46,36 +42,21 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATEONLY,
         allowNull: false,
         name: "Date of Departure",
-        validate: {
-          isBefore: DataTypes.NOW,
-        },
       },
       dateOfReturn: {
         type: DataTypes.DATEONLY,
         allowNull: true,
         name: "Date of return",
-        validate: {
-          isAfter: {
-            args: this.dateOfDeparture,
-            msg: "Should be after date of departure",
-          },
-        },
       },
       status: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(["pending", "approved", "denied"]),
         allowNull: false,
         defaultValue: "pending",
-        validate: {
-          isIn: [["pending", "approved", "denied"]],
-        },
       },
       tripType: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(["return", "oneway"]),
         allowNull: false,
         name: "Trip type",
-        validate: {
-          isIn: [["return", "oneway"]],
-        },
       },
       ownerId: {
         type: DataTypes.INTEGER,
