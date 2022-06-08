@@ -1,21 +1,21 @@
-import sgMail from '@sendgrid/mail';
+import mail from '@sendgrid/mail';
+import htmlEmailTemplate from './htmlEmailTemplate'
 import 'dotenv/config';
 
-const passwordResetEmail = (userInfo) => {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const passwordResetEmail = () => {
+  mail.setApiKey(process.env.SENDGRID_API_KEY);
 
-  const mailOptions = {
-    from: `Barefoot Nomad<${process.env.GMAIL_EMAIL}>`,
-    to: 'gavutezo@forexnews.bg',
-    subject: 'Hello there',
-    html: 'make me sing halleluia'
+  const mailData = {
+    from: process.env.TECH_SUPPORT_EMAIL,
+    to: 'ihimbazwelisa@gmail.com',
+    subject: 'Barefoot Nomad Password reset Link',
+    html: htmlEmailTemplate()
   };
 
-  return sgMail.send(mailOptions)
-    .then(() => 'Email has been sent...')
+  return mail.send(mailData)
+    .then(() => 'Check your email for reset link...')
     .catch((error) => {
       throw new ApplicationError(error.message);
     });
 };
-
 export default passwordResetEmail;
