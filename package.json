@@ -11,9 +11,9 @@
     "start-lint": "eslint **/*.js",
     "lint": "eslint -r *.js",
     "dbmigrate": "npx sequelize-cli db:migrate",
-    "dbmigrate:undo": "npx sequelize-cli db:migrate:undo",
+    "dbmigrate:undo": "npx sequelize-cli db:migrate:undo:all",
     "dbseed": "npx sequelize-cli db:seed:all",
-    "dbseed:undo": "npx sequelize-cli db:seed:undo"
+    "dbseed:undo": "npx sequelize-cli db:seed:undo:all"
   },
   "repository": {
     "type": "git",
@@ -53,6 +53,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "fs": "^0.0.1-security",
+    "joi": "^17.6.0",
     "path": "^0.12.7",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
