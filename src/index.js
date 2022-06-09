@@ -22,7 +22,6 @@ DB.authenticate()
 const {PORT=4000}= process.env;
 
 const app = express();
-app.use(cors())
 
 // allow to parse json in body
 app.use(express.json());
