@@ -12,6 +12,9 @@ exports.updateUserProfile=async (req,res)=>{
                 return errorResponse(res, 404, `Ooops! User doesn't exists!`);
             }
             const {firstName,lastName,email,username,phoneNumber,image,gender,preferredLanguage,preferredCurrency,department,lineManager} = req.body;
+            if(!firstName || !lastName || !username || !email || !phoneNumber || !image || !gender || !preferredLanguage || !preferredCurrency || !department || !lineManager){
+               return errorResponse(res,500,"Please fill empty fields!")
+            }
 const updatedUser=  await User.update({
     firstName,lastName,email,username,phoneNumber,image,gender,preferredLanguage,preferredCurrency,department,lineManager
 },{
