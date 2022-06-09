@@ -13,7 +13,8 @@ router.patch('/update',protect,updateUserProfile)
  *     summary: update user profile
  *     tags:
  *       - User
- *     
+ *     security:
+ *             - BearerToken: []
  *     responses:
  *       '200':
  *         description: Successfully.
@@ -41,6 +42,8 @@ router.patch('/update',protect,updateUserProfile)
  *                          phoneNumber:
  *                              type: string
  *                          gender:
+ *                              type: string
+ *                          email:
  *                              type: string
  *                          preferredLanguage:
  *                              type: string

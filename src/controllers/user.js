@@ -5,7 +5,11 @@ exports.updateUserProfile=async (req,res)=>{
 const user=req.user.dataValues
 // console.log(req.user)
         try {
-            
+            if(!req.body.image)
+            {
+            req.body.image="https://cdn.onlinewebfonts.com/svg/img_337050.png"
+            }
+            console.log(req.body)
             const {firstName,lastName,email,username,phoneNumber,image,gender,preferredLanguage,preferredCurrency,department,lineManager} = req.body;
             if(!firstName || !lastName || !username || !email || !phoneNumber || !image || !gender || !preferredLanguage || !preferredCurrency || !department || !lineManager){
                return errorResponse(res,400,"Please fill empty fields!")

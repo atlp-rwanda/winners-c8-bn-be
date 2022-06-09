@@ -51,6 +51,30 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      username:{
+        type: DataTypes.STRING,
+      },
+      phoneNumber:{
+        type: DataTypes.STRING,
+      },
+      image:{
+        type: DataTypes.STRING,
+      },
+      gender:{
+        type: DataTypes.STRING,
+      },
+      preferredLanguage:{
+        type: DataTypes.STRING,
+      },
+      preferredCurrency:{
+        type: DataTypes.STRING,
+      },
+      department:{
+        type: DataTypes.STRING,
+      },
+      lineManager:{
+        type: DataTypes.STRING,
+      },
       password: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -66,32 +90,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: null,
       },
-    username: DataTypes.STRING,
-    phoneNumber: DataTypes.STRING,
-    image: DataTypes.STRING,
-    passwordChangedAt: DataTypes.DATE,
-    passwordResetExpires: DataTypes.DATE,
-    passwordResetToken: DataTypes.STRING,
-    socialMediaId: DataTypes.STRING,
-    provider: DataTypes.STRING,
-    verified: DataTypes.BOOLEAN,
-    gender: DataTypes.STRING,
-    preferredLanguage: DataTypes.STRING,
-    preferredCurrency:DataTypes.STRING,
-    department:DataTypes.STRING,
-    lineManager:DataTypes.STRING,
-    user_role: DataTypes.ENUM(
-        'manager', 
-        'super user', 
-        'requester', 
-        'super admin', 
-        'travel admin', 
-        'travel team member',
-        'accommodation supplier'
-        )
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
+      user_role: DataTypes.STRING,
+      
+    },
+    {
+      sequelize,
+      modelName: "User",
+    }
+  );
   return User;
 };
+

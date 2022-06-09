@@ -48,3 +48,17 @@ export const adminCredentials = {
   user_role: "013dddd7-2769-4de6-8fc3-7aa527114879",
   isVerified: true,
 };
+
+export const update_user={
+	firstName: "elamu",
+	lastName: "fghjkl",
+	username: "johnDoe",
+	email: "john1@gmail.com",
+	phoneNumber: "0780591269",
+	image: "gggggg",
+	gender: "male",
+	preferredLanguage: "kinyarwanda",
+	preferredCurrency: "RWF",
+	department: "developers",
+	lineManager: "Mugisha Eric"
+}
