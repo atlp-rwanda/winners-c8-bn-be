@@ -1,6 +1,35 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
+    await queryInterface.createTable("accommodations", {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      name: {
+        type: Sequelize.STRING,
+      },
+      address: {
+        type: Sequelize.STRING,
+      },
+      country: {
+        type: Sequelize.STRING,
+      },
+      rating: {
+        type: Sequelize.INTEGER,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+    });
+
     await queryInterface.createTable(
       "trip_requests",
       {
@@ -35,7 +64,6 @@ module.exports = {
           references: {
             model: {
               tableName: "accommodations",
-              schema: "public",
             },
             key: "id",
           },
@@ -84,7 +112,6 @@ module.exports = {
           references: {
             model: {
               tableName: "users",
-              schema: "public",
             },
             key: "id",
           },
@@ -97,7 +124,6 @@ module.exports = {
           references: {
             model: {
               tableName: "users",
-              schema: "public",
             },
             key: "id",
           },
@@ -127,5 +153,6 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("trip_requests");
+    await queryInterface.dropTable("accommodations");
   },
 };

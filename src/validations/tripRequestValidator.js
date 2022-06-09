@@ -3,7 +3,7 @@ import Joi from "joi";
 const schema = Joi.object({
   departure: Joi.string().required().min(3).max(150),
   destination: Joi.string().required().min(3).max(150),
-  travelReason: Joi.string().required().min(3).max(255).label("Travel Reason"),
+  travel_reason: Joi.string().required().min(3).max(255).label("Travel Reason"),
   accommodationId: Joi.alternatives()
     .try(Joi.string(), Joi.number())
     .required()
@@ -40,7 +40,7 @@ const tripRequestValidation = async (req, res, next) => {
     departure,
     destination,
     dateOfDeparture,
-    travelReason,
+    travel_reason: travelReason,
     accommodationId,
   };
 
@@ -57,6 +57,7 @@ const tripRequestValidation = async (req, res, next) => {
     return;
   }
 
+  req.body = tripRequest;
   return next();
 };
 
