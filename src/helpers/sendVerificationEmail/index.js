@@ -5,9 +5,9 @@ import generateHTML from './generateHTML';
 
 const TECH_SUPPORT_EMAIL = process.env.TECH_SUPPORT___EMAIL_VERIFICATION;
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY___EMAIL_VERIFICATION;
-const LOCAL_DOMAIN_NAME = process.env.LOCAL_DOMAIN_NAME___EMAIL_VERIFICATION || 'localhost'
+const LOCAL_DOMAIN_NAME = process.env.LOCAL_DOMAIN_NAME___EMAIL_VERIFICATION; // || 'localhost'
 
-const sendVerificationEmail = (userEmail) => {
+const sendVerificationEmail = async (userEmail) => {
     sgMail.setApiKey(SENDGRID_API_KEY);
     const verificationLink = LOCAL_DOMAIN_NAME;
     const msg = {
@@ -18,14 +18,16 @@ const sendVerificationEmail = (userEmail) => {
                 You can access our application by clicking Here: ${verificationLink}`,
         html: generateHTML(TECH_SUPPORT_EMAIL,verificationLink),
     }
-    sgMail
+    let output = {};
+    await sgMail
     .send(msg)
     .then(() => {
-        console.log('Email sent')
+        output = {"response":"Email sent"};
     })
     .catch((error) => {
-        console.error(error)
+        output = {"error": error};
     })
+    return(output);
 }
 
 export default sendVerificationEmail;
