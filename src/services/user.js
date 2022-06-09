@@ -51,15 +51,6 @@ class UserService {
 							where: { email }
 						});
 		return data;
-          };
-	static checkUser = async (params) => {
-		console.log(params);
-		const user = await User.findOne({where:{email:params }});
-// console.log(user);
-		if (user) {
-			throw new Error('User already exists');
-		}
-		return user;
 	};
 
   static async createUserSession({ userId, token, loginDevice, lastSession }) {

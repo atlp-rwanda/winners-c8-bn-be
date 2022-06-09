@@ -18,12 +18,8 @@
     "seed-accommodations": "npx sequelize-cli db:seed --seed 20220520070048-dummy-user.js",
     "seed-admin": "npx sequelize-cli db:seed --seed 20220617225052-seed-super-admin",
     "dbseed:undo": "npx sequelize-cli db:seed:undo",
-<<<<<<< HEAD
     "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all",
     "posttest": "cross-env NODE_ENV=test npm run unmigrate"
-=======
-    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all"
->>>>>>> 43a82df (saved changes)
   },
   "repository": {
     "type": "git",

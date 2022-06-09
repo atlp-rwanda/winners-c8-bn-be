@@ -66,11 +66,32 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: null,
       },
-    },
-    {
-      sequelize,
-      modelName: "User",
-    }
-  );
+    username: DataTypes.STRING,
+    phoneNumber: DataTypes.STRING,
+    image: DataTypes.STRING,
+    passwordChangedAt: DataTypes.DATE,
+    passwordResetExpires: DataTypes.DATE,
+    passwordResetToken: DataTypes.STRING,
+    socialMediaId: DataTypes.STRING,
+    provider: DataTypes.STRING,
+    verified: DataTypes.BOOLEAN,
+    gender: DataTypes.STRING,
+    preferredLanguage: DataTypes.STRING,
+    preferredCurrency:DataTypes.STRING,
+    department:DataTypes.STRING,
+    lineManager:DataTypes.STRING,
+    user_role: DataTypes.ENUM(
+        'manager', 
+        'super user', 
+        'requester', 
+        'super admin', 
+        'travel admin', 
+        'travel team member',
+        'accommodation supplier'
+        )
+  }, {
+    sequelize,
+    modelName: 'User',
+  });
   return User;
 };

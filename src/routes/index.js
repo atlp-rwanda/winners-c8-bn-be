@@ -12,9 +12,11 @@ router.get("/users", isAuthenticated, async (req, res) => {
   });
 });
 
-router.use("/auth", auth);
-router.use("/trips", trips);
-router.use("/locations", locations);
-router.use("/v1/users", userRoutes);
-
+router.get("/users",isAuthenticated, async (req, res) => {
+    res.send({
+      message: "Middlewares works successful!"
+    });
+  });
+router.use('/auth', auth);
+router.use('/v1/users', userRoutes)
 export default router;
