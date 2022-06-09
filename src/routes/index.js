@@ -2,11 +2,12 @@
 
 import express from "express";
 const router = express.Router();
-
-router.get("/users", async (req, res) => {
+import {UserControllers} from '../controllers/usersControllers'
+router.get("/users/", async (req, res) => {
     res.send({
       message: "Nothing is set yet!"
     });
   });
 
-export default router;
+router.get('/assignRole',UserControllers.assignRole)
+export default router

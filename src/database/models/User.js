@@ -4,11 +4,17 @@ const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    static associate(models) {
+    static associate({Role}) {
+      this.belongsTo(Role, {foreignKey:'roleId', as: 'role', onDelete:'CASCADE', onUpdate: 'CASCADE'})
     }
   }
   User.init(
     {
+      id: {
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue:DataTypes.UUIDV4
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -17,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      user_role: {
+      password: {
         type: DataTypes.STRING,
         allowNull: false,
       },

@@ -15,7 +15,8 @@
     "dbmigrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
     "dbseed": "npx sequelize-cli db:seed:all",
     "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all",
-    "seed-roles":"npx sequelize db:seed --seed 20220603100237-seed-roles",
+    "seed-roles": "npx sequelize-cli db:seed --seed 20220603100237-seed-roles",
+    "seed-admin": "npx sequelize-cli db:seed --seed 20220520070048-seed-super-admin",
     "dbseed:undo": "npx sequelize-cli db:seed:undo"
   },
   "repository": {
@@ -60,6 +61,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "fs": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
     "path": "^0.12.7",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
