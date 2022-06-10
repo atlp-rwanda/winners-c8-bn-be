@@ -17,7 +17,7 @@ DB.authenticate()
     console.error(err);
   });
 
-const port = process.env.PORT || 5000;
+const {PORT} = process.env;
 
 
 const app = express();
@@ -32,6 +32,8 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log("Server has started!");
+app.listen(PORT, () => {
+  console.log("Server has started on port", PORT);
 });
+
+export default app;
