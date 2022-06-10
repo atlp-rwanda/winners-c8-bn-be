@@ -5,7 +5,7 @@ import sendVerificationEmail from '../sendVerificationEmail'
 //     console.log(output);
 // })();
 
-sendVerificationEmail('mbonimpa_218000124@stud.ur.ac.rw')
+sendVerificationEmail('geekyrw@gmail.com')
         .then((output) => {  
             console.log(output);
         })
