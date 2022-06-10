@@ -17,7 +17,7 @@ DB.authenticate()
     console.error(err);
   });
 
-const {PORT} = process.env;
+const PORT= process.env.PORT;
 
 
 const app = express();
