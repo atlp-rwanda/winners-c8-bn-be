@@ -1,12 +1,13 @@
-// this folder will contain routes methods, with the needed middlewares being passed as parameters ( ... )
+import dotenv from 'dotenv';
+import { Router } from 'express';
+import api from './api/apiRoutes';
+import welcomeMessage from '../controllers/index';
 
-import express from "express";
-const router = express.Router();
+dotenv.config();
+const version = process.env.API_VERSION || 'v1';
+const url = `/api/${version}`;
+const router = Router();
+router.get('/', welcomeMessage);
+router.use(url, api);
 
-router.get("/users/", async (req, res) => {
-    res.send({
-      "message": "Nothing is set yet!"
-    });
-  });
-
-export default router
+export default router;

@@ -1,6 +1,6 @@
 import "core-js/stable";
-import swaggerDocs from './docs';
-import swaggerUI from 'swagger-ui-express';
+// import swaggerDocs from './docs';
+// import swaggerUI from 'swagger-ui-express';
 import "regenerator-runtime/runtime";
 import DB from "./database";
 import express from "express";
