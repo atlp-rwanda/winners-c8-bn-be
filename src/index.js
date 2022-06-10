@@ -17,8 +17,7 @@ DB.authenticate()
     console.error(err);
   });
 
-const PORT= process.env.PORT;
-
+const {PORT=4000}= process.env;
 
 const app = express();
 
