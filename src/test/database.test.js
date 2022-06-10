@@ -1,12 +1,15 @@
 import chai,{expect} from 'chai';
 import ChaiHttp from 'chai-http';
-import {Sequelize} from 'sequelize';
 import 'dotenv/config';
-import server from '../index';
 import DB from '../database';
 chai.use(ChaiHttp);
 
-describe('Database connection', ()=>{
+describe('Database for Test connection', ()=>{
+    before(async () => {
+
+        await DB.authenticate();
+        
+    })
     
     it('test if testfoot database is connected', (done)=>{
         expect(DB.config).to.have.property("database");
