@@ -1,7 +1,9 @@
 import { Sequelize } from "sequelize";
-const env = process.env.NODE_ENV || "development";
-const config = require("./config/config.js")[env];
 
+const env = process.env.NODE_ENV || "development";
+const config = require("./config/config")[env];
+
+// eslint-disable-next-line import/no-mutable-exports
 let sequelize;
 
 if (config.use_env_variable) {

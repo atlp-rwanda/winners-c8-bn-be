@@ -1,19 +1,12 @@
 {
   "root": true,
-  "extends": ["airbnb-base", "prettier"],
-  "plugins": ["@babel"],
+  "extends": "airbnb-base",
   "env": {
     "node": true,
     "es6": true,
     "mocha": true
   },
   "rules": {
-    "prettier/prettier": "error",
-    "@babel/new-cap": "error",
-    "@babel/no-invalid-this": "error",
-    "@babel/no-unused-expressions": "error",
-    "@babel/object-curly-spacing": "error",
-    "@babel/semi": "error",
     "one-var": 0,
     "one-var-declaration-per-line": 0,
     "new-cap": 0,
