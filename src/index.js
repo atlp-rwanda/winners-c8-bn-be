@@ -5,9 +5,9 @@ import "regenerator-runtime/runtime";
 import DB from "./database";
 import express from "express";
 import routes from "./routes/index";
-
 import "dotenv/config";
 
+// connecting to database
 DB.authenticate()
   .then(() => {
     console.log("Database Connected");
@@ -22,6 +22,7 @@ const {PORT=4000}= process.env;
 
 const app = express();
 
+// allow to parse json in body
 app.use(express.json());
 
 app.use("/api", routes);
