@@ -11,3 +11,7 @@
 #### Screenshots (if appropriate)
 
 #### Questions:
+
+**Note**
+
+- before pushing changes make sure there are no errors when you run `npm run lint` or `npm run coverage`
