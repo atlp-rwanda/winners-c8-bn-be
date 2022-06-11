@@ -1,4 +1,4 @@
-let generateHTML = (TECH_SUPPORT_EMAIL,verificationLink)=>{
+let generateHTML = (title,body,link,linkAltText,TECH_SUPPORT_EMAIL)=>{
     let msgHTML =
     `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
     <html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml">
@@ -181,7 +181,7 @@ let generateHTML = (TECH_SUPPORT_EMAIL,verificationLink)=>{
                                                                                     cellspacing="0" align="center"
                                                                                     width="100%" role="module"
                                                                                     data-type="columns"
-                                                                                    style="padding:30px 20px 30px 20px;"
+                                                                                    style="padding:0px 20px 30px 20px;"
                                                                                     bgcolor="#f6f6f6">
                                                                                     <tbody>
                                                                                         <tr role="module-content">
@@ -295,14 +295,7 @@ let generateHTML = (TECH_SUPPORT_EMAIL,verificationLink)=>{
                                                                                                                                     <div
                                                                                                                                         style="font-family: inherit; text-align: center">
                                                                                                                                         <span
-                                                                                                                                            style="font-size: 43px">Thanks
-                                                                                                                                            for
-                                                                                                                                            signing
-                                                                                                                                            up
-                                                                                                                                            on
-                                                                                                                                            Barefoot
-                                                                                                                                            Normad
-                                                                                                                                            platform!&nbsp;</span>
+                                                                                                                                            style="font-size: 43px">${title}&nbsp;</span>
                                                                                                                                     </div>
                                                                                                                                     <div>
                                                                                                                                     </div>
@@ -333,25 +326,7 @@ let generateHTML = (TECH_SUPPORT_EMAIL,verificationLink)=>{
                                                                                                                                     <div
                                                                                                                                         style="font-family: inherit; text-align: center">
                                                                                                                                         <span
-                                                                                                                                            style="font-size: 18px">You
-                                                                                                                                            can
-                                                                                                                                            access
-                                                                                                                                            our
-                                                                                                                                            online
-                                                                                                                                            application</span><span
-                                                                                                                                            style="color: #000000; font-size: 18px; font-family: arial,helvetica,sans-serif">
-                                                                                                                                            by
-                                                                                                                                            clicking
-                                                                                                                                        </span><span
-                                                                                                                                            style="font-size: 18px"></span>
-                                                                                                                                    </div>
-                                                                                                                                    <div
-                                                                                                                                        style="font-family: inherit; text-align: center">
-                                                                                                                                        <span
-                                                                                                                                            style="color: #ffbe00; font-size: 18px"><strong>on
-                                                                                                                                                this
-                                                                                                                                                link
-                                                                                                                                                below:&nbsp;</strong></span>
+                                                                                                                                            style="font-size: 18px">${body}</span>
                                                                                                                                     </div>
                                                                                                                                     <div>
                                                                                                                                     </div>
@@ -408,10 +383,9 @@ let generateHTML = (TECH_SUPPORT_EMAIL,verificationLink)=>{
                                                                                                                                                 bgcolor="#ffbe00"
                                                                                                                                                 class="inner-td"
                                                                                                                                                 style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;">
-                                                                                                                                                <a href="${verificationLink}"
+                                                                                                                                                <a href="${link}"
                                                                                                                                                     style="background-color:#ffbe00; border:1px solid #ffbe00; border-color:#ffbe00; border-radius:0px; border-width:1px; color:#000000; display:inline-block; font-size:14px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 40px 12px 40px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;"
-                                                                                                                                                    target="_blank">Start
-                                                                                                                                                    Exploring!</a>
+                                                                                                                                                    target="_blank">${linkAltText}</a>
                                                                                                                                             </td>
                                                                                                                                         </tr>
                                                                                                                                     </tbody>
@@ -649,7 +623,7 @@ let generateHTML = (TECH_SUPPORT_EMAIL,verificationLink)=>{
                                                                                     <div class="Unsubscribe--addressLine">
                                                                                         <p class="Unsubscribe--senderName"
                                                                                             style="font-size:12px; line-height:20px;">
-                                                                                            Support Team - Normad Barefoot
+                                                                                            Support Team - Barefoot Nomad
                                                                                         </p>
                                                                                         <p
                                                                                             style="font-size:12px; line-height:20px;">
@@ -692,11 +666,10 @@ let generateHTML = (TECH_SUPPORT_EMAIL,verificationLink)=>{
                                                                                                                 bgcolor="#f5f8fd"
                                                                                                                 class="inner-td"
                                                                                                                 style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;">
-                                                                                                                <a href="${verificationLink}"
+                                                                                                                <a href="${link}"
                                                                                                                     style="background-color:#f5f8fd; border:1px solid #f5f8fd; border-color:#f5f8fd; border-radius:25px; border-width:1px; color:#a8b9d5; display:inline-block; font-size:10px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:5px 18px 5px 18px; text-align:center; text-decoration:none; border-style:solid; font-family:helvetica,sans-serif;"
                                                                                                                     target="_blank">©
-                                                                                                                    Normad
-                                                                                                                    Barefoot</a>
+                                                                                                                    Barefoot Nomad</a>
                                                                                                             </td>
                                                                                                         </tr>
                                                                                                     </tbody>
