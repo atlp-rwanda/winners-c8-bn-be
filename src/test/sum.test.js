@@ -1,7 +1,8 @@
-import assert from 'assert';
+import assert from "assert";
+import sum from "./sum";
 
-describe('coveralls testing', () => {
-  it('makes sum of two numbers', () => {
-    assert(2 + 3 === 5);
+describe("coveralls testing", () => {
+  it("makes sum of two numbers", () => {
+    assert(sum() == 2);
   });
 });
