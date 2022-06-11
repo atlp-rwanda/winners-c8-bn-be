@@ -1,37 +1,35 @@
-import "core-js/stable";
-import swaggerDocs from './docs';
+/* eslint-disable no-console */
 import swaggerUI from 'swagger-ui-express';
-import "regenerator-runtime/runtime";
-import DB from "./database";
-import express from "express";
-import routes from "./routes/index";
+import express from 'express';
+import swaggerDocs from './docs';
+import DB from './database';
+import routes from './routes/index';
 
-import "dotenv/config"; // Now, the "process.env" object's properties will include those from the .env file
+import 'dotenv/config'; // Now, the "process.env" object's properties will include those from the .env file
 
 DB.authenticate()
   .then(() => {
-    console.log("Database Connected");
+    console.log('Database Connected');
   })
   .catch((err) => {
-    console.log("Database unable to connect");
+    console.log('Database unable to connect');
     console.error(err);
   });
 
 const port = process.env.PORT || 5000;
 
-
 const app = express();
 
 app.use(express.json());
 
-app.use("/api", routes);
+app.use('/api', routes);
 routes.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
-app.get("/", async (req, res) => {
+app.get('/', async (req, res) => {
   res.send({
-    message: "Hello World!",
+    message: 'Hello World!',
   });
 });
 
 app.listen(port, () => {
-  console.log("Server has started!");
+  console.log('Server has started!');
 });

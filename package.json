@@ -8,8 +8,8 @@
     "coverage": "nyc  report --reporter=text-lcov --reporter=lcov",
     "start": "node lib/index.js",
     "dev": "nodemon --exec npx babel-node src/index.js",
-    "lint": "eslint src/**/*.js",
-    "lint-fix": "eslint src/**/*.js --fix",
+    "lint": "eslint --ext .js src",
+    "fix": "eslint --ext .js src --fix",
     "dbmigrate": "npx sequelize-cli db:migrate",
     "dbmigrate:undo": "npx sequelize-cli db:migrate:undo",
     "dbseed": "npx sequelize-cli db:seed:all",
@@ -60,9 +60,5 @@
     "swagger-jsdoc": "^6.2.1",
     "swagger-ui-express": "^4.4.0"
   },
-  "description": "",
-  "engines": {
-    "npm": ">=6.0.0",
-    "node": ">=12.0.0"
-  }
+  "description": "Winners Barefoot-nomad Backend"
 }

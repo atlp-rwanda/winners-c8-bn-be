@@ -1,0 +1,15 @@
+name: Eslint linter
+on: push
+jobs:
+  run_linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - name: npm install
+        run: npm install
+      - name: Run eslint
+        run: npm run lint

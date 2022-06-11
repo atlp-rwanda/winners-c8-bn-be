@@ -1,16 +1,15 @@
-"use strict";
-
+/* eslint-disable no-console */
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface) {
     try {
       await queryInterface.bulkInsert(
-        "users",
+        'users',
         [
           {
             id: 1,
-            name: "John Doe",
-            email: "john.doe@test.com",
-            user_role: "manager",
+            name: 'John Doe',
+            email: 'john.doe@test.com',
+            user_role: 'manager',
             createdAt: new Date(),
             updatedAt: new Date(),
           },
@@ -22,7 +21,7 @@ module.exports = {
     }
   },
 
-  async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("users", null, {});
+  async down(queryInterface) {
+    await queryInterface.bulkDelete('users', null, {});
   },
 };
