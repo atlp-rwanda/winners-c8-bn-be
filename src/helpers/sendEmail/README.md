@@ -26,3 +26,4 @@ sendEmail(mailObj)
 
 ## OUTPUT (screenshot from the inbox):
 
+![image](https://user-images.githubusercontent.com/83488648/173181104-4bda3e71-ee94-425c-8da5-7978916161fe.png)
