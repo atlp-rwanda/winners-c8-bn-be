@@ -6,7 +6,7 @@ chai.use(ChaiHttp);
 
 describe('Database for Test connection', ()=>{
     before(async () => {
-
+        // connect to database
         await DB.authenticate();
         
     })
