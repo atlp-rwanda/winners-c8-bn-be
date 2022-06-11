@@ -6,7 +6,7 @@ import DB from "./database";
 import express from "express";
 import routes from "./routes/index";
 
-import "dotenv/config"; // Now, the "process.env" object's properties will include those from the .env file
+import "dotenv/config";
 
 DB.authenticate()
   .then(() => {
