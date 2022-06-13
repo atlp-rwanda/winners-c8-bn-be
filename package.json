@@ -6,14 +6,16 @@
     "build": "npx babel src --out-dir lib",
     "test": "nyc --reporter=text --reporter=html mocha --recursive --require @babel/polyfill --require @babel/register src/test",
     "coverage": "nyc  report --reporter=text-lcov --reporter=lcov",
-    "start": "node lib/index.js",
+    "start": "NODE_ENV=production npm run dbmigrate && node lib/index.js",
     "dev": "nodemon --exec npx babel-node src/index.js",
     "lint": "eslint --ext .js src",
     "fix": "eslint --ext .js src --fix",
     "dbmigrate": "npx sequelize-cli db:migrate",
     "dbmigrate:undo": "npx sequelize-cli db:migrate:undo",
+    "dbmigrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
     "dbseed": "npx sequelize-cli db:seed:all",
-    "dbseed:undo": "npx sequelize-cli db:seed:undo"
+    "dbseed:undo": "npx sequelize-cli db:seed:undo",
+    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all"
   },
   "repository": {
     "type": "git",

@@ -3,7 +3,7 @@ import swaggerUI from 'swagger-ui-express';
 import express from 'express';
 import swaggerDocs from './docs';
 import DB from './database';
-import routes from './routes/index';
+import routes from './routes';
 
 import 'dotenv/config'; // Now, the "process.env" object's properties will include those from the .env file
 
