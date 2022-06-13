@@ -6,7 +6,7 @@
     "build": "npx babel src --out-dir lib",
     "test": "nyc --reporter=text --reporter=html mocha --recursive --require @babel/polyfill --require @babel/register src/test",
     "coverage": "nyc  report --reporter=text-lcov --reporter=lcov",
-    "start": "npx babel-node lib/index.js",
+    "start": "NODE_ENV=production npm run dbmigrate && node lib/index.js",
     "dev": "nodemon --exec npx babel-node src/index.js",
     "start-lint": "eslint **/*.js",
     "lint": "eslint -r *.js",
