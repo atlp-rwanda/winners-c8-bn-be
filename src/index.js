@@ -4,7 +4,7 @@ import swaggerUI from 'swagger-ui-express';
 import "regenerator-runtime/runtime";
 import DB from "./database";
 import express from "express";
-import routes from "./routes/index";
+import routes from "./routes/index"
 
 import "dotenv/config"; // Now, the "process.env" object's properties will include those from the .env file
 
@@ -27,11 +27,9 @@ app.use(express.json());
 app.use("/api", routes);
 routes.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.get("/", async (req, res) => {
-  res.send({
-    message: "Hello World!",
-  });
+  res.send({ message:'Hello there!' });
 });
 
 app.listen(port, () => {
-  console.log("Server has started!");
+  console.log(`Server has started! at Port ${port}`);
 });
