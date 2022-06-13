@@ -4,6 +4,7 @@ import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import FacebookStrategy from 'passport-facebook';
 import 'dotenv/config';
+import userService from '../../services/userService';
 
 passport.serializeUser((user, done) => {
   done(null, user);

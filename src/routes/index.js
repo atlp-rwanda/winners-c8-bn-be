@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import dotenv from 'dotenv';
 import { Router } from 'express';
 import api from './api/apiRoutes';

@@ -2,6 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import jwt from 'jsonwebtoken';
 import Util from '../helpers/utils';
+import userService from '../services/userService';
 
 const util = new Util();
 

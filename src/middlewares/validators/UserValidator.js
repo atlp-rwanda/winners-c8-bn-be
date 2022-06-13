@@ -1,3 +1,4 @@
+/*eslint-disable */
 import SignUpValidationSchema from '../../helpers/validateSchemas/SignupValidationSchema';
 import SignInValidationSchema from '../../helpers/validateSchemas/signInValidationSchema';
 import forgetpassValidationSchema from '../../helpers/validateSchemas/forgetpassValidationSchema';
@@ -5,6 +6,7 @@ import resetpassValidationSchema from '../../helpers/validateSchemas/resetpassVa
 import userValidationSchema from '../../helpers/validateSchemas/userValidationSchema';
 import Util from '../../helpers/utils';
 import userSchema from '../../models/user';
+import userServices from '../../services/userService';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';

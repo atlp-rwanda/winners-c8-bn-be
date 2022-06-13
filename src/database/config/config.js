@@ -1,28 +1,31 @@
+/*eslint-disable*/
+// import dotenv from 'dotenv';
 require('dotenv').config();
 
+const { DB_USER, DB_PASSWORD, DB_NAME, DB_HOST, DB_PORT, DATABASE_URL,DB_NAME_TEST  } = process.env;
 module.exports = {
   development: {
-    username: process.env.DEV_DB_USERNAME,
-    password: process.env.DEV_DB_PASSWORD,
-    database: process.env.DEV_DB_NAME,
-    host: process.env.DEV_DB_HOSTNAME,
-    port: process.env.DEV_DB_PORT,
+    username: DB_USER,
+    password: DB_PASSWORD,
+    database: DB_NAME,
+    host: DB_HOST,
     dialect: 'postgres',
+    port: DB_PORT,
   },
   test: {
-    username: process.env.TEST_DB_USERNAME,
-    password: process.env.TEST_DB_PASSWORD,
-    database: process.env.TEST_DB_NAME,
-    host: process.env.TEST_DB_HOSTNAME,
-    port: process.env.TEST_DB_PORT,
+    username: DB_USER,
+    password: DB_PASSWORD,
+    database: DB_NAME_TEST,
+    host: DB_HOST,
     dialect: 'postgres',
+    port: DB_PORT,
   },
   production: {
-    username: process.env.PROD_DB_USERNAME,
-    password: process.env.PROD_DB_PASSWORD,
-    database: process.env.PROD_DB_NAME,
-    host: process.env.PROD_DB_HOSTNAME,
-    port: process.env.PROD_DB_PORT,
+    username: DB_USER,
+    password: DB_PASSWORD,
+    database: DB_NAME,
+    host: DB_HOST,
     dialect: 'postgres',
+    port: DB_PORT
   },
 };

@@ -1,3 +1,4 @@
+/*eslint-disable */
 import Util from '../helpers/utils';
 
 const util = new Util();
