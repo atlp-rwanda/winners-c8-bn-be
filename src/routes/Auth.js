@@ -144,5 +144,9 @@ router.use("/sessions", isAuthenticated, sessionsRoutes);
  *           example: [1]
  */
 
+<<<<<<< HEAD
 router.get("/register/verifyuser/:token", verifyUser);
+=======
+router.get('/register/verifyuser/:token', verifyUser);
+>>>>>>> 776b409 (feat(profilePage): update user profile)
 export default router;

@@ -1,10 +1,6 @@
 # winners-c8-bn-be
 
 # Example:
-<<<<<<< HEAD
-
-=======
->>>>>>> 055a48f (updating circleCI)
 [![CircleCI](https://circleci.com/gh/atlp-rwanda/winners-c8-bn-be/tree/develop.svg?style=svg)](https://circleci.com/gh/atlp-rwanda/winners-c8-bn-be/tree/develop)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 [![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/winners-c8-bn-be/badge.svg)](https://coveralls.io/github/atlp-rwanda/winners-c8-bn-be)

@@ -1,3 +1,4 @@
+
 import { Router } from "express";
 import auth from "./Auth";
 import locations from "./locations";
@@ -11,12 +12,8 @@ router.get("/users", isAuthenticated, async (req, res) => {
     message: "Middlewares works successful!",
   });
 });
-
-router.get("/users",isAuthenticated, async (req, res) => {
-    res.send({
-      message: "Middlewares works successful!"
-    });
-  });
 router.use('/auth', auth);
 router.use('/v1/users', userRoutes)
+router.use('/', index);
+router.use('/user',user)
 export default router;
