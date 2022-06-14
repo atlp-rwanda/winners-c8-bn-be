@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   return User;
 <<<<<<< HEAD
+<<<<<<< HEAD
 };
 
 
@@ -52,3 +53,7 @@ module.exports = (sequelize, DataTypes) => {
 =======
 };
 >>>>>>> develop
+=======
+};
+
+>>>>>>> 75099649c8bbd4bfd75598ba601c94962bf28d21
