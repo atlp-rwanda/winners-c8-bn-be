@@ -2,34 +2,36 @@ import "core-js/stable";
 import swaggerDocs from './docs';
 import swaggerUI from 'swagger-ui-express';
 import "regenerator-runtime/runtime";
-import DB from "./database";
+import DB from "./database/index";
 import express from "express";
-import routes from "./routes/index"
+import routes from "./routes/index";
+import "dotenv/config";
+import getDefault from './helpers/getEnvironment'
 
-import "dotenv/config"; // Now, the "process.env" object's properties will include those from the .env file
 
+// connecting to database
 DB.authenticate()
   .then(() => {
     console.log("Database Connected");
   })
-  .catch((err) => {
-    console.log("Database unable to connect");
-    console.error(err);
-  });
 
-const port = process.env.PORT || 5000;
+
+const PORT=getDefault(process.env.PORT, "5000")
 
 
 const app = express();
 
+// allow to parse json in body
 app.use(express.json());
 
 app.use("/api", routes);
 routes.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.get("/", async (req, res) => {
-  res.send({ message:'Hello there!' });
+  res.send({ message:'Hello World!' });
 });
 
-app.listen(port, () => {
-  console.log(`Server has started! at Port ${port}`);
+app.listen(PORT, () => {
+  console.log("Server has started on port", PORT);
 });
+
+export default app;
