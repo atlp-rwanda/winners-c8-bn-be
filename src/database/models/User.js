@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull:true
       },
       user_role: DataTypes.STRING,
+      
     },
     {
       sequelize,
