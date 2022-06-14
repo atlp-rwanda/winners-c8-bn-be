@@ -4,16 +4,18 @@
   "main": "test.js",
   "scripts": {
     "build": "npx babel src --out-dir lib",
-    "test": "nyc --reporter=text --reporter=html mocha --recursive --require @babel/polyfill --require @babel/register src/test",
-    "coverage": "nyc  report --reporter=text-lcov --reporter=lcov",
-    "start": "node lib/index.js",
-    "dev": "nodemon --exec npx babel-node src/index.js",
+    "test": "cross-env NODE_ENV=test  nyc --reporter=text --reporter=html mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 30000 --exit",
+    "coverage": "nyc --reporter=text-lcov --reporter=lcov npm run test | coveralls",
+    "start": "NODE_ENV=production npm run dbmigrate && node lib/index.js",
+    "dev": "NODE_ENV=development nodemon --exec npx babel-node src/index.js",
     "start-lint": "eslint **/*.js",
     "lint": "eslint -r *.js",
     "dbmigrate": "npx sequelize-cli db:migrate",
     "dbmigrate:undo": "npx sequelize-cli db:migrate:undo",
+    "dbmigrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
     "dbseed": "npx sequelize-cli db:seed:all",
-    "dbseed:undo": "npx sequelize-cli db:seed:undo"
+    "dbseed:undo": "npx sequelize-cli db:seed:undo",
+    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all"
   },
   "repository": {
     "type": "git",
@@ -47,16 +49,22 @@
     "@babel/node": "^7.17.10",
     "@babel/polyfill": "^7.12.1",
     "@babel/register": "^7.17.7",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "core-js": "^3.22.5",
     "corejs": "^1.0.0",
+    "cors": "^2.8.5",
     "coveralls": "^3.1.1",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "fs": "^0.0.1-security",
     "path": "^0.12.7",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.19.2"
+    "sequelize": "^6.19.2",
+    "swagger-jsdoc": "^6.2.1",
+    "swagger-ui-express": "^4.4.0"
   },
   "description": ""
 }
