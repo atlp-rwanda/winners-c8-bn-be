@@ -9,3 +9,7 @@ node_modules/
 
 # lib folder
 lib/
+
+#test report output
+.nyc_output
+coverage

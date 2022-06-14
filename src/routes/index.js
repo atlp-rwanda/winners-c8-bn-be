@@ -3,10 +3,10 @@
 import express from "express";
 const router = express.Router();
 
-router.get("/users/", async (req, res) => {
+router.get("/users", async (req, res) => {
     res.send({
-      "message": "Nothing is set yet!"
+      message: "Nothing is set yet!"
     });
   });
 
-export default router
+export default router;
