@@ -46,7 +46,7 @@ jobs:
           path: test-result        
       - run:
           name: Set environment variables
-          command: echo ${TEST_DB_USERNAME}
+          command: echo ${DATABASE_URL_TEST}
 
 
 workflows:
