@@ -1,12 +1,15 @@
 {
-    "all": true,
-    "check-coverage":true,
-    "statements": 80,
-    "branches": 80,
-    "functions": 80,
-    "lines": 80,
-    "include": ["src/**/*.js"],
-    "exclude": ["src/**/*.test.js", "src/database/migrations/*.js", 
-    "src/database/seeders/*.js", "src/database/models/*.js"]
-    
+	"all": true,
+	"check-coverage": true,
+	"statements": 80,
+	"branches": 80,
+	"functions": 80,
+	"lines": 80,
+	"include": ["src/**/*.js"],
+	"exclude": [
+		"src/**/*.test.js",
+		"src/database",
+		"src/docs",
+		"src/middlewares"
+	]
 }
