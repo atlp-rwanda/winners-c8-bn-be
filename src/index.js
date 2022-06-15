@@ -19,7 +19,9 @@ app.use(express.json());
 
 app.use("/api", routes);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
-
+app.get("/", (request, response) => {
+  response.status(200).json({ message: "Hello World!" });
+});
 DB.authenticate()
   .then(() => {
     console.log("Database Connected");
