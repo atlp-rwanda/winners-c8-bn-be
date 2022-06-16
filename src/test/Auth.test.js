@@ -98,7 +98,13 @@ describe('Testing  signup endpoints', () => {
 		const res = await chai
 			.request(app)
 			.post('/api/auth/register')
-			.send(signup);
+			.send({
+				firstName: 'Test',
+				lastName: 'User',
+				email: 'test@gmail.com',
+				password: 'Simon@20000'
+			  });
+		console.log("THE BUG         :",signup,res.body);
 		expect(res.status).to.be.equal(201);
         process.authToken = res.body.data;
 		expect(res.body).to.have.property(
@@ -122,3 +128,4 @@ describe('Testing  signup endpoints', () => {
 		await User.destroy({ where: {} });
 	});
 });
+
