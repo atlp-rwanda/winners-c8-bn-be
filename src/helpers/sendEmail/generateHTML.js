@@ -383,11 +383,25 @@ let generateHTML = (title,body,link,linkAltText,TECH_SUPPORT_EMAIL)=>{
                                                                                                                                                 bgcolor="#ffbe00"
                                                                                                                                                 class="inner-td"
                                                                                                                                                 style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;">
-                                                                                                                                                <a href="${link}"
+                                                                                                                                                <a href="${link}" id="link"
                                                                                                                                                     style="background-color:#ffbe00; border:1px solid #ffbe00; border-color:#ffbe00; border-radius:0px; border-width:1px; color:#000000; display:inline-block; font-size:14px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 40px 12px 40px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;"
                                                                                                                                                     target="_blank">${linkAltText}</a>
                                                                                                                                             </td>
                                                                                                                                         </tr>
+                                                                                                                                        <!-- <script>
+                                                                                                                                          document.write("************************ Hello World! ***************************");
+                                                                                                                                        </script> -->
+                                                                                                                                        <!-- <script>
+                                                                                                                                          let i=0;
+                                                                                                                                          let myColors=["#ffbe00","#00be00","#ff0000"];
+                                                                                                                                          setInterval(altColor, 300);
+
+                                                                                                                                          function altColor() {
+                                                                                                                                            i++;
+                                                                                                                                            myColor=myColors[i%3];
+                                                                                                                                            document.getElementById("link").style.backgroundColor=myColor;
+                                                                                                                                          }
+                                                                                                                                        </script> -->
                                                                                                                                     </tbody>
                                                                                                                                 </table>
                                                                                                                             </td>
@@ -432,91 +446,7 @@ let generateHTML = (title,body,link,linkAltText,TECH_SUPPORT_EMAIL)=>{
                                                                                                                                 bgcolor="#6e6e6e"
                                                                                                                                 role="module-content">
                                                                                                                                 <div>
-                                                                                                                                    <div
-                                                                                                                                        style="font-family: inherit; text-align: center">
-                                                                                                                                        <span
-                                                                                                                                            style="color: #ffffff; font-size: 18px"><strong>Here’s
-                                                                                                                                                what
-                                                                                                                                                we
-                                                                                                                                                offer:</strong></span>
-                                                                                                                                    </div>
-                                                                                                                                    <div
-                                                                                                                                        style="font-family: inherit; text-align: center">
-                                                                                                                                        <br>
-                                                                                                                                    </div>
-                                                                                                                                    <div
-                                                                                                                                        style="font-family: inherit; text-align: center">
-                                                                                                                                        <span
-                                                                                                                                            style="color: #ffffff; font-size: 18px">1.
-                                                                                                                                            Upload
-                                                                                                                                            your
-                                                                                                                                            details
-                                                                                                                                            &nbsp;and
-                                                                                                                                            we'll
-                                                                                                                                            keep
-                                                                                                                                            it
-                                                                                                                                            on
-                                                                                                                                            file
-                                                                                                                                            for
-                                                                                                                                            every
-                                                                                                                                            travel
-                                                                                                                                            request
-                                                                                                                                            submission.</span>
-                                                                                                                                    </div>
-                                                                                                                                    <div
-                                                                                                                                        style="font-family: inherit; text-align: center">
-                                                                                                                                        <br>
-                                                                                                                                    </div>
-                                                                                                                                    <div
-                                                                                                                                        style="font-family: inherit; text-align: center">
-                                                                                                                                        <span
-                                                                                                                                            style="color: #ffffff; font-size: 18px">2.
-                                                                                                                                            Submit
-                                                                                                                                            and
-                                                                                                                                            edit
-                                                                                                                                            personalized
-                                                                                                                                            cover
-                                                                                                                                            letters
-                                                                                                                                            for
-                                                                                                                                            every
-                                                                                                                                            travel
-                                                                                                                                            permission
-                                                                                                                                            you
-                                                                                                                                            apply
-                                                                                                                                            for.</span>
-                                                                                                                                    </div>
-                                                                                                                                    <div
-                                                                                                                                        style="font-family: inherit; text-align: center">
-                                                                                                                                        <br>
-                                                                                                                                    </div>
-                                                                                                                                    <div
-                                                                                                                                        style="font-family: inherit; text-align: center">
-                                                                                                                                        <span
-                                                                                                                                            style="color: #ffffff; font-size: 18px">3.
-                                                                                                                                            Get
-                                                                                                                                            access
-                                                                                                                                            to
-                                                                                                                                            our
-                                                                                                                                            travel
-                                                                                                                                            destinations'
-                                                                                                                                            portfolio
-                                                                                                                                            to
-                                                                                                                                            help
-                                                                                                                                            with
-                                                                                                                                            choosing
-                                                                                                                                            your
-                                                                                                                                            next
-                                                                                                                                            place
-                                                                                                                                            to
-                                                                                                                                            visit.</span>
-                                                                                                                                    </div>
-                                                                                                                                    <div
-                                                                                                                                        style="font-family: inherit; text-align: center">
-                                                                                                                                        <span
-                                                                                                                                            style="color: #ffbe00; font-size: 18px"><strong>+
-                                                                                                                                                much
-                                                                                                                                                more!</strong></span>
-                                                                                                                                    </div>
+                                                                                                                                    
                                                                                                                                     <div
                                                                                                                                         style="font-family: inherit; text-align: center">
                                                                                                                                         <br>
@@ -705,7 +635,6 @@ let generateHTML = (title,body,link,linkAltText,TECH_SUPPORT_EMAIL)=>{
     
     
     </body>
-    
     </html> `;
     
     return msgHTML;
