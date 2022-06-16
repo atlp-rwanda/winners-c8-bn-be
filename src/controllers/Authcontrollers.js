@@ -63,8 +63,6 @@ class Auth {
       if (!user.verified) {
         return errorResponse(res, 403, `User email is not verified!`);
       }
-      if (!checkPassword(password, user.password))
-        return errorResponse(res, 409, `Invalid credentials`);
       const token = await signToken({
         id: user.id,
         email: user.email,
