@@ -18,10 +18,8 @@ const verifyToken = async(req,res,next) =>{
         if (name==="TokenExpiredError"){
             return res.status(400).json({error: "Json Web Token is expired"})
         }
-        req.user = data.data.user
-        const user = await User.findOne({ where:{uuid: req.user.uuid}})
-        next()
-        console.log(user)
+
+        return next()
     } catch (error) {
         console.log(error);
         return res.status(404).json({error:"token is required"})

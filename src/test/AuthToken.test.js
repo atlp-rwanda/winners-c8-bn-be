@@ -1,5 +1,5 @@
 import chai,{expect} from 'chai';
-import AuthToken from '../utils/helpers/AuthToken';
+import AuthToken from '../helpers/AuthToken';
 const token = "";
 describe("getToken(token)", ()=>{
     const data = { email:"alain@gmail.com", password: "12345"}

@@ -15,10 +15,5 @@ describe("/GET root endpoint", () => {
       expect(response.body).to.have.property("message");
       expect(response.body.message).to.equal("Hello World!");
     });
-
-    it("it should GET all users endpoint", async () => {
-        const response = await chai.request(server).get("/api/users");
-        expect(response).to.have.status(200);
-    });
     
 });
