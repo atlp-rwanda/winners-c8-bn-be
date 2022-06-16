@@ -3,7 +3,6 @@ import chaiHttp from "chai-http";
 import app from "../index";
 import { User } from "../database/models";
 import { signup } from "./mocks/Users";
-import { hashSync } from "bcrypt";
 import Protection from "../middlewares/hash";
 const { hashPassword,signToken } = Protection;
 chai.use(chaiHttp);
@@ -74,7 +73,6 @@ describe("POST login", async () => {
       .request(app)
       .post("/api/auth/signin")
       .send({ email: signup.email, password: signup.unhashedPassword });
-  
     expect(res.status).to.be.equal(200);
     expect(res.body).to.be.a("object");
   });

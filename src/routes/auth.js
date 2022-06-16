@@ -6,7 +6,7 @@ import AuthValidation from "../validations/index";
 
 const router = Router();
 
-const { signup, signin, verifyUser } = authcontrollers;
+const { signup, signin, verifyUser, signout } = authcontrollers;
 const { verifySignup, verifySignin } = AuthValidation;
 
 router.post("/register", verifySignup, signup);
@@ -40,5 +40,6 @@ router.post("/register", verifySignup, signup);
  *              description: internal server error
  */
 router.post("/signin", verifySignin, signin);
-router.get('/register/verifyuser/:token', verifyUser);
+router.get("/register/verifyuser/:token", verifyUser);
+router.post("/signout", signout);
 export default router;
