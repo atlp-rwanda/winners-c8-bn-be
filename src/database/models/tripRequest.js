@@ -8,9 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      // define association here
-    }
+    static associate(models) {}
   }
   TripRequest.init(
     {
@@ -33,10 +31,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "Accommodation",
           key: "id",
+          model: {
+            tableName: "accommodations",
+            modelName: "Accommodation",
+          },
         },
-        name: "Accommodation",
       },
       dateOfDeparture: {
         type: DataTypes.DATEONLY,
@@ -61,16 +61,29 @@ module.exports = (sequelize, DataTypes) => {
       ownerId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        name: "Request owner",
+        references: {
+          key: "id",
+          model: {
+            tableName: "users",
+            modelName: "User",
+          },
+        },
       },
       managerId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        name: "Direct Manager",
+        references: {
+          key: "id",
+          model: {
+            tableName: "users",
+            modelName: "User",
+          },
+        },
       },
     },
     {
       sequelize,
+      freezeTableName: true,
       modelName: "TripRequest",
       tableName: "trip_requests",
     }

@@ -1,10 +1,13 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-unused-vars */
-const { Model } = require('sequelize');
+const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
+      User.hasMany(models.TripRequest, {
+        onDelete: "cascade",
+      });
     }
   }
   User.init(
@@ -24,8 +27,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'User',
-      tableName: 'users',
+      freezeTableName: true,
+      modelName: "User",
+      tableName: "users",
     }
   );
   return User;

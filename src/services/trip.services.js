@@ -8,7 +8,7 @@ export const getAllTripRequests = async (user) => {
   if (user.role == "manager") {
     result = await TripRequest.findAll({
       where: {
-        managerId: user.managerId,
+        managerId: user.userId,
       },
     });
   } else {
@@ -34,7 +34,7 @@ export const getOneTripRequest = async (user, tripId) => {
     return;
   }
 
-  if (user.role == "manager" && result.managerId != user.managerId) {
+  if (user.role == "manager" && result.managerId != user.userId) {
     throw new Error("manager");
     return;
   }

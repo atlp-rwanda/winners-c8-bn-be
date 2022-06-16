@@ -6,8 +6,7 @@ const schema = Joi.object({
   travel_reason: Joi.string().required().min(3).max(255).label("Travel Reason"),
   accommodationId: Joi.alternatives()
     .try(Joi.string(), Joi.number())
-    .required()
-    .label("Accommodation"),
+    .required(),
   dateOfDeparture: Joi.date()
     .greater("now")
     .label("Date of Departure")

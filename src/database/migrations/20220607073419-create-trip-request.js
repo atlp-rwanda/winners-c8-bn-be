@@ -68,7 +68,6 @@ module.exports = {
             key: "id",
           },
           onDelete: "cascade",
-          name: "Accommodation",
         },
         dateOfDeparture: {
           type: Sequelize.DATEONLY,

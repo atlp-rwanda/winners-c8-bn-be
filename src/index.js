@@ -1,5 +1,5 @@
 import "core-js/stable";
-import swaggerDocs from "./docs";
+import swaggerDocs from "./docs/tripRequestApi.json";
 import swaggerUI from "swagger-ui-express";
 import "regenerator-runtime/runtime";
 import DB from "./database";
@@ -32,6 +32,8 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log("Server has started!");
 });
+
+module.exports = server;

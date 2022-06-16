@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Accommodation.hasMany(models.TripRequest, {
+        foreignKey: "accommodationId",
+        onDelete: "cascade",
+      });
     }
   }
   Accommodation.init(
@@ -20,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
+      freezeTableName: true,
       modelName: "Accommodation",
       tableName: "accommodations",
     }

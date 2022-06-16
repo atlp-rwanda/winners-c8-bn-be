@@ -11,6 +11,7 @@ export const getAllTripRequests = async (req, res) => {
     }
     return res.status(200).json(result);
   } catch (err) {
+    console.log({ err });
     res.status(500).json({ error: err.message });
   }
 };
@@ -61,7 +62,7 @@ export const createTripRequest = async (req, res) => {
   try {
     const result = await tripServices.createTripRequest(tripRequest);
 
-    return res.status(204).send("Trip request successfully created");
+    return res.status(201).send("Trip request successfully created");
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err.message });
@@ -90,7 +91,7 @@ export const editTripRequest = async (req, res) => {
       user
     );
 
-    return res.status(204).send("Trip request successfully updated");
+    return res.status(201).send("Trip request successfully updated");
   } catch (err) {
     switch (err.message) {
       case "notFound":
@@ -122,7 +123,7 @@ export const deleteTripRequest = async (req, res) => {
   try {
     const result = await tripServices.deleteTripRequest(tripRequestId, user);
 
-    return res.status(204).send("Trip request successfully deleted");
+    return res.status(200).send("Trip request successfully deleted");
   } catch (err) {
     switch (err.message) {
       case "notFound":
