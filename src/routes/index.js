@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import index from './welcome';
 import auth from './Auth';
 import isAuthenticated from '../middlewares/Authorization';
 import userRoutes from './usersRoutes'
