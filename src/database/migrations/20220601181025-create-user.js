@@ -21,10 +21,10 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-	  email_verified: {
-		  type: Sequelize.BOOLEAN,
-		  defaultValue: false,
-	  },
+      verified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       password: {
         type: Sequelize.STRING,
         allowNull: false,

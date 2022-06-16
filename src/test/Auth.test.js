@@ -98,15 +98,8 @@ describe('Testing  signup endpoints', () => {
 		const res = await chai
 			.request(app)
 			.post('/api/auth/register')
-			.send({
-				firstName: 'Test',
-				lastName: 'User',
-				email: 'test@gmail.com',
-				password: 'Simon@20000'
-			  });
-		console.log("THE BUG         :",signup,res.body);
+			.send(signup);
 		expect(res.status).to.be.equal(201);
-        process.authToken = res.body.data;
 		expect(res.body).to.have.property(
 			'message',
 			'User registered successfully',
