@@ -1,15 +1,39 @@
-import { User } from '../database/models';
+import { User, UserSession } from "../database/models";
 
 class UserService {
-	static createUser = async (data) => {
-		const user = await User.create(data);
-		return user;
-	};
+  static async createUser(data) {
+    const user = await User.create(data);
+    return user;
+  }
 
-	static checkUser = async (email) => {
-		const user = await User.findOne({ where:{email} });
-		return user;
-	};
+  static async checkUser(email) {
+    const user = await User.findOne({ where: { email } });
+    return user;
+  }
+  static async createUserSession({ userId, token, loginDevice, lastSession }) {
+    const userSession = await UserSession.create({
+      userId,
+      token,
+      loginDevice,
+      lastSession,
+    });
+    return userSession;
+  }
+  /**
+   *
+   * @note - This method is to update the userSession like when he make request to know last time the token was used
+   */
+  //   static async updateUserSession(({ userId, token }) {
+  //     const userSession = UserSession.findOne({ where:{ userId, token } });
+  //     if (!userSession) return "";
+  //     userSession.lastSession = new Date();
+  //     await userSession.save();
+  //     return userSession;
+  //   }
+  static async deleteSession({ userId, token }) {
+    const userSession = UserSession.destroy({ where: { userId, token } });
+    return userSession;
+  }
 }
 
 export default UserService;
