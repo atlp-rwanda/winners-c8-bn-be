@@ -21,6 +21,10 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      verified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       password: {
         type: Sequelize.STRING,
         allowNull: false,

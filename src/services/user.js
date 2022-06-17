@@ -10,6 +10,15 @@ class UserService {
 		const user = await User.findOne({ where:{email} });
 		return user;
 	};
+
+	static verifyUserAccount = async (email) => {
+		const data = await User.update({
+							verified: true
+						}, {
+							where: { email }
+						});
+		return data;
+	};
 }
 
 export default UserService;
