@@ -12,4 +12,3 @@ export async function isSuperAdmin (req, res, next){
 
 	next();
 }
-

@@ -3,6 +3,11 @@ import auth from './Auth';
 import isAuthenticated from '../middlewares/Authorization';
 import userRoutes from './usersRoutes'
 
+<<<<<<< HEAD
+=======
+import userRoutes from './usersRoutes'
+
+>>>>>>> 7eae1f7 (feat(user-roles-settings): implement user role assigning)
 const router = Router();
 
 router.get("/users",isAuthenticated, async (req, res) => {
