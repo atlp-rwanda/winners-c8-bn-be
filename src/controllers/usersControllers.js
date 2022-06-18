@@ -7,7 +7,14 @@ export class UserControllers{
     const {email, roleId} = req.body
     try {
         const user = await UserService.checkUser(email);
+<<<<<<< HEAD
         if(user == null) return res.status(404).json({status:404, message:"user doesn't exist"});
+=======
+        if(user == null){
+            res.status(404).json({status:404, message:"user doesn't exist"});
+            return false;
+        }
+>>>>>>> 7eae1f7 (feat(user-roles-settings): implement user role assigning)
 
         const updatedUser = await UserService.updateRole(email, roleId);
 
@@ -34,4 +41,8 @@ export class UserControllers{
        
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 7eae1f7 (feat(user-roles-settings): implement user role assigning)

@@ -29,7 +29,12 @@ class UserService {
 		user.user_role = newRole.id;
 		await user.save();
 		return user;
+<<<<<<< HEAD
 	};	
+=======
+		};
+		
+>>>>>>> 7eae1f7 (feat(user-roles-settings): implement user role assigning)
 	
 }
 
