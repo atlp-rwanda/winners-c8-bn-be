@@ -10,8 +10,6 @@ import getDefault from "./helpers/getEnvironment";
 
 const PORT = getDefault(process.env.PORT, "5000");
 
-// const app = express();
-
 const app = express();
 
 // allow to parse json in body
@@ -25,9 +23,6 @@ app.get("/", (request, response) => {
 DB.authenticate()
   .then(() => {
     console.log("Database Connected");
-  })
-  .catch((err) => {
-    console.log("Database unable to connect", err);
   });
 
 app.listen(PORT, () => {

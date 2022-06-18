@@ -13,7 +13,7 @@ let authTokenTest = "";
 describe('send verification email - testing', ()=>{
 
     it('should successfully send the email', function(done){
-        this.timeout(5000);
+        // this.timeout(5000);
         sendVerificationEmail('geekyrw@gmail.com')
         .then(function(output){
             assert.strictEqual(output.response,"Email sent");
@@ -77,4 +77,7 @@ describe('send verification email - testing', ()=>{
 			'Invalid or expired Token.',
 		);
 	});
+	    after(async () => {
+        await User.destroy({where:{}});
+      });
 });
