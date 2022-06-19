@@ -18,11 +18,10 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.get("/", (request, response) => {
   response.status(200).json({ message: "Hello World!" });
 });
-DB.authenticate()
-  .then(() => {
-    DB.sync();
-    console.log("Database Connected");
-  });
+DB.authenticate().then(() => {
+  DB.sync();
+  console.log("Database Connected");
+});
 
 app.listen(PORT, () => {
   console.log("Server has started on port", PORT);

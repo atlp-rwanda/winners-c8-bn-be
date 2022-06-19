@@ -68,8 +68,7 @@ class Auth {
         email: user.email,
         user_role: user.user_role,
       });
-      await createUserSession({
-        userId: user.id,
+      await user.createUserSession({
         token,
         loginDevice: req.agent,
         lastSessionTime: new Date(),
@@ -85,10 +84,11 @@ class Auth {
   }
   static async signout(req, res) {
     try {
-      if (!req.user || !req.header.token)
-        errorResponse(res, 409, "User not loggedIn");
-      await deleteSession({ userId: req.user.id, token: req.header.token });
-      return successResponse(res, 200, "User loggedIn", token);
+      if (!req.user || !req.headers.authorization)
+        errorResponse(res, 409, "User not logged in");
+      const token = req.headers.authorization.split(" ")[1];
+      await deleteSession({ userId: req.user.id, token });
+      return successResponse(res, 200, "User logged out successful", token);
     } catch (error) {
       return errorResponse(
         res,

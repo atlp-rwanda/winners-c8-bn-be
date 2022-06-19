@@ -1,10 +1,9 @@
 process.env.PORT = undefined;
-import chai,{expect} from 'chai';
-import ChaiHttp from 'chai-http';
-import server from '../index';
+import chai, { expect } from "chai";
+import ChaiHttp from "chai-http";
+import server from "../index";
 chai.use(ChaiHttp);
-import 'dotenv/config';
-
+import "dotenv/config";
 
 //Test if Root End Point is Working
 describe("/GET root endpoint", () => {
