@@ -1,15 +1,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable require-jsdoc */
 /* eslint-disable valid-jsdoc */
-<<<<<<< HEAD
 import "dotenv/config";
-=======
->>>>>>> bedd47e7b64561719e31406867d798c75b0d3392
 import UserService from "../services/user";
 import errorResponse from "../utils/error";
 import successResponse from "../utils/success";
 import Protection from "../middlewares/hash";
-<<<<<<< HEAD
 import sendVerificationEmail from "../helpers/sendVerificationEmail";
 
 const { hashPassword, checkPassword, signToken, verifyToken } = Protection;
@@ -20,12 +16,6 @@ const {
   deleteSession,
   verifyUserAccount,
 } = UserService;
-=======
-import "dotenv/config";
-
-const { hashPassword, checkPassword, signToken } = Protection;
-const { createUser, checkUser, createUserSession, deleteSession } = UserService;
->>>>>>> bedd47e7b64561719e31406867d798c75b0d3392
 /**
  * @description - This class is used to handle the user authentication
  */
@@ -78,8 +68,7 @@ class Auth {
         email: user.email,
         user_role: user.user_role,
       });
-      await createUserSession({
-        userId: user.id,
+      await user.createUserSession({
         token,
         loginDevice: req.agent,
         lastSessionTime: new Date(),
@@ -95,10 +84,11 @@ class Auth {
   }
   static async signout(req, res) {
     try {
-      if (!req.user || !req.header.token)
-        errorResponse(res, 409, "User not loggedIn");
-      await deleteSession({ userId: req.user.id, token: req.header.token });
-      return successResponse(res, 200, "User loggedIn", token);
+      if (!req.user || !req.headers.authorization)
+        errorResponse(res, 409, "User not logged in");
+      const token = req.headers.authorization.split(" ")[1];
+      await deleteSession({ userId: req.user.id, token });
+      return successResponse(res, 200, "User logged out successful", token);
     } catch (error) {
       return errorResponse(
         res,

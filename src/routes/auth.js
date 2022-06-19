@@ -6,11 +6,7 @@ import AuthValidation from "../validations/index";
 
 const router = Router();
 
-<<<<<<< HEAD:src/routes/auth.js
 const { signup, signin, verifyUser, signout } = authcontrollers;
-=======
-const { signup, signin, signout } = authcontrollers;
->>>>>>> bedd47e7b64561719e31406867d798c75b0d3392:src/routes/Auth.js
 const { verifySignup, verifySignin } = AuthValidation;
 
 router.post("/register", verifySignup, signup);
