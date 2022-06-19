@@ -1,11 +1,15 @@
 /* eslint-disable camelcase */
 /* eslint-disable require-jsdoc */
 /* eslint-disable valid-jsdoc */
+<<<<<<< HEAD
 import "dotenv/config";
+=======
+>>>>>>> bedd47e7b64561719e31406867d798c75b0d3392
 import UserService from "../services/user";
 import errorResponse from "../utils/error";
 import successResponse from "../utils/success";
 import Protection from "../middlewares/hash";
+<<<<<<< HEAD
 import sendVerificationEmail from "../helpers/sendVerificationEmail";
 
 const { hashPassword, checkPassword, signToken, verifyToken } = Protection;
@@ -16,6 +20,12 @@ const {
   deleteSession,
   verifyUserAccount,
 } = UserService;
+=======
+import "dotenv/config";
+
+const { hashPassword, checkPassword, signToken } = Protection;
+const { createUser, checkUser, createUserSession, deleteSession } = UserService;
+>>>>>>> bedd47e7b64561719e31406867d798c75b0d3392
 /**
  * @description - This class is used to handle the user authentication
  */
@@ -63,8 +73,6 @@ class Auth {
       if (!user.verified) {
         return errorResponse(res, 403, `User email is not verified!`);
       }
-      if (!checkPassword(password, user.password))
-        return errorResponse(res, 409, `Invalid credentials`);
       const token = await signToken({
         id: user.id,
         email: user.email,
