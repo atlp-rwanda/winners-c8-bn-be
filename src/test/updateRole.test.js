@@ -3,9 +3,9 @@ import chaiHttp from "chai-http";
 import app from "../index";
 chai.use(chaiHttp);
 
-import { User } from "../database/models";
+import { User, Role } from "../database/models";
 import { adminCredentials, signup } from "./mocks/Users";
-import { manager } from "./mocks/roles-mocks";
+import { travel,manager } from "./mocks/roles-mocks";
 import Protection from "../middlewares/hash";
 const  {hashPassword} = Protection;
 
@@ -14,7 +14,7 @@ let adminToken = "";
 describe("PATCH Update role of User", ()=>{
     before(async () => {
 
-        const hashedPassword = hashPassword(adminCredentials.password)
+        const hashedPassword = hashPassword(adminCredentials.password);
         await User.create({
             firstName:adminCredentials.firstName,
             lastName: adminCredentials.lastName,
@@ -30,6 +30,11 @@ describe("PATCH Update role of User", ()=>{
             password:hashedPassword,
             verified:true
         });
+
+        await Role.create({
+            id: travel.id,
+            roleName: travel.roleName
+        })
 
       });
     it("login admin user", async()=>{
@@ -86,7 +91,7 @@ describe("PATCH Update role of User", ()=>{
                 email:signup.email,
                 roleId:"f01c0e35-b0ec-f724-85d6-48c2ecc995ef"
             });
-        
+        // console.log(res)
         expect(res.status).to.be.equal(400);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message');
@@ -100,7 +105,7 @@ describe("PATCH Update role of User", ()=>{
             .set('Content-Type', 'application/json')
             .send({
                 email:signup.email,
-                roleId:manager.id
+                roleId:travel.id
             });
         
         expect(res.status).to.be.equal(200);
@@ -110,6 +115,7 @@ describe("PATCH Update role of User", ()=>{
     })
     after(async () => {
         await User.destroy({where:{}});
+        await Role.destroy({where:{}});
       });
 })
 
