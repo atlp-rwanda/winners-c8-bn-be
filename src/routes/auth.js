@@ -59,4 +59,5 @@ router.get("/register/verifyuser/:token", verifyUser);
  */
 router.post("/signout", signout);
 router.use("/sessions", sessionsRoutes);
+router.get("/register/verifyuser/:token", verifyUser);
 export default router;
