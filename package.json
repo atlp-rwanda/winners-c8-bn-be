@@ -4,7 +4,7 @@
   "main": "test.js",
   "scripts": {
     "build": "npx babel src --out-dir lib",
-    "test": "cross-env NODE_ENV=test npm run unmigrate && cross-env NODE_ENV=test npm run migrate  && cross-env NODE_ENV=test nyc --reporter=text --reporter=html  mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 100000 --exit",
+    "test": "cross-env NODE_ENV=test npm run unmigrate && cross-env NODE_ENV=test npm run migrate  && cross-env NODE_ENV=test nyc --reporter=text --reporter=html  mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 30000 --exit",
     "coverage": "nyc  --reporter=text-lcov --reporter=lcov npm run test | coveralls",
     "start": "cross-env NODE_ENV=production npm run dbmigrate && cross-env NODE_ENV=production npm run dbseed  && node lib/index.js",
     "dev": "nodemon --exec npx babel-node src/index.js",
@@ -16,7 +16,8 @@
     "seed-roles": "npx sequelize-cli db:seed --seed 20220617223718-seed-roles",
     "seed-admin": "npx sequelize-cli db:seed --seed 20220617225052-seed-super-admin",
     "dbseed:undo": "npx sequelize-cli db:seed:undo",
-    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all"
+    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all",
+    "posttest": "cross-env NODE_ENV=test npm run unmigrate"
   },
   "repository": {
     "type": "git",

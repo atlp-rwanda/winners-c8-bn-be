@@ -29,8 +29,7 @@ class UserService {
 		user.user_role = newRole.id;
 		await user.save();
 		return user;
-		};
-		
+	};	
 	
 }
 
