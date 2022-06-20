@@ -14,6 +14,7 @@ describe("/GET root endpoint", () => {
       expect(response).to.have.status(200);
       expect(response.body).to.have.property("message");
       expect(response.body.message).to.equal("Hello World!");
-    });
-    
+    });   
+
 });
+
