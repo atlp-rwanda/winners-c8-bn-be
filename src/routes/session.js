@@ -44,5 +44,5 @@ router.get("/", getUserSessions);
  *          '500':
  *              description: internal server error
  */
-router.post("/:sessionId", removeSession);
+router.delete("/:sessionId", removeSession);
 export default router;
