@@ -9,13 +9,7 @@ import Protection from "../middlewares/hash";
 import sendVerificationEmail from "../helpers/sendVerificationEmail";
 
 const { hashPassword, checkPassword, signToken, verifyToken } = Protection;
-const {
-  createUser,
-  checkUser,
-  createUserSession,
-  deleteSession,
-  verifyUserAccount,
-} = UserService;
+const { createUser, checkUser, deleteSession, verifyUserAccount } = UserService;
 /**
  * @description - This class is used to handle the user authentication
  */
@@ -68,9 +62,10 @@ class Auth {
         email: user.email,
         user_role: user.user_role,
       });
-      await user.createUserSession({
+      const session = await user.createUserSession({
         token,
-        loginDevice: req.agent,
+        deviceType: req.headers["user-agent"],
+        loginIp: req.ip,
         lastSessionTime: new Date(),
       });
       return successResponse(res, 200, "User loggedIn", token);
@@ -114,6 +109,44 @@ class Auth {
       const results = await verifyUserAccount(data.email);
 
       return successResponse(res, 201, "User verified successfully", results);
+    } catch (error) {
+      return errorResponse(
+        res,
+        500,
+        `Ooops! Unable to verify User ${error.message}`
+      );
+    }
+  }
+  static async getUserSessions(request, response) {
+    try {
+      if (!request.user) return errorResponse(res, 409, "You need to login");
+      const sessions = await request.user.getUserSessions();
+      return successResponse(
+        response,
+        200,
+        "User verified successfully",
+        sessions.map((session) => session.dataValues)
+      );
+    } catch (error) {
+      return errorResponse(
+        response,
+        500,
+        `Ooops! Unable to verify User ${error.message}`
+      );
+    }
+  }
+  static async removeSession(request) {
+    try {
+      const { sessionId } = request.params;
+      if (!request.user) return errorResponse(res, 409, "You need to login");
+
+      const sessions = request.user.removeUserSession(sessionId);
+      return successResponse(
+        res,
+        200,
+        "User session removed successful",
+        sessions
+      );
     } catch (error) {
       return errorResponse(
         res,

@@ -51,8 +51,9 @@ class UserService {
   //     await userSession.save();
   //     return userSession;
   //   }
-  static async deleteSession({ userId, token }) {
-    const userSession = UserSession.destroy({ where: { userId, token } });
+  static async deleteSession({ sessionId, userId, token }) {
+    const searchQuery = sessionId ? { id: sessionId } : { userId, token };
+    const userSession = UserSession.destroy({ where: searchQuery });
     return userSession;
   }
 }
