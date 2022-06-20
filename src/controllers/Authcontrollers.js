@@ -81,7 +81,7 @@ class Auth {
     try {
       if (!req.user || !req.headers.authorization)
         errorResponse(res, 409, "User not logged in");
-      const token = req.headers.authorization.split(" ")[1];
+      const token = req.headers["x-auth-token"];
       await deleteSession({ userId: req.user.id, token });
       return successResponse(res, 200, "User logged out successful", token);
     } catch (error) {
@@ -135,21 +135,22 @@ class Auth {
       );
     }
   }
-  static async removeSession(request) {
+  static async removeSession(request, response) {
     try {
       const { sessionId } = request.params;
-      if (!request.user) return errorResponse(res, 409, "You need to login");
+      if (!request.user)
+        return errorResponse(response, 409, "You need to login");
 
       const sessions = request.user.removeUserSession(sessionId);
       return successResponse(
-        res,
+        response,
         200,
         "User session removed successful",
         sessions
       );
     } catch (error) {
       return errorResponse(
-        res,
+        response,
         500,
         `Ooops! Unable to verify User ${error.message}`
       );

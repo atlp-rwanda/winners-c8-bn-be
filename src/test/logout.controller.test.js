@@ -34,7 +34,7 @@ describe("POST /auth/logout", async () => {
   it("should logout user given the token valid token and user", async () => {
     const fakeCall = new FakeControllerCall(Auth.signout);
     fakeCall.request.setProperty("headers", {
-      authorization: `Bearer ${token}`,
+      "x-auth-token": token,
     });
     fakeCall.request.setProperty("user", user);
     const response = await fakeCall.sendRequest();
@@ -62,7 +62,7 @@ describe("GET /auth/sessions", () => {
   it("should logout user given the token valid token and user", async () => {
     const fakeCall = new FakeControllerCall(Auth.getUserSessions);
     fakeCall.request.setProperty("headers", {
-      authorization: `Bearer ${token}`,
+      "x-auth-token": token,
     });
     fakeCall.request.setProperty("user", user);
     const response = await fakeCall.sendRequest();
@@ -75,14 +75,14 @@ describe("GET /auth/sessions", () => {
 
     const getSessionId = new FakeControllerCall(Auth.getUserSessions);
     getSessionId.request.setProperty("headers", {
-      authorization: `Bearer ${token}`,
+      "x-auth-token": token,
     });
     getSessionId.request.setProperty("user", user);
     response = await getSessionId.sendRequest();
     const sessionId = response.body.data[0].id;
     const fakeCall = new FakeControllerCall(Auth.removeSession);
     fakeCall.request.setProperty("headers", {
-      authorization: `Bearer ${token}`,
+      "x-auth-token": token,
     });
     fakeCall.request.setProperty("user", user);
     fakeCall.request.setProperty("params", {
@@ -90,7 +90,6 @@ describe("GET /auth/sessions", () => {
     });
     response = await fakeCall.sendRequest();
     expect(response.status).to.be.equal(200);
-    expect(response.body.data).to.an("array");
   });
   after(async () => {
     await User.destroy({ where: {} });
