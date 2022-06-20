@@ -37,8 +37,4 @@ export class UserControllers{
        
     }
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> c0f353e (feat(user-roles-settings): implement user role assigning)

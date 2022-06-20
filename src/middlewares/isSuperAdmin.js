@@ -12,9 +12,9 @@ export function isSuperAdmin (req, res, next){
 	jwt.verify(token, process.env.TOKEN_SECRET, async (error, user)=>{
       
 		if(error) return res.status(403).json({message:"Invalid Token"});
-console.log(user)
+
 		const findRoleById = await RoleService.findRoleById(user.user_role);
-		console.log(findRoleById.roleName)
+		
         if(findRoleById.roleName !== 'super-admin'){
             return res.status(403).json({status: 403, message: 'super admin is only allowed to perform this task', });
         }

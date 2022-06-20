@@ -17,11 +17,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      firstname: {
+      firstName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      lastname: {
+      lastName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -36,11 +36,6 @@ module.exports = (sequelize, DataTypes) => {
       verified: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
-      },
-      email_token: {
-        type: DataTypes.STRING,
-        defaultValue: false,
-        allowNull:true
       },
       user_role: DataTypes.STRING,
       
