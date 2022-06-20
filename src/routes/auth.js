@@ -3,6 +3,7 @@
 import { Router } from "express";
 import authcontrollers from "../controllers/Authcontrollers";
 import AuthValidation from "../validations/index";
+import sessionsRoutes from "./session";
 
 const router = Router();
 
@@ -41,5 +42,21 @@ router.post("/register", verifySignup, signup);
  */
 router.post("/signin", verifySignin, signin);
 router.get("/register/verifyuser/:token", verifyUser);
+/**
+ * @openapi
+ * /auth/signout:
+ *      get:
+ *      tags:
+ *          - User
+ *      description: Get the current user sessions
+ *      responses:
+ *          '200':
+ *              description: success response
+ *          '409':
+ *              description: User need to login
+ *          '500':
+ *              description: internal server error
+ */
 router.post("/signout", signout);
+router.use("/sessions", sessionsRoutes);
 export default router;
