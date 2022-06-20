@@ -41,8 +41,10 @@ export class UserControllers{
        
     }
 
-<<<<<<< HEAD
 }
+<<<<<<< HEAD
 =======
 }
 >>>>>>> 7eae1f7 (feat(user-roles-settings): implement user role assigning)
+=======
+>>>>>>> 3c90f11 (feat(user-roles-settings): retouch from rebase)
