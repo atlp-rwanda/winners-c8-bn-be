@@ -62,7 +62,7 @@ class Auth {
         email: user.email,
         user_role: user.user_role,
       });
-      const session = await user.createUserSession({
+      await user.createUserSession({
         token,
         deviceType: req.headers["user-agent"],
         loginIp: req.ip,
@@ -79,7 +79,7 @@ class Auth {
   }
   static async signout(req, res) {
     try {
-      if (!req.user || !req.headers.authorization)
+      if (!req.user || !req.headers["x-auth-token"])
         errorResponse(res, 409, "User not logged in");
       const token = req.headers["x-auth-token"];
       await deleteSession({ userId: req.user.id, token });
@@ -88,7 +88,7 @@ class Auth {
       return errorResponse(
         res,
         500,
-        `Ooops! Unable to login the  User ${error.message}`
+        `Ooops! Unable to signout  the  User ${error.message}`
       );
     }
   }
@@ -119,19 +119,20 @@ class Auth {
   }
   static async getUserSessions(request, response) {
     try {
-      if (!request.user) return errorResponse(res, 409, "You need to login");
+      if (!request.user)
+        return errorResponse(response, 409, "You need to login");
       const sessions = await request.user.getUserSessions();
       return successResponse(
         response,
         200,
-        "User verified successfully",
+        "User session return successfully",
         sessions.map((session) => session.dataValues)
       );
     } catch (error) {
       return errorResponse(
         response,
         500,
-        `Ooops! Unable to verify User ${error.message}`
+        `Ooops! get the user sessions ${error.message}`
       );
     }
   }

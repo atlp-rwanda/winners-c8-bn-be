@@ -1,6 +1,6 @@
 import { Router } from "express";
 import auth from "./auth";
-import isAuthenticated from "../middlewares/Authorization";
+import isAuthenticated from "../middlewares/isAuthenticated";
 
 const router = Router();
 

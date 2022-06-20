@@ -2,6 +2,7 @@
 
 import { Router } from "express";
 import authcontrollers from "../controllers/Authcontrollers";
+import isAuthenticated from "../middlewares/isAuthenticated";
 import AuthValidation from "../validations/index";
 import sessionsRoutes from "./session";
 
@@ -57,6 +58,6 @@ router.get("/register/verifyuser/:token", verifyUser);
  *          '500':
  *              description: internal server error
  */
-router.post("/signout", signout);
-router.use("/sessions", sessionsRoutes);
+router.post("/signout", isAuthenticated, signout);
+router.use("/sessions", isAuthenticated, sessionsRoutes);
 export default router;
