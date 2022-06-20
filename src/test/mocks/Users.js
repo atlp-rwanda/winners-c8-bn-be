@@ -2,7 +2,7 @@ export const signup = {
 	firstName: 'Test',
 	lastName: 'User',
 	email: 'test@gmail.com',
-	password: 'Password@2022',
+	password: 'Simon@20000',
 };
 export const no_firstname = {
 	firstName: '',

@@ -6,13 +6,13 @@ import { sign, verify } from 'jsonwebtoken';
 class Protection {
 	static async signToken(data) {
 		const token = sign(data, process.env.TOKEN_SECRET, {
-			expiresIn: process.env.TOKEN_EXPIRE,
+			expiresIn: '24h',
 		});
 		return token;
 	}
 
 	static async verifyToken(token) {
-		const data = verify(token, process.env.Secret);
+		const data = verify(token, process.env.TOKEN_SECRET);
 		return data;
 	}
 
