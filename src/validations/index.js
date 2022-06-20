@@ -53,7 +53,7 @@ class AuthValidation {
   static async verifySignup(req, res, next) {
     const { error } = signupvalidate.validate(req.body);
     if (error) {
-      throw new Error(
+      return(
         res.status(400).json({
           error: error.details[0].message.replace(/["'`]+/g, ""),
         })
