@@ -1,14 +1,25 @@
-import { jwt } from 'jsonwebtoken';
-import { config } from 'config';
-// eslint-disable-next-line consistent-return
+import 'dotenv/config';
+import Protection from "./hash";
+import {User} from '../database/models';
+import errorResponse from '../utils/error';
 
 const verifyToken = async (req, res, next) => {
-  const token = req.headers['x-auth-token']
+  const authHeader = req.headers['authorization']
+	const token = authHeader && authHeader.split(' ')[1];
+
+
+
   if (!token) return res.status(401).send('Access denied. No token provided!');
   try {
-    const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
-      req.user =decoded;
-      next();
+    const decoded = await Protection.verifyToken(token);
+    
+    const user = await User.findOne({ where: { id: decoded.id } });
+
+    if (!user) return errorResponse(res, 401, "Access denied. User not found");
+
+    req.user =user;
+    
+    next();
   }
         
     
@@ -17,12 +28,5 @@ const verifyToken = async (req, res, next) => {
 
     }
   }
-    // Assigned to Sosthene
-    // const users = await User.findOne({
-    //   where: { uuid: uuid }
-    // });
-    // if (!users) {
-    //     return error('You are logged out! Please Log in', res);
-    // }
 
   export default verifyToken;
