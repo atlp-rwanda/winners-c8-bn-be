@@ -2,7 +2,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 
 const swaggerOptions = {
   swaggerDefinition: {
-    openapi: "3.0.3",
+    openapi: "3.0.0",
     info: {
       title: "Barefoot nomad",
       version: "1.0.0",
