@@ -99,6 +99,7 @@ describe('Testing  signup endpoints', () => {
 			.request(app)
 			.post('/api/auth/register')
 			.send(signup);
+	
 		expect(res.status).to.be.equal(201);
 		expect(res.body).to.have.property(
 			'message',
