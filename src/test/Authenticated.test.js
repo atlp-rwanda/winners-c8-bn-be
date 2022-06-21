@@ -31,7 +31,6 @@ describe("Auth check middlewares", () => {
     const response = await chai.request(app).get("/api/users");
     expect(response.status).to.equal(409);
     expect(response.body.message).to.equal("Access denied. No token provided!");
-    console.log(response.body);
   });
 
   it("should populate return 401 if the token is invalid", async () => {
@@ -40,7 +39,6 @@ describe("Auth check middlewares", () => {
       .get("/api/users")
       .set("x-auth-token", "invalidtoken");
     expect(response.status).to.equal(401);
-    console.log(response.body);
     expect(response.body.message).to.equal("Access denied. Invalid token");
   });
   it("should  return 401 invalid user id token is provided", async () => {
@@ -68,7 +66,6 @@ describe("Auth check middlewares", () => {
       );
     expect(response.status).to.equal(401);
     expect(response.body.message).to.equal("Access denied. Invalid session!");
-    console.log(response.body);
   });
   it("should populate return 200 if valid token is provided", async () => {
     const response = await chai

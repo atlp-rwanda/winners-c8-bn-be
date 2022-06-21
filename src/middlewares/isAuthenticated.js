@@ -18,7 +18,6 @@ const isAuthenticated = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.log(error);
     return errorResponse(res, 401, "Access denied. Invalid token");
   }
 };
