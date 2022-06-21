@@ -14,7 +14,6 @@ const verifyToken = async (req, res, next) => {
     
     catch (ex) {
       return res.status(401).json({error: "Invalid token"})
-
     }
   }
     // Assigned to Sosthene

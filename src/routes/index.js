@@ -7,8 +7,6 @@ import userRoutes from './usersRoutes'
 import userRoutes from './usersRoutes'
 import isAuthenticated from '../middlewares/Authorization';
 
-import userRoutes from './usersRoutes'
-
 const router = Router();
 
 router.get("/users",isAuthenticated, async (req, res) => {
