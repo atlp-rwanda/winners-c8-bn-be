@@ -4,6 +4,13 @@ import Protection from "./hash";
 // eslint-disable-next-line consistent-return
 
 const verifyToken = async (req, res, next) => {
+<<<<<<< HEAD
+=======
+  console.log(req.headers)
+  const token = req.headers['x-auth-token']
+  console.log()
+  if (!token) return res.status(401).send('Access denied. No token provided!');
+>>>>>>> 1a152a4 (fix bug)
   try {
     const token =
       req.headers &&

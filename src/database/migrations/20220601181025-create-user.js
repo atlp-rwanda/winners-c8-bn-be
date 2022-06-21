@@ -62,7 +62,7 @@ module.exports = {
 		  lineManager:{
 			type: Sequelize.STRING
 		  },
-		  role: {
+		  user_role: {
 			type: Sequelize.ENUM,
 			values: ['super user', 'super admin', 'travel admin', 'travel team member',
 			  'manager', 'requester', 'accommodation supplier']

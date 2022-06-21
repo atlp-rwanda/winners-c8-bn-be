@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 /* eslint-disable camelcase */
 /* eslint-disable require-jsdoc */
 /* eslint-disable valid-jsdoc */
 import "dotenv/config";
-=======
->>>>>>> 776b409 (feat(profilePage): update user profile)
 import UserService from "../services/user";
 import errorResponse from "../utils/error";
 import successResponse from "../utils/success";
@@ -186,25 +183,4 @@ class Auth {
   }
 		}
 
-<<<<<<< HEAD
 export default Auth;
-=======
-			return successResponse(
-				res,
-				201,
-				'User verified successfully',
-				results,
-			);
-		} 
-		catch (error) {
-			return errorResponse(
-				res,
-				500,
-				`Ooops! Unable to verify User ${error.message}`,
-			);
-		}
-	}
-}
-
-export default Auth;
->>>>>>> 776b409 (feat(profilePage): update user profile)

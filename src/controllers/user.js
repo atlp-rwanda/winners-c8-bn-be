@@ -2,15 +2,10 @@ import { User } from '../database/models';
 import errorResponse from '../utils/error';
 import successResponse from '../utils/success';
 exports.updateUserProfile=async (req,res)=>{
-
+const user=req.user.dataValues
+console.log(user.id)
         try {
             
-            const {userId}=req.params
-            const user=await User.findOne({where:{id:userId}})
-            if(!user)
-            {
-                return errorResponse(res, 404, `Ooops! User doesn't exists!`);
-            }
             const {firstName,lastName,email,username,phoneNumber,image,gender,preferredLanguage,preferredCurrency,department,lineManager} = req.body;
             if(!firstName || !lastName || !username || !email || !phoneNumber || !image || !gender || !preferredLanguage || !preferredCurrency || !department || !lineManager){
                return errorResponse(res,500,"Please fill empty fields!")
