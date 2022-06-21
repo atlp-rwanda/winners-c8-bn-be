@@ -8,9 +8,10 @@ export function isSuperAdmin (req, res, next){
     const authHeader = req.headers['authorization']
 	const token = authHeader && authHeader.split(' ')[1]
 	if(token == null) return res.status(401).json({message:'Token is required'})
-
+console.log(authHeader)
+console.log(req.user)
 	jwt.verify(token, process.env.TOKEN_SECRET, async (error, user)=>{
-      
+      console.log(user)
 		if(error) return res.status(403).json({message:"Invalid Token"});
 
 		const findRoleById = await RoleService.findRoleById(user.user_role);
