@@ -50,7 +50,7 @@ describe("PATCH Update role of User", ()=>{
                 email:adminCredentials.email,
                 password:adminCredentials.password
             });
-        
+        // console.log(res)
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.a('object');
         adminToken = res.body.data;
