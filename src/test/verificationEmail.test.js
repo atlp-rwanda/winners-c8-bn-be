@@ -1,11 +1,11 @@
-import assert from 'assert';
+import assert from "assert";
 import sendVerificationEmail from "../helpers/sendVerificationEmail";
-import 'dotenv/config';
-import chai, { expect } from 'chai';
-import chaiHttp from 'chai-http';
-import app from '../index';
-import { User } from '../database/models';
-import { signup } from './mocks/Users';
+import "dotenv/config";
+import chai, { expect } from "chai";
+import chaiHttp from "chai-http";
+import app from "../index";
+import { User } from "../database/models";
+import { signup } from "./mocks/Users";
 
 chai.use(chaiHttp);
 
@@ -20,13 +20,12 @@ describe('send verification email - testing', ()=>{
             done();
         })
     });
-    it('should fail (no user email address provided)', function(done){
-        this.timeout(5000);
-        sendVerificationEmail()
-        .then(function(output){
-            assert(output.hasOwnProperty('error'));
-            done();
-        })
+  });
+  it("should fail (no user email address provided)", function (done) {
+    this.timeout(5000);
+    sendVerificationEmail().then(function (output) {
+      assert(output.hasOwnProperty("error"));
+      done();
     });
     it('it should send email on a successful registration', async () => {
 		const res = await chai
