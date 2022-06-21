@@ -24,7 +24,7 @@ describe('Testing  signup error', () => {
 			.request(app)
 			.post('/api/auth/register')
 			.send(no_firstname);
-            console.log(res)
+        console.log(res)
 		// expect(res.status).to.be.equal(400);
 		// expect(res.body).to.be.a('object');
 		// expect(res.body).to.have.property(
