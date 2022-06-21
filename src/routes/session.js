@@ -13,6 +13,8 @@ const { getUserSessions, removeSession } = authcontrollers;
  *  get:
  *      tags:
  *          - User session
+ *      security:
+ *          - ApiKeyAuth: []
  *      description: Get the current user sessions
  *      responses:
  *          '200':
@@ -31,6 +33,8 @@ router.get("/", getUserSessions);
  *  delete:
  *      tags:
  *          - User session
+ *      security:
+ *          - ApiKeyAuth: []
  *      description: Get the current user sessions
  *      parameters:
  *              - name: sessionId

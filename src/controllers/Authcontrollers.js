@@ -52,7 +52,7 @@ class Auth {
         return errorResponse(res, 404, "User not found!");
       }
       if (!checkPassword(password, user.password)) {
-        return errorResponse(res, 409, "Invalid credentials");
+        return errorResponse(res, 401, "Invalid credentials");
       }
       if (!user.verified) {
         return errorResponse(res, 403, `User email is not verified!`);
@@ -79,11 +79,16 @@ class Auth {
   }
   static async signout(req, res) {
     try {
-      if (!req.user || !req.headers["x-auth-token"])
-        errorResponse(res, 409, "User not logged in");
-      const token = req.headers.authorization.split(" ")[1];
+      if (!req.user || !req.headers["authorization"])
+        errorResponse(res, 403, "User not logged in");
+      const token = req.headers["authorization"].split(" ")[1];
       await deleteSession({ userId: req.user.id, token });
-      return successResponse(res, 200, "User logged out successful", token);
+      return successResponse(
+        res,
+        200,
+        "User logged out successful",
+        "Not token"
+      );
     } catch (error) {
       return errorResponse(
         res,
@@ -119,8 +124,6 @@ class Auth {
   }
   static async getUserSessions(request, response) {
     try {
-      if (!request.user)
-        return errorResponse(response, 409, "You need to login");
       const sessions = await request.user.getUserSessions();
       return successResponse(
         response,
@@ -136,21 +139,22 @@ class Auth {
       );
     }
   }
-  static async removeSession(request) {
+  static async removeSession(request, response) {
     try {
       const { sessionId } = request.params;
-      if (!request.user) return errorResponse(res, 409, "You need to login");
+      if (!request.user)
+        return errorResponse(response, 403, "You need to login");
 
       const sessions = request.user.removeUserSession(sessionId);
       return successResponse(
-        res,
+        response,
         200,
         "User session removed successful",
         sessions
       );
     } catch (error) {
       return errorResponse(
-        res,
+        response,
         500,
         `Ooops! Unable to verify User ${error.message}`
       );

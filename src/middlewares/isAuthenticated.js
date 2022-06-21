@@ -8,7 +8,7 @@ const isAuthenticated = async (req, res, next) => {
   try {
     const token = req.headers["x-auth-token"];
     if (!token)
-      return successResponse(res, 409, "Access denied. No token provided!");
+      return errorResponse(res, 401, "Access denied. No token provided!");
     const decoded = await Protection.verifyToken(token);
     const user = await User.findOne({ where: { id: decoded.id } });
     if (!user) return errorResponse(res, 401, "Access denied. User not found");

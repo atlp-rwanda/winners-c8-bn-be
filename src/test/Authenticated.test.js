@@ -24,12 +24,13 @@ describe("Auth check middlewares", () => {
       .request(app)
       .post("/api/auth/signin")
       .send({ email: signup.email, password: signup.password });
+    console.log(res.body);
     expect(res.status).to.be.equal(200);
     token = res.body.data;
   });
   it("should  return 409 if the token is not provided", async () => {
     const response = await chai.request(app).get("/api/users");
-    expect(response.status).to.equal(409);
+    expect(response.status).to.equal(401);
     expect(response.body.message).to.equal("Access denied. No token provided!");
   });
 

@@ -4,7 +4,7 @@ import app from "../index";
 import { User } from "../database/models";
 import { signup } from "./mocks/Users";
 import Protection from "../middlewares/hash";
-const { hashPassword,signToken } = Protection;
+const { hashPassword, signToken } = Protection;
 chai.use(chaiHttp);
 
 let authTokenTest = "";
@@ -25,18 +25,15 @@ describe("POST login", async () => {
     expect(res.body).to.be.a("object");
     expect(res.body).to.have.property("message", "User email is not verified!");
   });
-  it('it should verify user in the database', async () => {
-		const res = await chai
-			.request(app)
-			.get('/api/auth/register/verifyuser/'+authTokenTest)
-			.send();
-        
-		expect(res.status).to.be.equal(201);
-		expect(res.body).to.have.property(
-			'message',
-			'User verified successfully',
-		);
-	});
+  it("it should verify user in the database", async () => {
+    const res = await chai
+      .request(app)
+      .get("/api/auth/register/verifyuser/" + authTokenTest)
+      .send();
+
+    expect(res.status).to.be.equal(201);
+    expect(res.body).to.have.property("message", "User verified successfully");
+  });
   it("should not login the user without  email and  password", async () => {
     let res = await chai.request(app).post("/api/auth/signin").send();
     expect(res.status).to.be.equal(400);
@@ -64,7 +61,7 @@ describe("POST login", async () => {
       .request(app)
       .post("/api/auth/signin")
       .send({ email: signup.email, password: "invalid password" });
-    expect(res.status).to.be.equal(409);
+    expect(res.status).to.be.equal(401);
     expect(res.body).to.be.a("object");
     expect(res.body).to.have.property("message", "Invalid credentials");
   });
@@ -73,10 +70,13 @@ describe("POST login", async () => {
       .request(app)
       .post("/api/auth/signin")
       .send({ email: signup.email, password: signup.unhashedPassword });
+    console.log(res.body);
     expect(res.status).to.be.equal(200);
     expect(res.body).to.be.a("object");
   });
   after(async () => {
-    await User.destroy({ where: {} }); signup.password=signup.unhashedPassword; delete signup.unhashedPassword;
+    await User.destroy({ where: {} });
+    signup.password = signup.unhashedPassword;
+    delete signup.unhashedPassword;
   });
 });
