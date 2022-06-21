@@ -37,7 +37,7 @@ describe("Auth check middlewares", () => {
     const response = await chai
       .request(app)
       .get("/api/users")
-      .set("x-auth-token", "invalidtoken");
+      .set("authorization", "Bearer invalidtoken");
     expect(response.status).to.equal(401);
     expect(response.body.message).to.equal("Access denied. Invalid token");
   });
@@ -46,10 +46,10 @@ describe("Auth check middlewares", () => {
       .request(app)
       .get("/api/users")
       .set(
-        "x-auth-token",
-        await Protection.signToken({
+        "authorization",
+        `Bearer ${await Protection.signToken({
           id: "invalidid",
-        })
+        })}`
       );
     expect(response.status).to.equal(401);
     expect(response.body.message).to.equal("Access denied. Invalid token");
@@ -59,10 +59,10 @@ describe("Auth check middlewares", () => {
       .request(app)
       .get("/api/users")
       .set(
-        "x-auth-token",
-        await Protection.signToken({
+        "authorization",
+        `Bearer ${await Protection.signToken({
           id: user.id,
-        })
+        })}`
       );
     expect(response.status).to.equal(401);
     expect(response.body.message).to.equal("Access denied. Invalid session!");
@@ -71,7 +71,7 @@ describe("Auth check middlewares", () => {
     const response = await chai
       .request(app)
       .get("/api/users")
-      .set("x-auth-token", token);
+      .set("authorization", `Bearer ${token}`);
     expect(response.status).to.equal(200);
   });
 });

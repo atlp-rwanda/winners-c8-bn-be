@@ -29,11 +29,12 @@ describe("POST /auth/logout", async () => {
     expect(res.status).to.be.equal(401);
     expect(res.body.message).to.equal("Access denied. No token provided!");
   });
-  it("should logout user given the token valid token and user", async () => {
+  it("should logout user given the token is valid  and associated with user", async () => {
     const res = await chai
       .request(app)
       .put("/api/auth/signout")
-      .set("x-auth-token", token);
+      .set("authorization", `Bearer ${token}`);
+    console.log(res.body);
     expect(res.status).to.be.equal(200);
     expect(res.body.message).to.be.equal("User logged out successful");
   });
@@ -62,13 +63,13 @@ describe("GET /auth/sessions", () => {
     response = await chai
       .request(app)
       .get("/api/auth/sessions")
-      .set("x-auth-token", token);
+      .set("authorization", `Bearer ${token}`);
     expect(response.status).to.be.equal(200);
     const sessionId = response.body.data[0].id;
     response = await chai
       .request(app)
       .delete("/api/auth/sessions/" + sessionId)
-      .set("x-auth-token", token);
+      .set("authorization", `Bearer ${token}`);
     expect(response.status).to.be.equal(200);
   });
   after(async () => {

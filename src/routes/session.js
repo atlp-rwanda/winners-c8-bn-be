@@ -14,7 +14,7 @@ const { getUserSessions, removeSession } = authcontrollers;
  *      tags:
  *          - User session
  *      security:
- *          - ApiKeyAuth: []
+ *          - BearerToken: []
  *      description: Get the current user sessions
  *      responses:
  *          '200':
@@ -34,7 +34,7 @@ router.get("/", getUserSessions);
  *      tags:
  *          - User session
  *      security:
- *          - ApiKeyAuth: []
+ *          - BearerToken: []
  *      description: Get the current user sessions
  *      parameters:
  *              - name: sessionId

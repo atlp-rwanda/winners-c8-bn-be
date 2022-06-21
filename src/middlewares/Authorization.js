@@ -1,16 +1,19 @@
 import errorResponse from "../utils/error";
-import successResponse from "../utils/success";
 import { User } from "../database/models";
 import Protection from "./hash";
 // eslint-disable-next-line consistent-return
 
-const isAuthenticated = async (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   try {
-    const token = req.headers["x-auth-token"];
+    const token =
+      req.headers &&
+      req.headers.authorization &&
+      req.headers.authorization.split(" ")[1];
     if (!token)
       return errorResponse(res, 401, "Access denied. No token provided!");
     const decoded = await Protection.verifyToken(token);
     const user = await User.findOne({ where: { id: decoded.id } });
+
     if (!user) return errorResponse(res, 401, "Access denied. User not found");
     const session = await user.getUserSessions({ where: { token } });
     if (!session.length == 1)
@@ -21,4 +24,4 @@ const isAuthenticated = async (req, res, next) => {
     return errorResponse(res, 401, "Access denied. Invalid token");
   }
 };
-export default isAuthenticated;
+export default verifyToken;

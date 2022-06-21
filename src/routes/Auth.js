@@ -2,7 +2,7 @@
 
 import { Router } from "express";
 import authcontrollers from "../controllers/Authcontrollers";
-import isAuthenticated from "../middlewares/isAuthenticated";
+import isAuthenticated from "../middlewares/Authorization";
 import AuthValidation from "../validations/index";
 import sessionsRoutes from "./session";
 
@@ -81,17 +81,18 @@ router.get("/register/verifyuser/:token", verifyUser);
  * @openapi
  * components:
  *      securitySchemes:
- *           ApiKeyAuth:
+ *           BearerToken:
  *              type: apiKey
  *              in: header
- *              name: x-auth-token
+ *              name: authorization
+ *              default: Bearer 
  * /auth/signout:
 
  *      put:
  *          tags:
  *              - User
  *          security:
- *             - ApiKeyAuth: []
+ *             - BearerToken: []
  *          description: Get the current user sessions
  *          responses:
  *              '200':

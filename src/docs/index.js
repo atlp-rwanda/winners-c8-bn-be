@@ -25,11 +25,13 @@ const swaggerOptions = {
         url: "https://winners-c8-bn-be-staging.herokuapp.com/api",
       },
     ],
-    securityDefinitions: {
-      ApiKeyAuth: {
-        type: "apiKey",
-        in: "header",
-        name: "x-auth-token",
+    components: {
+      securitySchemes: {
+        BearerToken: {
+          type: "apiKey",
+          in: "header",
+          name: "authorization",
+        },
       },
     },
   },

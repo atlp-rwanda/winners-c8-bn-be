@@ -79,11 +79,16 @@ class Auth {
   }
   static async signout(req, res) {
     try {
-      if (!req.user || !req.headers["x-auth-token"])
+      if (!req.user || !req.headers["authorization"])
         errorResponse(res, 403, "User not logged in");
-      const token = req.headers["x-auth-token"];
+      const token = req.headers["authorization"].split(" ")[1];
       await deleteSession({ userId: req.user.id, token });
-      return successResponse(res, 200, "User logged out successful", token);
+      return successResponse(
+        res,
+        200,
+        "User logged out successful",
+        "Not token"
+      );
     } catch (error) {
       return errorResponse(
         res,
