@@ -24,13 +24,13 @@ describe('Testing  signup error', () => {
 			.request(app)
 			.post('/api/auth/register')
 			.send(no_firstname);
-        console.log(res)
-		// expect(res.status).to.be.equal(400);
-		// expect(res.body).to.be.a('object');
-		// expect(res.body).to.have.property(
-		// 	'error',
-		// 	'firstName can not be empty',
-		// );
+    
+		expect(res.status).to.be.equal(400);
+		expect(res.body).to.be.a('object');
+		expect(res.body).to.have.property(
+			'error',
+			'firstName can not be empty',
+		);
 	});
 	it('it should test registration with no lastname', async () => {
 		const res = await chai
