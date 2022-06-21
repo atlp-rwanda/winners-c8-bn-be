@@ -1,24 +1,43 @@
-import { User } from '../database/models';
+import { User, UserSession } from "../database/models";
 
 class UserService {
-	static createUser = async (data) => {
-		const user = await User.create(data);
-		return user;
-	};
+  static async createUser(data) {
+    const user = await User.create(data);
+    return user;
+  }
 
-	static checkUser = async (email) => {
-		const user = await User.findOne({ where:{email} });
-		return user;
-	};
+  static checkUser = async (email) => {
+    const user = await User.findOne({ where: { email } });
+    return user;
+  };
 
-	static verifyUserAccount = async (email) => {
-		const data = await User.update({
-							verified: true
-						}, {
-							where: { email }
-						});
-		return data;
-	};
+  static verifyUserAccount = async (email) => {
+    const data = await User.update(
+      {
+        verified: true,
+      },
+      {
+        where: { email },
+      }
+    );
+    return data;
+  };
+  /**
+   *
+   * @note - This method is to update the userSession like when he make request to know last time the token was used
+   */
+  //   static async updateUserSession(({ userId, token }) {
+  //     const userSession = UserSession.findOne({ where:{ userId, token } });
+  //     if (!userSession) return "";
+  //     userSession.lastSession = new Date();
+  //     await userSession.save();
+  //     return userSession;
+  //   }
+  static async deleteSession({ sessionId, userId, token }) {
+    const searchQuery = sessionId ? { id: sessionId } : { userId, token };
+    const userSession = UserSession.destroy({ where: searchQuery });
+    return userSession;
+  }
 }
 
 export default UserService;

@@ -17,19 +17,26 @@ const swaggerOptions = {
         url: "https://winners-c8-bn-be-staging.herokuapp.com/",
       },
     },
-      servers: [
-        {
-          url:"http://localhost:5000/api"
+    servers: [
+      {
+        url: "/api",
+      },
+      {
+        url: "https://winners-c8-bn-be-staging.herokuapp.com/api",
+      },
+    ],
+    components: {
+      securitySchemes: {
+        BearerToken: {
+          type: "apiKey",
+          in: "header",
+          name: "authorization",
         },
-        {
-          url:"https://winners-c8-bn-be-staging.herokuapp.com/api"
-        },
-      ],
+      },
     },
-    apis: ["src/**/*.js"]
-  }
-;
-
+  },
+  apis: ["src/**/*.js"],
+};
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
 
 export default swaggerDocs;

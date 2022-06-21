@@ -4,7 +4,7 @@
   "main": "test.js",
   "scripts": {
     "build": "npx babel src --out-dir lib",
-    "test": "cross-env NODE_ENV=test npm run unmigrate && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test nyc --reporter=text --reporter=html  mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 30000 --exit",
+    "test": "cross-env NODE_ENV=test npm run migrate  && cross-env NODE_ENV=test nyc --reporter=text --reporter=html  mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 30000 --exit && cross-env NODE_ENV=test npm run unmigrate",
     "coverage": "nyc  --reporter=text-lcov --reporter=lcov npm run test | coveralls",
     "start": "cross-env NODE_ENV=production npm run dbmigrate && node lib/index.js",
     "dev": "nodemon --exec npx babel-node src/index.js",
@@ -14,7 +14,8 @@
     "unmigrate": "npx sequelize-cli db:migrate:undo:all",
     "dbseed": "npx sequelize-cli db:seed:all",
     "dbseed:undo": "npx sequelize-cli db:seed:undo",
-    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all"
+    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all",
+    "posttest": "cross-env NODE_ENV=test npm run unmigrate"
   },
   "repository": {
     "type": "git",
@@ -48,7 +49,7 @@
     "@babel/node": "^7.17.10",
     "@babel/polyfill": "^7.12.1",
     "@babel/register": "^7.17.7",
-	  "@sendgrid/mail": "^7.7.0",
+    "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.0.1",
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",

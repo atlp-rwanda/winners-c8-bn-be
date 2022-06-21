@@ -1,25 +1,20 @@
-/* eslint-disable require-jsdoc */
-/* eslint-disable no-unused-vars */
+"use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class UserSession extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasMany(models.UserSession, {
-        foreignKey: {
-          name: "userId",
-          type: DataTypes.UUID,
-        },
-        onDelete: "CASCADE",
-      });
       // define association here
+      this.belongsTo(models.User, {
+        foreignKey: { name: "userId", type: DataTypes.UUID },
+      });
     }
   }
-  User.init(
+  UserSession.init(
     {
       id: {
         allowNull: false,
@@ -27,18 +22,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-      user_role: DataTypes.STRING,
-      verified: DataTypes.BOOLEAN,
+      userId: DataTypes.UUID,
+      token: DataTypes.STRING,
+      loginIp: DataTypes.STRING,
+      deviceType: DataTypes.STRING,
+      lastActivity: DataTypes.DATE,
     },
     {
       sequelize,
-      modelName: "User",
+      modelName: "UserSession",
+      tableName: "user_sessions",
     }
   );
-  return User;
+  return UserSession;
 };
-
