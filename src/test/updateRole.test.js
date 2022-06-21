@@ -65,7 +65,6 @@ describe("PATCH Update role of User", ()=>{
                 email:"maby.com",
                 roleId:"d01c0e35-b0ec-4724-85d6-48c2ecc995e7"
             });
-           
         
         expect(res.status).to.be.equal(404);
         expect(res.body).to.be.a('object');
@@ -98,12 +97,10 @@ describe("PATCH Update role of User", ()=>{
                 roleId:"f01c0e35-b0ec-f724-85d6-48c2ecc995ef"
             });
         
-        
         expect(res.status).to.be.equal(400);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message');
         expect(res.body.message).to.be.equal('role you want to assign does not exist');
-        
     });
     it("it should update user role", async()=>{
         const res = await chai
