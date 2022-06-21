@@ -16,7 +16,7 @@ describe('send verification email - testing', ()=>{
         this.timeout(5000);
         sendVerificationEmail('geekyrw@gmail.com')
         .then(function(output){
-            assert.strictEqual(output.response,"Email sent");
+            assert.strictEqual(typeof(output),'object');
             done();
         })
     });
