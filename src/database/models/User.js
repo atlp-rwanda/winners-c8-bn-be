@@ -11,9 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      User.hasMany(models.TripRequest, {
-        onDelete: "cascade",
-      });
       this.hasMany(models.UserSession, {
         foreignKey: {
           name: "userId",
@@ -30,11 +27,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      firstname: {
+      firstName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      lastname: {
+      lastName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -53,6 +50,16 @@ module.exports = (sequelize, DataTypes) => {
       user_role: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      managerId: {
+        type: DataTypes.UUID,
+        defaultValue: null,
+        references: {
+          key: "id",
+          model: {
+            modelName: "User",
+          },
+        },
       },
     },
     {

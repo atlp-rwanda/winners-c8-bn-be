@@ -28,7 +28,7 @@ app.get("/", (request, response) => {
   response.status(200).json({ message: "Hello World!" });
 });
 
-const server = app.listen(port, () => {
+const server = app.listen(PORT, () => {
   console.log("Server has started!");
 });
 

@@ -70,7 +70,6 @@ describe("POST login", async () => {
       .request(app)
       .post("/api/auth/signin")
       .send({ email: signup.email, password: signup.unhashedPassword });
-    console.log(res.body);
     expect(res.status).to.be.equal(200);
     expect(res.body).to.be.a("object");
   });

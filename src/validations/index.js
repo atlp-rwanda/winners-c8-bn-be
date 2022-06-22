@@ -1,9 +1,6 @@
 // this folder will contain validation middlewares' definitions.
-export { tripValidator };
 import Joi from "joi";
-import tripValidator from "./tripRequestValidator";
 
-import tripValidator from "./tripRequestValidator";
 const schema = {
   signupvalidate: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -43,10 +40,41 @@ const schema = {
           "{{#label}} must contain at least a number, a special character, an upper-case letter and longer than 8 characters",
       }),
     user_role: Joi.string(),
+    managerId: Joi.string(),
   }),
   signin: Joi.object({
     email: Joi.string().required(),
     password: Joi.string().required(),
+  }),
+
+  tripRequest: Joi.object({
+    departure: Joi.string().required().min(3).max(150),
+    destination: Joi.string().required().min(3).max(150),
+    travel_reason: Joi.string()
+      .required()
+      .min(3)
+      .max(255)
+      .label("Travel Reason"),
+    accommodationId: Joi.alternatives()
+      .try(Joi.string(), Joi.number())
+      .required(),
+    dateOfDeparture: Joi.date()
+      .greater("now")
+      .label("Date of Departure")
+      .required()
+      .messages({
+        "date.greater": `Date of departure must be after to day`,
+        "date.format": `Date format must be YYYY-MM-DD`,
+        "date.base": `Date format must be YYYY-MM-DD`,
+      }),
+    dateOfReturn: Joi.date()
+      .greater(Joi.ref("dateOfDeparture"))
+      .label("Date of Return")
+      .messages({
+        "date.greater": `Date of return must be after date of departure`,
+        "date.format": `Date format must be YYYY-MM-DD`,
+        "date.base": `Date format must be YYYY-MM-DD`,
+      }),
   }),
 };
 
@@ -73,7 +101,38 @@ class AuthValidation {
     }
     return next();
   }
+  static async verifyTripRequest(req, res, next) {
+    const {
+      departure,
+      destination,
+      dateOfDeparture,
+      travelReason,
+      accommodationId,
+    } = { ...req.body };
+
+    const tripRequest = {
+      departure,
+      destination,
+      dateOfDeparture,
+      travel_reason: travelReason,
+      accommodationId,
+    };
+
+    if (req.body.dateOfReturn) {
+      tripRequest.dateOfReturn = req.body.dateOfReturn;
+    } else {
+      tripRequest.dateOfReturn = null;
+    }
+
+    try {
+      const result = await schema.tripRequest.validateAsync(tripRequest);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+
+    req.body = tripRequest;
+    return next();
+  }
 }
 export default AuthValidation;
-
-export { tripValidator };

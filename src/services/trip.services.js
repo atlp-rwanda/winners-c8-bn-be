@@ -31,17 +31,14 @@ export const getOneTripRequest = async (user, tripId) => {
 
   if (result == null) {
     throw new Error("notFound");
-    return;
   }
 
-  if (user.role == "manager" && result.managerId != user.id) {
+  if (user.user_role == "manager" && result.managerId != user.id) {
     throw new Error("manager");
-    return;
   }
 
-  if (user.role == "requester" && result.ownerId != user.id) {
+  if (user.user_role == "requester" && result.ownerId != user.id) {
     throw new Error("owner");
-    return;
   }
 
   return result;
@@ -62,17 +59,14 @@ export const editTripRequest = async (tripRequest, tripRequestId, user) => {
 
   if (!tripRequestToUpdate) {
     throw new Error("notFound");
-    return;
   }
 
   if (tripRequestToUpdate.status !== "pending") {
     throw new Error("status");
-    return;
   }
 
-  if (!(tripRequestToUpdate.ownerId === user.id)) {
+  if (tripRequestToUpdate.ownerId !== user.id) {
     throw new Error("owner");
-    return;
   }
 
   tripRequest.id = tripRequestToUpdate.id;
@@ -95,17 +89,14 @@ export const deleteTripRequest = async (tripRequestId, user) => {
 
   if (!tripRequest) {
     throw new Error("notFound");
-    return;
   }
 
   if (tripRequest.status !== "pending") {
     throw new Error("status");
-    return;
   }
 
   if (!(tripRequest.ownerId === user.id)) {
     throw new Error("owner");
-    return;
   }
 
   const result = await TripRequest.destroy({

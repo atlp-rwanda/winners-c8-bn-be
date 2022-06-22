@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
       },
       userId: DataTypes.UUID,
-      token: DataTypes.STRING,
+      token: DataTypes.STRING(1234),
       loginIp: DataTypes.STRING,
       deviceType: DataTypes.STRING,
       lastActivity: DataTypes.DATE,

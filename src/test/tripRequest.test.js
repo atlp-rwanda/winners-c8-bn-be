@@ -1,25 +1,70 @@
-import chai from "chai";
+import chai, { expect } from "chai";
 import request from "supertest";
 import models from "../database/models";
 import server from "../index";
 import Protection from "../middlewares/hash";
-const { hashPassword } = Protection;
+import { signup } from "./mocks/Users";
+import userSeeder from "./util/userSeeder";
+import accommodationSeeder from "./util/accommodationSeeder";
+import tripRequestSeeder from "./util/tripRequestSeeder";
+import { noDepartureTripRequest, fullTripRequest } from "./mocks/TripRequests";
+
+const { hashPassword, verifyToken } = Protection;
 
 const { TripRequest, Accommodation, User } = { ...models };
-
-const expect = chai.expect;
+let user;
+let manager;
+let userToken;
+let managerToken;
 
 describe("api/trip", async () => {
   let url = "/api/trip/";
 
+  const managerMock = { ...signup };
+  const user = {
+    token: null,
+    data: null,
+  };
+  const manager = {
+    token: null,
+    data: null,
+  };
+
+  managerMock.user_role = "manager";
+  managerMock.email = "manager@gmail.com";
   // Create tables in the test databases
   before(async () => {
     try {
       await TripRequest.sync({ force: true });
-      await Accommodation.sync({ force: true });
-      await User.sync({ force: true });
-      await userSeeder();
+      await Accommodation.destroy({ where: {} });
+      await User.destroy({ where: {} });
+
+      await User.create({
+        ...managerMock,
+        password: hashPassword(signup.password),
+        isVerified: true,
+      });
+
+      const res = await request(server)
+        .post("/api/auth/signin")
+        .send({ email: managerMock.email, password: signup.password });
+
+      manager.token = res.body.data;
+      manager.data = await verifyToken(manager.token);
+
       await accommodationSeeder();
+
+      await User.create({
+        ...signup,
+        managerId: manager.data.id,
+        password: hashPassword(signup.password),
+        isVerified: true,
+      });
+      const resUser = await request(server)
+        .post("/api/auth/signin")
+        .send({ email: signup.email, password: signup.password });
+      user.token = resUser.body.data;
+      user.data = await verifyToken(user.token);
     } catch (error) {
       console.error({ error });
     }
@@ -27,8 +72,8 @@ describe("api/trip", async () => {
 
   after(async () => {
     try {
-      await User.truncate({ cascade: true });
-      await Accommodation.truncate({ cascade: true });
+      await User.destroy({ where: {} });
+      await Accommodation.destroy({ where: {} });
     } catch (error) {
       console.error({ error });
     }
@@ -36,7 +81,7 @@ describe("api/trip", async () => {
 
   afterEach(async () => {
     try {
-      await TripRequest.sync({ force: true });
+      await TripRequest.destroy({ where: {} });
     } catch (err) {
       console.log({ err });
     }
@@ -60,26 +105,30 @@ describe("api/trip", async () => {
     });
 
     it("should return 200, and all posts that belong to the user", async () => {
-      const posts = await tripRequestSeeder();
-
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
       const res = await request(server)
         .get(url)
-        .set("Authorization", `Bearer ${token}`);
+        .set("Authorization", `Bearer ${user.token}`);
 
       expect(res.status).to.be.eq(200);
-      expect(res.body.every((t) => t.ownerId === 2)).to.be.true;
+      expect(res.body.every((t) => t.ownerId === user.data.id)).to.be.true;
     });
 
     it("should return 200, and all posts that belong to the manager", async () => {
-      const token = 1; // User is a manager
-      const posts = await tripRequestSeeder();
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
 
       const res = await request(server)
         .get(url)
-        .set("Authorization", `Bearer ${token}`);
+        .set("Authorization", `Bearer ${manager.token}`);
 
       expect(res.status).to.be.eq(200);
-      expect(res.body.every((t) => t.managerId === 1)).to.be.true;
+      expect(res.body.every((t) => t.managerId === manager.data.id)).to.be.true;
     });
   });
 
@@ -93,7 +142,7 @@ describe("api/trip", async () => {
     it("should return 401 if token is invalid", async () => {
       const token = "a"; // Invalid token
 
-      const res = await await request(server)
+      const res = await request(server)
         .get(url)
         .set("Authorization", `Bearer ${token}`);
 
@@ -102,9 +151,9 @@ describe("api/trip", async () => {
 
     it("should return 404 if the trip request is not found", async () => {
       // Seed trip requests
-      const tripRequests = await tripRequestSeeder();
-      const tripRequestId = 777; //Invalid trip request id
-      const token = 2;
+      await tripRequestSeeder(user.data.id, manager.data.id);
+      const tripRequestId = "777";
+      const token = user.token;
 
       const res = await request(server)
         .get(url + tripRequestId)
@@ -114,8 +163,57 @@ describe("api/trip", async () => {
     });
 
     it("should return 403, if the current user is not the owner of the trip request", async () => {
-      const token = 3;
-      const tripRequests = await tripRequestSeeder();
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
+      // Create new User
+      const userMock = { ...signup };
+      userMock.firstName = "Jacob";
+      userMock.email = "jacob@gmail.com";
+      console.log(userMock);
+      await User.create({
+        ...userMock,
+        password: hashPassword(signup.password),
+        isVerified: true,
+      });
+      const resUser = await request(server)
+        .post("/api/auth/signin")
+        .send({ email: userMock.email, password: userMock.password });
+
+      const token = resUser.body.data;
+
+      const tripRequestId = tripRequests[1].id;
+
+      const res = await request(server)
+        .get(url + tripRequestId)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).to.be.eq(403);
+    });
+
+    it("should return 403, if the current manager is not the direct manager of the owner of the trip request", async () => {
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
+      // Create new User
+      const userMock = { ...managerMock };
+      userMock.firstName = "manager";
+      userMock.email = "admin2@gmail.com";
+
+      await User.create({
+        ...userMock,
+        password: hashPassword(signup.password),
+        isVerified: true,
+      });
+
+      const resLogin = await request(server)
+        .post("/api/auth/signin")
+        .send({ email: userMock.email, password: userMock.password });
+
+      const token = resLogin.body.data;
+
       const tripRequestId = tripRequests[1].id;
 
       const res = await request(server)
@@ -126,9 +224,12 @@ describe("api/trip", async () => {
     });
 
     it("Should return 200, if successful in retrieving the trip request for user", async () => {
-      const tripRequests = await tripRequestSeeder();
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
       const tripRequestId = tripRequests[1].id;
-      const token = tripRequests[1].ownerId;
+      const token = user.token;
 
       const res = await request(server)
         .get(url + tripRequestId)
@@ -140,9 +241,12 @@ describe("api/trip", async () => {
     });
 
     it("Should return 200, if successful in retrieving the trip request for manager", async () => {
-      const tripRequests = await tripRequestSeeder();
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
       const tripRequestId = tripRequests[1].id;
-      const token = 1;
+      const token = manager.token;
 
       const res = await request(server)
         .get(url + tripRequestId)
@@ -164,7 +268,7 @@ describe("api/trip", async () => {
     it("should return 401 if token is invalid", async () => {
       const token = "a"; // Invalid token
 
-      const res = await await request(server)
+      const res = await request(server)
         .post(url)
         .set("Authorization", `Bearer ${token}`);
 
@@ -172,7 +276,7 @@ describe("api/trip", async () => {
     });
 
     it("should return 400 if some fields are missing or invalid in trip requst", async () => {
-      const token = "1";
+      const token = user.token;
       const tripRequest = noDepartureTripRequest(); // Does not contain departure field which is required
 
       const res = await request(server)
@@ -185,7 +289,7 @@ describe("api/trip", async () => {
     });
 
     it("should return 201, if successful", async () => {
-      const token = 2;
+      const token = user.token;
       const tripRequest = fullTripRequest();
 
       const res = await request(server)
@@ -226,7 +330,7 @@ describe("api/trip", async () => {
     });
 
     it("should return 400 if some fields are missing or invalid in trip requst", async () => {
-      const token = "1";
+      const token = user.token;
       const tripRequest = noDepartureTripRequest(); // Does not contain departure field which is required
 
       const res = await request(server)
@@ -240,9 +344,12 @@ describe("api/trip", async () => {
 
     it("should return 404 if the trip request is not found", async () => {
       // Seed trip requests
-      const tripRequests = await tripRequestSeeder();
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
       const tripRequestId = 777; //Invalid trip request id
-      const token = 2;
+      const token = user.token;
       const tripRequestToUpdate = fullTripRequest();
 
       const res = await request(server)
@@ -254,10 +361,29 @@ describe("api/trip", async () => {
     });
 
     it("should return 403, if the current user is not the owner of the trip request", async () => {
-      const token = 3; // token for user who is not the owner of the trip request
-      const tripRequests = await tripRequestSeeder();
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
+
       const tripRequestId = tripRequests[1].id;
       const tripRequestToUpdate = fullTripRequest();
+      // Create new User
+      const userMock = { ...signup };
+      userMock.firstName = "";
+      userMock.email = "jacob2@gmail.com";
+
+      await User.create({
+        ...userMock,
+        password: hashPassword(signup.password),
+        isVerified: true,
+      });
+
+      const resUser = await request(server)
+        .post("/api/auth/signin")
+        .send({ email: userMock.email, password: userMock.password });
+
+      const token = resUser.body.data;
 
       const res = await request(server)
         .put(url + tripRequestId)
@@ -274,8 +400,11 @@ describe("api/trip", async () => {
     });
 
     it("should return 403, IF trip request does not have status of pending", async () => {
-      const token = 2;
-      const tripRequests = await tripRequestSeeder();
+      const token = user.token;
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
       const tripRequestId = tripRequests[2].id;
       const tripRequestToUpdate = fullTripRequest();
 
@@ -292,8 +421,11 @@ describe("api/trip", async () => {
     });
 
     it("should return 201, If successful to update the trip request", async () => {
-      const token = 2;
-      const tripRequests = await tripRequestSeeder();
+      const token = user.token;
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
       const tripRequestId = tripRequests[1].id;
       const tripRequestToUpdate = fullTripRequest();
 
@@ -305,6 +437,7 @@ describe("api/trip", async () => {
       const tripAfterUpdate = await TripRequest.findOne({
         where: { id: tripRequestId },
       });
+
       expect(res.status).to.be.eq(201);
       expect(tripAfterUpdate.departure).to.not.be.eq(tripRequests[1].departure);
       expect(tripAfterUpdate.departure).to.be.eq(tripRequestToUpdate.departure);
@@ -330,9 +463,12 @@ describe("api/trip", async () => {
 
     it("should return 404 if the trip request is not found", async () => {
       // Seed trip requests
-      const tripRequests = await tripRequestSeeder();
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
       const tripRequestId = 777; //Invalid trip request id
-      const token = 2;
+      const token = user.token;
 
       const res = await request(server)
         .delete(url + tripRequestId)
@@ -342,8 +478,26 @@ describe("api/trip", async () => {
     });
 
     it("should return 403, if the current user is not the owner of the trip request", async () => {
-      const token = 3; // token for user who is not the owner of the trip request
-      const tripRequests = await tripRequestSeeder();
+      // Create new User
+      const userMock = { ...signup };
+      userMock.firstName = "";
+      userMock.email = "jacob3@gmail.com";
+
+      await User.create({
+        ...userMock,
+        password: hashPassword(signup.password),
+        isVerified: true,
+      });
+
+      const resUser = await request(server)
+        .post("/api/auth/signin")
+        .send({ email: userMock.email, password: userMock.password });
+
+      const token = resUser.body.data; // token for user who is not the owner of the trip request
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
       const tripRequestId = tripRequests[1].id;
 
       const res = await request(server)
@@ -358,8 +512,11 @@ describe("api/trip", async () => {
     });
 
     it("should return 403, IF trip request does not have status of pending", async () => {
-      const token = 2;
-      const tripRequests = await tripRequestSeeder();
+      const token = user.token;
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
       const tripRequestId = tripRequests[2].id;
 
       const res = await request(server)
@@ -374,8 +531,11 @@ describe("api/trip", async () => {
     });
 
     it("should return 200,If trip request successfully deleted", async () => {
-      const token = 2;
-      const tripRequests = await tripRequestSeeder();
+      const token = user.token;
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
       const tripRequestId = tripRequests[1].id;
 
       const res = await request(server)
@@ -390,149 +550,3 @@ describe("api/trip", async () => {
     });
   });
 });
-
-// Function for seeding users in the test database for testing
-const userSeeder = async () => {
-  const users = User.bulkCreate([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@test.com",
-      user_role: "manager",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 2,
-      name: "Jane Doe",
-      email: "jane.doe@test.com",
-      user_role: "requester",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 3,
-      name: "Jacob Doe",
-      email: "jacob.doe@test.com",
-      user_role: "requester",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ]);
-
-  return users;
-};
-
-// Function for seeding accommodations in the test database for testing
-const accommodationSeeder = async () => {
-  const accommodations = await Accommodation.bulkCreate([
-    {
-      id: 1,
-      name: "Toronto Hotel",
-      address: "capital street, Toronto, Ontario",
-      country: "Canada",
-      rating: 4,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 2,
-      name: "Reethi beach resort",
-      address: "Reethi Beach, Fonimagoodhoo Island 20215",
-      country: "Maldives",
-      rating: 4,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ]);
-
-  return accommodations;
-};
-
-const tripRequestSeeder = async () => {
-  try {
-    const tripRequests = TripRequest.bulkCreate([
-      {
-        id: 1,
-        departure: "kigali",
-        destination: "toronto",
-        travel_reason: "Studying my bachelor degree",
-        accommodationId: 1,
-        dateOfDeparture: "2022-07-17",
-        dateOfReturn: null,
-        status: "pending",
-        tripType: "oneway",
-        ownerId: 2,
-        managerId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: 2,
-        departure: "kigali",
-        destination: "maladives",
-        travel_reason: "Tourism",
-        accommodationId: 1,
-        dateOfDeparture: "2022-07-17",
-        dateOfReturn: "2022-07-27",
-        status: "pending",
-        tripType: "return",
-        ownerId: 2,
-        managerId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: 3,
-        departure: "kigali",
-        destination: "maladives",
-        travel_reason: "Tourism",
-        accommodationId: 1,
-        dateOfDeparture: "2022-07-17",
-        dateOfReturn: "2022-07-27",
-        status: "approved",
-        tripType: "return",
-        ownerId: 3,
-        managerId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
-    return tripRequests;
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-};
-
-const noDepartureTripRequest = () => {
-  return {
-    destination: "toronto",
-    travelReason: "Studying my bachelor degree",
-    accommodationId: 1,
-    dateOfDeparture: "2022-07-17",
-    dateOfReturn: null,
-  };
-};
-
-const fullTripRequest = () => {
-  return {
-    departure: "nairobi",
-    destination: "toronto",
-    travelReason: "Studying my bachelor degree",
-    accommodationId: 1,
-    dateOfDeparture: "2022-07-17",
-    dateOfReturn: "2022-07-27",
-  };
-};
-
-const createUser = (isManager) => {
-  const userInput = {
-    name: "john doe",
-    email: "john.doe@gmail.com",
-    password: "password@123",
-    isAdmin: isAdmin,
-  };
-  const user = new User(userInput);
-  return user;
-};

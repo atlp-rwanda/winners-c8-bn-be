@@ -11,10 +11,21 @@ class UserService {
     return user;
   };
 
+  static checkManager = async (userId) => {
+    if (!userId) {
+      return true;
+    }
+    const user = await User.findOne({ where: { id: userId } });
+    if (user && user.user_role === "manager") {
+      return true;
+    }
+    return false;
+  };
+
   static verifyUserAccount = async (email) => {
     const data = await User.update(
       {
-        verified: true,
+        isVerified: true,
       },
       {
         where: { email },
@@ -33,8 +44,9 @@ class UserService {
   //     await userSession.save();
   //     return userSession;
   //   }
-  static async deleteSession({ sessionId, userId, token }) {
+  static async deleteSession(sessionId, userId, token) {
     const searchQuery = sessionId ? { id: sessionId } : { userId, token };
+
     const userSession = UserSession.destroy({ where: searchQuery });
     return userSession;
   }

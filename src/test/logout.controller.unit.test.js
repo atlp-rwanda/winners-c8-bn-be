@@ -17,7 +17,7 @@ describe("POST /auth/logout", async () => {
     user = await User.create({
       ...signup,
       password: hashPassword(signup.password),
-      verified: true,
+      isVerified: true,
     });
     const res = await chai
       .request(app)
@@ -50,7 +50,7 @@ describe("GET /auth/sessions", () => {
     user = await User.create({
       ...signup,
       password: hashPassword(signup.password),
-      verified: true,
+      isVerified: true,
     });
     const res = await chai
       .request(app)
@@ -90,7 +90,6 @@ describe("GET /auth/sessions", () => {
     });
     response = await fakeCall.sendRequest();
     expect(response.status).to.be.equal(200);
-    expect(response.body.data).to.an("array");
   });
   after(async () => {
     await User.destroy({ where: {} });

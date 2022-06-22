@@ -1,6 +1,5 @@
 import { Router } from "express";
 import auth from "./Auth";
-import trips from "./tripRequests.js";
 import isAuthenticated from "../middlewares/Authorization";
 import trips from "./tripRequests.js";
 

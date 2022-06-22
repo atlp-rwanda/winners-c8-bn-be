@@ -7,7 +7,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultValue: Sequelize.literal("uuid_generate_v4()"),
+        defaultValue: Sequelize.UUID4,
       },
       firstName: {
         type: Sequelize.STRING,
@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      verified: {
+      isVerified: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
@@ -33,6 +33,16 @@ module.exports = {
       user_role: {
         type: Sequelize.ENUM("admin", "requester", "manager", "traveler"),
         defaultValue: "requester",
+      },
+      managerId: {
+        type: Sequelize.UUID,
+        references: {
+          model: {
+            tableName: "Users",
+          },
+          key: "id",
+        },
+        onDelete: "cascade",
       },
       createdAt: {
         allowNull: false,

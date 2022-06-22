@@ -4,16 +4,11 @@ import { tripServices } from "../services";
 export const getAllTripRequests = async (req, res) => {
   const user = req.user;
 
-  try {
-    const result = await tripServices.getAllTripRequests(user);
-    if (result.length === 0) {
-      return res.status(200).json({ message: "No Trip Requests" });
-    }
-    return res.status(200).json(result);
-  } catch (err) {
-    console.log({ err });
-    res.status(500).json({ error: err.message });
-  }
+  const result = await tripServices.getAllTripRequests(user);
+  // if (result.length === 0) {
+  //   return res.status(200).json({ message: "No Trip Requests" });
+  // }
+  return res.status(200).json(result);
 };
 
 export const getOneTripRequest = async (req, res) => {
@@ -21,9 +16,6 @@ export const getOneTripRequest = async (req, res) => {
   const tripId = req.params.id;
   try {
     const result = await tripServices.getOneTripRequest(user, tripId);
-    if (result.length === 0) {
-      return res.status(200).json({ message: "No Trip Requests" });
-    }
     return res.status(200).json(result);
   } catch (err) {
     switch (err.message) {
@@ -40,8 +32,6 @@ export const getOneTripRequest = async (req, res) => {
       case "notFound":
         res.status(404).json({ error: "The trip request not found" });
         break;
-      default:
-        res.status(500).json({ error: err.message });
     }
   }
 };
@@ -65,7 +55,6 @@ export const createTripRequest = async (req, res) => {
     return res.status(201).send("Trip request successfully created");
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: err.message });
   }
 };
 
@@ -106,7 +95,7 @@ export const editTripRequest = async (req, res) => {
           .json({ error: "The user is not the owner of the trip request" });
         break;
       default:
-        res.status(500).json({ error: err.message });
+        console.log(err);
     }
     return;
   }
@@ -138,7 +127,7 @@ export const deleteTripRequest = async (req, res) => {
           .json({ error: "The user is not the owner of the trip request" });
         break;
       default:
-        res.status(500).json({ error: err.message });
+        console.log(err);
     }
     return;
   }

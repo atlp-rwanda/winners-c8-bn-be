@@ -30,10 +30,15 @@ const { verifySignup, verifySignin } = AuthValidation;
  *                              type: string
  *                          lastName:
  *                              type: string
- *                          password:
- *                              type: string
  *                          email:
  *                              type: string
+ *                          password:
+ *                              type: string
+ *                          user_role:
+ *                              type: string
+ *                          managerId:
+ *                              type: string
+ *
  *      responses:
  *          '201':
  *              description: success response

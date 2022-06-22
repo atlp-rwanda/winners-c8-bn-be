@@ -1,7 +1,9 @@
 import express from "express";
 import { tripControllers } from "../controllers";
-import { tripValidator as tripValidation } from "../validations";
-import authChecker from "../middlewares/auth";
+import Validations from "../validations";
+import authChecker from "../middlewares/Authorization";
+
+const tripValidator = Validations.verifyTripRequest;
 
 const router = express.Router();
 
@@ -11,13 +13,13 @@ router.get("/:id", [authChecker], tripControllers.getOneTripRequest);
 
 router.post(
   "/",
-  [authChecker, tripValidation],
+  [authChecker, tripValidator],
   tripControllers.createTripRequest
 );
 
 router.put(
   "/:id",
-  [authChecker, tripValidation],
+  [authChecker, tripValidator],
   tripControllers.editTripRequest
 );
 

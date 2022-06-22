@@ -15,8 +15,9 @@ describe("POST /auth/logout", async () => {
     user = await User.create({
       ...signup,
       password: hashPassword(signup.password),
-      verified: true,
+      isVerified: true,
     });
+
     const res = await chai
       .request(app)
       .post("/api/auth/signin")
@@ -34,7 +35,9 @@ describe("POST /auth/logout", async () => {
       .request(app)
       .put("/api/auth/signout")
       .set("authorization", `Bearer ${token}`);
+
     console.log(res.body);
+    console.log(token);
     expect(res.status).to.be.equal(200);
     expect(res.body.message).to.be.equal("User logged out successful");
   });
@@ -48,7 +51,7 @@ describe("GET /auth/sessions", () => {
     user = await User.create({
       ...signup,
       password: hashPassword(signup.password),
-      verified: true,
+      isVerified: true,
     });
     const res = await chai
       .request(app)
@@ -66,6 +69,7 @@ describe("GET /auth/sessions", () => {
       .set("authorization", `Bearer ${token}`);
     expect(response.status).to.be.equal(200);
     const sessionId = response.body.data[0].id;
+    console.log(sessionId);
     response = await chai
       .request(app)
       .delete("/api/auth/sessions/" + sessionId)
