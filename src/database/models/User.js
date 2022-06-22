@@ -12,24 +12,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      user_role: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      firstName: DataTypes.STRING,
+      lastName: DataTypes.STRING,
+      email: DataTypes.STRING,
+      user_role: DataTypes.STRING,
     },
     {
       sequelize,
-      freezeTableName: true,
       modelName: "User",
-      tableName: "users",
     }
   );
   return User;

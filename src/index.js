@@ -8,7 +8,6 @@ import routes from "./routes/index";
 import "dotenv/config";
 import getDefault from "./helpers/getEnvironment";
 
-
 // connecting to database
 DB.authenticate().then(() => {
   console.log("Database Connected");
