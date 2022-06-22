@@ -19,19 +19,12 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "/api",
+        url: "http://localhost:5000/api",
       },
       {
         url: "https://winners-c8-bn-be-staging.herokuapp.com/api",
       },
     ],
-    securityDefinitions: {
-      ApiKeyAuth: {
-        type: "apiKey",
-        in: "header",
-        name: "x-auth-token",
-      },
-    },
   },
   apis: ["src/**/*.js"],
 };

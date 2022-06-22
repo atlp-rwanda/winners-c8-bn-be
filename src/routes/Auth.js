@@ -76,33 +76,6 @@ router.post("/register", verifySignup, signup);
  *              description: internal server error
  */
 router.post("/signin", verifySignin, signin);
-router.get("/register/verifyuser/:token", verifyUser);
-/**
- * @openapi
- * components:
- *      securitySchemes:
- *           ApiKeyAuth:
- *              type: apiKey
- *              in: header
- *              name: x-auth-token
- * /auth/signout:
-
- *      put:
- *          tags:
- *              - User
- *          security:
- *             - ApiKeyAuth: []
- *          description: Get the current user sessions
- *          responses:
- *              '200':
- *                  description: success response
- *              '401':
- *                  description: User need to login
- *              '500':
- *                  description: internal server error
- */
-router.put("/signout", isAuthenticated, signout);
-router.use("/sessions", isAuthenticated, sessionsRoutes);
 
 /**
  * @swagger
