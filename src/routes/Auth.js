@@ -2,7 +2,7 @@
 
 import { Router } from "express";
 import authcontrollers from "../controllers/Authcontrollers";
-import isAuthenticated from "../middlewares/isAuthenticated";
+import isAuthenticated from "../middlewares/Authorization";
 import AuthValidation from "../validations/index";
 import sessionsRoutes from "./session";
 
@@ -76,6 +76,34 @@ router.post("/register", verifySignup, signup);
  *              description: internal server error
  */
 router.post("/signin", verifySignin, signin);
+router.get("/register/verifyuser/:token", verifyUser);
+/**
+ * @openapi
+ * components:
+ *      securitySchemes:
+ *           BearerToken:
+ *              type: apiKey
+ *              in: header
+ *              name: authorization
+ *              default: Bearer 
+ * /auth/signout:
+
+ *      put:
+ *          tags:
+ *              - User
+ *          security:
+ *             - BearerToken: []
+ *          description: Get the current user sessions
+ *          responses:
+ *              '200':
+ *                  description: success response
+ *              '401':
+ *                  description: User need to login
+ *              '500':
+ *                  description: internal server error
+ */
+router.put("/signout", isAuthenticated, signout);
+router.use("/sessions", isAuthenticated, sessionsRoutes);
 
 /**
  * @swagger
