@@ -1,4 +1,5 @@
 {
+    "all": true,
     "check-coverage":true,
     "statements": 80,
     "branches": 80,

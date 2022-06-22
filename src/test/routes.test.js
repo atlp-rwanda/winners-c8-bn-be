@@ -1,7 +1,6 @@
 import chai,{expect} from 'chai';
 import ChaiHttp from 'chai-http';
 import server from '../index';
-import routes from '../routes';
 chai.use(ChaiHttp);
 
 //Test if Root End Point is Working
