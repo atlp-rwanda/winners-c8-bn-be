@@ -6,19 +6,14 @@ import DB from "./database/index";
 import express from "express";
 import routes from "./routes/index";
 import "dotenv/config";
-import cors from "cors";
+import getDefault from "./helpers/getEnvironment";
 
 // connecting to database
-DB.authenticate()
-  .then(() => {
-    console.log("Database Connected");
-  })
-  .catch((err) => {
-    console.log("Database unable to connect");
-    console.error(err);
-  });
+DB.authenticate().then(() => {
+  console.log("Database Connected");
+});
 
-const { PORT = 4000 } = process.env;
+const PORT = getDefault(process.env.PORT, "5000");
 
 const app = express();
 
@@ -29,7 +24,7 @@ app.use("/api", routes);
 routes.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 app.get("/", async (req, res) => {
-  res.send({ message:'Hello there!' });
+  res.send({ message: "Hello World!" });
 });
 
 const server = app.listen(port, () => {
