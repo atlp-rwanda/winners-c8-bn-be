@@ -63,8 +63,6 @@ class Auth {
       if (!user.verified) {
         return errorResponse(res, 403, `User email is not verified!`);
       }
-      if (!checkPassword(password, user.password))
-        return errorResponse(res, 409, `Invalid credentials`);
       const token = await signToken({
         id: user.id,
         email: user.email,
@@ -76,6 +74,20 @@ class Auth {
         loginDevice: req.agent,
         lastSessionTime: new Date(),
       });
+      return successResponse(res, 200, "User loggedIn", token);
+    } catch (error) {
+      return errorResponse(
+        res,
+        500,
+        `Ooops! Unable to login the  User ${error.message}`
+      );
+    }
+  }
+  static async signout(req, res) {
+    try {
+      if (!req.user || !req.header.token)
+        errorResponse(res, 409, "User not loggedIn");
+      await deleteSession({ userId: req.user.id, token: req.header.token });
       return successResponse(res, 200, "User loggedIn", token);
     } catch (error) {
       return errorResponse(
