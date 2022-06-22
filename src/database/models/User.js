@@ -21,7 +21,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         onDelete: "CASCADE",
       });
-      // define association here
+
+      User.hasMany(models.TripRequest, {
+        onDelete: "cascade",
+      });
     }
   }
   User.init(
