@@ -73,7 +73,6 @@ describe("PATCH Update role of User", ()=>{
         expect(res.body.message).to.be.equal('user doesn\'t exist');
         
     });
-
     it("it should not update user for invalid role", async()=>{
         const res = await chai
             .request(app)
