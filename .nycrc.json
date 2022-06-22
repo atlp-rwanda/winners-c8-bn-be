@@ -5,6 +5,7 @@
     "functions": 80,
     "lines": 80,
     "include": ["src/**/*.js"],
-    "exclude": ["src/**/*.test.js", "src/database/migrations/*.js"]
+    "exclude": ["src/**/*.test.js", "src/database/migrations/*.js", 
+    "src/database/seeders/*.js", "src/database/models/*.js"]
     
 }

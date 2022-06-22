@@ -6,4 +6,11 @@ import trips from "./tripRequests.js";
 const router = express.Router();
 
 router.use("/trip", trips);
+
+router.get("/users", async (req, res) => {
+  res.send({
+    message: "Nothing is set yet!",
+  });
+});
+
 export default router;
