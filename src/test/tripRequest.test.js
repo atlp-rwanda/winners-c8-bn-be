@@ -1,17 +1,13 @@
 import chai from "chai";
 import request from "supertest";
 import models from "../database/models";
-import sequelize from "../database";
-import Sequelize from "sequelize";
-const env = process.env.NODE_ENV || "test";
-const config = require("../database/config/config.js")[env];
+import server from "../index";
 
 const { TripRequest, Accommodation, User } = { ...models };
 
 const expect = chai.expect;
 
 describe("api/trip", async () => {
-  let server;
   let url = "/api/trip/";
 
   // Create tables in the test databases
@@ -36,17 +32,12 @@ describe("api/trip", async () => {
     }
   });
 
-  beforeEach(() => {
-    server = require("../index");
-  });
-
   afterEach(async () => {
     try {
       await TripRequest.sync({ force: true });
     } catch (err) {
       console.log({ err });
     }
-    server.close();
   });
 
   describe("GET /", () => {

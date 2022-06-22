@@ -1,7 +1,7 @@
 import express from "express";
 import { tripControllers } from "../controllers";
 import { tripValidator as tripValidation } from "../validations";
-import authChecker from "../middleware/auth";
+import authChecker from "../middlewares/auth";
 
 const router = express.Router();
 

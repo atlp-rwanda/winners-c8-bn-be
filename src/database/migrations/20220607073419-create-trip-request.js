@@ -4,9 +4,9 @@ module.exports = {
     await queryInterface.createTable("accommodations", {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
+        autoIncrement: true,
       },
       name: {
         type: Sequelize.STRING,
@@ -35,9 +35,9 @@ module.exports = {
       {
         id: {
           allowNull: false,
-          autoIncrement: true,
           primaryKey: true,
           type: Sequelize.INTEGER,
+          autoIncrement: true,
         },
         departure: {
           type: Sequelize.STRING,
@@ -105,7 +105,7 @@ module.exports = {
           },
         },
         ownerId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           allowNull: false,
           name: "Request owner",
           references: {
@@ -117,7 +117,7 @@ module.exports = {
           onDelete: "cascade",
         },
         managerId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           allowNull: false,
           name: "Direct Manager",
           references: {

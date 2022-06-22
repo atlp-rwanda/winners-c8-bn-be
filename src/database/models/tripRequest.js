@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
         name: "Trip type",
       },
       ownerId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
           key: "id",
@@ -70,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       managerId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
           key: "id",
