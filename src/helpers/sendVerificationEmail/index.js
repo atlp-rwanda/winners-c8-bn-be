@@ -2,14 +2,16 @@ import sendEmail from '../sendEmail'
 
 import 'dotenv/config';
 
-const sendVerificationEmail = (userEmail) => {
+const sendVerificationEmail = (userEmail,token) => {
+    const port = process.env.PORT;
+    const link = `${process.env.SERVER_ADDRESS}:${port}/api/auth/register/verifyuser/${token}`;
     const mailObj = {
         receiverEmail : userEmail,
-        subject: 'Congrats on your new Barefoot Nomad account!',
-        title: 'Congrats on your new Barefoot Nomad account!',
-        body: `You can access our application by <br> <strong>Clicking on the button below:</strong>`,
-        link: process.env.APP_HEROKU_LINK,
-        linkAltText: "Start Exploring!"
+        subject: 'Barefoot Nomad Email Verification',
+        title: 'Welcome to the Barefoot Nomad App!',
+        body: `As an extra security measure, we would like to verify your email address. <br> <strong>Please, click on the button below:</strong>`,
+        link: link,
+        linkAltText: "Verify My Email Address"
     }
     return sendEmail(mailObj)
             .then((output) => {  

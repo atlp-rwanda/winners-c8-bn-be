@@ -9,6 +9,10 @@ const router = Router();
 const { signup } = authcontrollers;
 const { verifySignup } = AuthValidation;
 
+const { verifyUser } = authcontrollers;
+
 router.post('/register', verifySignup, signup);
+
+router.get('/register/verifyuser/:token', verifyUser);
 
 export default router;

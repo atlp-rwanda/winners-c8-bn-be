@@ -12,7 +12,7 @@ class Protection {
 	}
 
 	static async verifyToken(token) {
-		const data = verify(token, process.env.Secret);
+		const data = verify(token, process.env.TOKEN_SECRET);
 		return data;
 	}
 

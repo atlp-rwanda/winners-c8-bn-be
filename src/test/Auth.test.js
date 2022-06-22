@@ -100,7 +100,7 @@ describe('Testing  signup endpoints', () => {
 			.post('/api/auth/register')
 			.send(signup);
 		expect(res.status).to.be.equal(201);
-
+        process.authToken = res.body.data;
 		expect(res.body).to.have.property(
 			'message',
 			'User registered successfully',
