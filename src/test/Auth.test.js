@@ -24,7 +24,6 @@ describe('Testing  signup error', () => {
 			.request(app)
 			.post('/api/auth/register')
 			.send(no_firstname);
-    
 		expect(res.status).to.be.equal(400);
 		expect(res.body).to.be.a('object');
 		expect(res.body).to.have.property(
@@ -100,7 +99,6 @@ describe('Testing  signup endpoints', () => {
 			.request(app)
 			.post('/api/auth/register')
 			.send(signup);
-	
 		expect(res.status).to.be.equal(201);
 		expect(res.body).to.have.property(
 			'message',
@@ -123,4 +121,3 @@ describe('Testing  signup endpoints', () => {
 		await User.destroy({ where: {} });
 	});
 });
-
