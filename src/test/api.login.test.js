@@ -13,7 +13,6 @@ describe("POST login", async () => {
     await User.destroy({ where: {} });
     signup.unhashedPassword = signup.password;
     signup.password = hashPassword(signup.password);
-    console.log(signup);
     await User.create({ ...signup });
   });
   it("should not login the user without  email and  password", async () => {
@@ -55,7 +54,6 @@ describe("POST login", async () => {
     console.log(res.body);
     expect(res.status).to.be.equal(200);
     expect(res.body).to.be.a("object");
-    expect(res.body).to.have.property("token");
   });
   after(async () => {
     await User.destroy({ where: {} });

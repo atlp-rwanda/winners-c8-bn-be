@@ -16,8 +16,10 @@ const app = express();
 app.use(express.json());
 
 app.use("/api", routes);
-
-routes.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+app.get("/", (request, response) => {
+  response.status(200).json({ message: "Hello World!" });
+});
 
 DB.authenticate()
   .then(() => {
