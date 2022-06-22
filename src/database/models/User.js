@@ -1,6 +1,5 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-unused-vars */
-
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
@@ -50,6 +49,9 @@ module.exports = (sequelize, DataTypes) => {
       user_role: {
         type: DataTypes.STRING,
         allowNull: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
       },
       managerId: {
         type: DataTypes.UUID,

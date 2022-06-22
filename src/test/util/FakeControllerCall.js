@@ -47,7 +47,7 @@ export default class FakeControllerCall {
     this.response.status(200).send({ message: "success" });
     this.request.setRequestObject(requestObject);
   }
-  async sendRequest() {
-    return await this.controller(this.request, this.response);
+  sendRequest() {
+    return this.controller(this.request, this.response);
   }
 }
