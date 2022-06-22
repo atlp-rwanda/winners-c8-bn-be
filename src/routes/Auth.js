@@ -8,13 +8,9 @@ import sessionsRoutes from "./session";
 
 const router = Router();
 
-const { signup, signin, signout } = authcontrollers;
+const { signup, signin, verifyUser, signout } = authcontrollers;
 const { verifySignup, verifySignin } = AuthValidation;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d1950f9 (documentation(swagger): add Swagger docs for acc signup and verification)
 /**
  * @openapi
  * /auth/register:
@@ -80,7 +76,6 @@ router.post("/register", verifySignup, signup);
  *              description: internal server error
  */
 router.post("/signin", verifySignin, signin);
-<<<<<<< HEAD
 router.get("/register/verifyuser/:token", verifyUser);
 /**
  * @openapi
@@ -92,7 +87,6 @@ router.get("/register/verifyuser/:token", verifyUser);
  *              name: authorization
  *              default: Bearer 
  * /auth/signout:
-
  *      put:
  *          tags:
  *              - User
@@ -109,9 +103,6 @@ router.get("/register/verifyuser/:token", verifyUser);
  */
 router.put("/signout", isAuthenticated, signout);
 router.use("/sessions", isAuthenticated, sessionsRoutes);
-=======
-
->>>>>>> d1950f9 (documentation(swagger): add Swagger docs for acc signup and verification)
 
 /**
  * @swagger
@@ -155,9 +146,5 @@ router.use("/sessions", isAuthenticated, sessionsRoutes);
  *           example: [1]
  */
 
-<<<<<<< HEAD
 router.get("/register/verifyuser/:token", verifyUser);
-=======
-router.get('/register/verifyuser/:token', verifyUser);
->>>>>>> d1950f9 (documentation(swagger): add Swagger docs for acc signup and verification)
 export default router;
