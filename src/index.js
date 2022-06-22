@@ -1,5 +1,5 @@
 import "core-js/stable";
-import swaggerDocs from "./docs/tripRequestApi.json";
+import swaggerDocs from "./docs";
 import swaggerUI from "swagger-ui-express";
 import DB from "./database/index";
 import express from "express";
