@@ -1,4 +1,3 @@
-"use strict";
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-unused-vars */
 const { Model } = require("sequelize");
