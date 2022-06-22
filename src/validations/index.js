@@ -1,6 +1,7 @@
 // this folder will contain validation middlewares' definitions.
 export { tripValidator };
 import Joi from "joi";
+import tripValidator from "./tripRequestValidator";
 
 import tripValidator from "./tripRequestValidator";
 const schema = {
@@ -55,11 +56,9 @@ class AuthValidation {
   static async verifySignup(req, res, next) {
     const { error } = signupvalidate.validate(req.body);
     if (error) {
-      return(
-        res.status(400).json({
-          error: error.details[0].message.replace(/["'`]+/g, ""),
-        })
-      );
+      return res.status(400).json({
+        error: error.details[0].message.replace(/["'`]+/g, ""),
+      });
     }
     return next();
   }
@@ -76,3 +75,5 @@ class AuthValidation {
   }
 }
 export default AuthValidation;
+
+export { tripValidator };

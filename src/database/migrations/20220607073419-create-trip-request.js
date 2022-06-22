@@ -110,7 +110,7 @@ module.exports = {
           name: "Request owner",
           references: {
             model: {
-              tableName: "users",
+              tableName: "Users",
             },
             key: "id",
           },
@@ -122,7 +122,7 @@ module.exports = {
           name: "Direct Manager",
           references: {
             model: {
-              tableName: "users",
+              tableName: "Users",
             },
             key: "id",
           },

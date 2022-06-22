@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
         references: {
           key: "id",
           model: {
-            tableName: "users",
+            tableName: "Users",
             modelName: "User",
           },
         },
@@ -75,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
         references: {
           key: "id",
           model: {
-            tableName: "users",
+            tableName: "Users",
             modelName: "User",
           },
         },
