@@ -22,15 +22,6 @@ class UserService {
     );
     return data;
   };
-  static async createUserSession({ userId, token, loginDevice, lastSession }) {
-    const userSession = await UserSession.create({
-      userId,
-      token,
-      loginDevice,
-      lastSession,
-    });
-    return userSession;
-  }
   /**
    *
    * @note - This method is to update the userSession like when he make request to know last time the token was used

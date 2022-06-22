@@ -14,7 +14,8 @@
     "unmigrate": "npx sequelize-cli db:migrate:undo:all",
     "dbseed": "npx sequelize-cli db:seed:all",
     "dbseed:undo": "npx sequelize-cli db:seed:undo",
-    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all"
+    "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all",
+    "posttest": "cross-env NODE_ENV=test npm run unmigrate"
   },
   "repository": {
     "type": "git",

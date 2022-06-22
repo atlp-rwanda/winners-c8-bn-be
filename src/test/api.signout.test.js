@@ -4,20 +4,25 @@ import app from "../index";
 import { User } from "../database/models";
 import { signup } from "./mocks/Users";
 import Protection from "../middlewares/hash";
+import FakeControllerCall from "./util/FakeControllerCall";
+import Auth from "../controllers/Authcontrollers";
 const { hashPassword } = Protection;
 chai.use(chaiHttp);
 
-describe.skip("POST /auth/logout", async () => {
+describe("POST /auth/logout", async () => {
   let token;
+  let user;
   before(async () => {
     await User.destroy({ where: {} });
-    signup.unhashedPassword = signup.password;
-    signup.password = hashPassword(signup.password);
-    await User.create({ ...signup });
+    user = await User.create({
+      ...signup,
+      password: hashPassword(signup.password),
+      verified: true,
+    });
     const res = await chai
       .request(app)
       .post("/api/auth/signin")
-      .send({ email: signup.email, password: signup.unhashedPassword });
+      .send({ email: signup.email, password: signup.password });
     expect(res.status).to.be.equal(200);
     token = res.body.data;
   });
@@ -26,7 +31,17 @@ describe.skip("POST /auth/logout", async () => {
     expect(res.status).to.be.equal(409);
     expect(res.body.error).to.be.equal();
   });
-  it("should logout user given the token", async () => {});
+  it("should logout user given the token valid token and user", async () => {
+    const fakeCall = new FakeControllerCall(Auth.signout);
+    fakeCall.request.setProperty("headers", {
+      authorization: `Bearer ${token}`,
+    });
+    console.log(fakeCall.request);
+    fakeCall.request.setProperty("user", user);
+    const response = await fakeCall.sendRequest();
+    console.log(response);
+    expect(response.status).to.be.equal(200);
+  });
   after(async () => {
     await User.destroy({ where: {} });
   });
