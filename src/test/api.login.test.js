@@ -25,15 +25,18 @@ describe("POST login", async () => {
     expect(res.body).to.be.a("object");
     expect(res.body).to.have.property("message", "User email is not verified!");
   });
-  it("it should verify user in the database", async () => {
-    const res = await chai
-      .request(app)
-      .get("/api/auth/register/verifyuser/" + authTokenTest)
-      .send();
-
-    expect(res.status).to.be.equal(201);
-    expect(res.body).to.have.property("message", "User verified successfully");
-  });
+  it('it should verify user in the database', async () => {
+		const res = await chai
+			.request(app)
+			.get('/api/auth/register/verifyuser/'+authTokenTest)
+			.send();
+        
+		expect(res.status).to.be.equal(201);
+		expect(res.body).to.have.property(
+			'message',
+			'User verified successfully',
+		);
+	});
   it("should not login the user without  email and  password", async () => {
     let res = await chai.request(app).post("/api/auth/signin").send();
     expect(res.status).to.be.equal(400);
