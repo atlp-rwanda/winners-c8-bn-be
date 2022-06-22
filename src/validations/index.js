@@ -43,6 +43,10 @@ const schema = {
       }),
     user_role: Joi.string(),
   }),
+  signin: Joi.object({
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+  }),
 };
 
 const { signupvalidate } = schema;
@@ -50,6 +54,17 @@ const { signupvalidate } = schema;
 class AuthValidation {
   static async verifySignup(req, res, next) {
     const { error } = signupvalidate.validate(req.body);
+    if (error) {
+      throw new Error(
+        res.status(400).json({
+          error: error.details[0].message.replace(/["'`]+/g, ""),
+        })
+      );
+    }
+    return next();
+  }
+  static async verifySignin(req, res, next) {
+    const { error } = schema.signin.validate(req.body);
     if (error) {
       throw new Error(
         res.status(400).json({
