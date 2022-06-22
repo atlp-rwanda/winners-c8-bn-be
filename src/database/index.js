@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-const env = process.env.NODE_ENV || "development";
+const env = process.env.NODE_ENV;
 const config = require("./config/config.js")[env];
 
 let sequelize;
