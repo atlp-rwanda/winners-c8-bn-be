@@ -27,4 +27,4 @@ class Protection {
   }
 }
 
-export default Protection;
+module.exports = Protection;

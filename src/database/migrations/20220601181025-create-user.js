@@ -31,8 +31,8 @@ module.exports = {
         allowNull: false,
       },
       user_role: {
-        type: Sequelize.ENUM("admin", "requester", "manager", "traveler"),
-        defaultValue: "requester",
+        type: Sequelize.UUID,
+        defaultValue: "7adae2f1-4d35-470d-8512-1b9634330a9e",
       },
       managerId: {
         type: Sequelize.UUID,

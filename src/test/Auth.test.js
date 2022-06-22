@@ -99,10 +99,12 @@ describe("Testing  signup endpoints", () => {
   it("it should check the user exist", async () => {
     const res = await chai.request(app).post("/api/auth/register").send(signup);
     expect(res.status).to.be.equal(409);
-
-    expect(res.body).to.have.property("message", "Ooops! User already exists!");
-  });
-  after(async () => {
-    await User.destroy({ where: {} });
-  });
+		expect(res.body).to.have.property(
+			'message',
+			'Ooops! User already exists!',
+		);
+	});
+	after(async () => {
+		await User.destroy({ where: {} });
+	});
 });

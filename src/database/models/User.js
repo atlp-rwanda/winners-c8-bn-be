@@ -1,6 +1,7 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-unused-vars */
-const { Model } = require("sequelize");
+
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -17,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         onDelete: "CASCADE",
       });
+      this.belongsTo(models.Role, {foreignKey:'user_role', as: 'role', onDelete:'CASCADE', onUpdate: 'CASCADE'})
     }
   }
   User.init(
@@ -48,10 +50,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       user_role: {
         type: DataTypes.STRING,
-        allowNull: false,
-        primaryKey: true,
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
       },
       managerId: {
         type: DataTypes.UUID,

@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.UUID,
       },
       token: {
-        type: Sequelize.STRING(1234),
+        type: Sequelize.STRING(10000),
       },
       loginIp: {
         type: Sequelize.STRING,
