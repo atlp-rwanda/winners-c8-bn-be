@@ -27,9 +27,9 @@ describe("POST /auth/logout", async () => {
     token = res.body.data;
   });
   it("should not logout if user is not logged in", async () => {
-    const res = await chai.request(app).post("/api/auth/signout").send();
-    expect(res.status).to.be.equal(409);
-    expect(res.body.error).to.be.equal();
+    const res = await chai.request(app).put("/api/auth/signout").send();
+    expect(res.status).to.be.equal(401);
+    expect(res.body.message).to.equal("Access denied. No token provided!");
   });
   it("should logout user given the token valid token and user", async () => {
     const fakeCall = new FakeControllerCall(Auth.signout);

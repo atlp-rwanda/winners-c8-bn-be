@@ -52,7 +52,7 @@ class Auth {
         return errorResponse(res, 404, "User not found!");
       }
       if (!checkPassword(password, user.password)) {
-        return errorResponse(res, 409, "Invalid credentials");
+        return errorResponse(res, 401, "Invalid credentials");
       }
       if (!user.verified) {
         return errorResponse(res, 403, `User email is not verified!`);
@@ -133,8 +133,6 @@ class Auth {
   }
   static async getUserSessions(request, response) {
     try {
-      if (!request.user)
-        return errorResponse(response, 409, "You need to login");
       const sessions = await request.user.getUserSessions();
       return successResponse(
         response,
@@ -153,7 +151,8 @@ class Auth {
   static async removeSession(request) {
     try {
       const { sessionId } = request.params;
-      if (!request.user) return errorResponse(res, 409, "You need to login");
+      if (!request.user)
+        return errorResponse(response, 403, "You need to login");
 
       const sessions = request.user.removeUserSession(sessionId);
       return successResponse(
