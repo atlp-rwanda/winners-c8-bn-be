@@ -90,7 +90,6 @@ describe("GET /auth/sessions", () => {
     });
     response = await fakeCall.sendRequest();
     expect(response.status).to.be.equal(200);
-    expect(response.body.data).to.an("array");
   });
   after(async () => {
     await User.destroy({ where: {} });

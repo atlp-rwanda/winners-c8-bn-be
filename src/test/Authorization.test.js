@@ -24,7 +24,6 @@ describe("Auth check middlewares", () => {
       .request(app)
       .post("/api/auth/signin")
       .send({ email: signup.email, password: signup.password });
-    console.log(res.body);
     expect(res.status).to.be.equal(200);
     token = res.body.data;
   });
