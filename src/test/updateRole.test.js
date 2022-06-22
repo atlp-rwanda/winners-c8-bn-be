@@ -96,7 +96,7 @@ describe("PATCH Update role of User", ()=>{
                 email:signup.email,
                 roleId:"f01c0e35-b0ec-f724-85d6-48c2ecc995ef"
             });
-        
+        // console.log(res)
         expect(res.status).to.be.equal(400);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message');
