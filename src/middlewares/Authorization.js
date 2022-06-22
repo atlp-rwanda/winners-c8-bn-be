@@ -24,5 +24,4 @@ const verifyToken = async (req, res, next) => {
     return errorResponse(res, 401, "Access denied. Invalid token");
   }
 };
-
 export default verifyToken;

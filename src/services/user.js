@@ -56,19 +56,6 @@ class UserService {
     const userSession = UserSession.destroy({ where: searchQuery });
     return userSession;
   }
-
-
-	static updateRole = async (email, roleId) => {
-		const user = await User.findOne({where: { email }});
-		const newRole = await Role.findOne({ where: { id: roleId } });
-		if (newRole == null) {
-			return null;
-		}
-		user.user_role = newRole.id;
-		await user.save();
-		return user;
-	};	
-	
 }
 
 export default UserService;

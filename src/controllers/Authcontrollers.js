@@ -154,7 +154,6 @@ class Auth {
         sessions
       );
     } catch (error) {
-      console.log(error)
       return errorResponse(
         response,
         500,
