@@ -5,8 +5,7 @@ import "regenerator-runtime/runtime";
 import DB from "./database/index";
 import express from "express";
 import routes from "./routes/index";
-import "dotenv/config";
-import getDefault from "./helpers/getEnvironment";
+import cors from "cors";
 
 // connecting to database
 DB.authenticate().then(() => {
@@ -16,6 +15,7 @@ DB.authenticate().then(() => {
 const PORT = getDefault(process.env.PORT, "5000");
 
 const app = express();
+app.use(cors());
 
 // allow to parse json in body
 app.use(express.json());
@@ -24,7 +24,7 @@ app.use("/api", routes);
 routes.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 app.get("/", async (req, res) => {
-  res.send({ message: "Hello World!" });
+  res.send({ message: "Hello there!" });
 });
 
 const server = app.listen(port, () => {
