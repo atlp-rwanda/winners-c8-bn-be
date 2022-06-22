@@ -1,7 +1,5 @@
-import "core-js/stable";
 import swaggerDocs from "./docs";
 import swaggerUI from "swagger-ui-express";
-import "regenerator-runtime/runtime";
 import DB from "./database/index";
 import express from "express";
 import routes from "./routes/index";
@@ -23,6 +21,7 @@ app.get("/", (request, response) => {
 
 DB.authenticate()
   .then(() => {
+    DB.sync();
     console.log("Database Connected");
   })
   .catch((err) => {

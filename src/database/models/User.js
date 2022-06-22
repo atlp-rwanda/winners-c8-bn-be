@@ -1,7 +1,6 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-unused-vars */
 const { Model } = require("sequelize");
-
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -13,6 +12,14 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.TripRequest, {
         onDelete: "cascade",
       });
+      this.hasMany(models.UserSession, {
+        foreignKey: {
+          name: "userId",
+          type: DataTypes.UUID,
+        },
+        onDelete: "CASCADE",
+      });
+      // define association here
     }
   }
   User.init(
