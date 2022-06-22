@@ -21,10 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         onDelete: "CASCADE",
       });
-
-      User.hasMany(models.TripRequest, {
-        onDelete: "cascade",
-      });
     }
   }
   User.init(

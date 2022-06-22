@@ -5,16 +5,16 @@ const TripRequest = Db.TripRequest;
 export const getAllTripRequests = async (user) => {
   let result;
 
-  if (user.role == "manager") {
+  if (user.user_role == "manager") {
     result = await TripRequest.findAll({
       where: {
-        managerId: user.userId,
+        managerId: user.id,
       },
     });
   } else {
     result = await TripRequest.findAll({
       where: {
-        ownerId: user.userId,
+        ownerId: user.id,
       },
     });
   }
@@ -34,12 +34,12 @@ export const getOneTripRequest = async (user, tripId) => {
     return;
   }
 
-  if (user.role == "manager" && result.managerId != user.userId) {
+  if (user.role == "manager" && result.managerId != user.id) {
     throw new Error("manager");
     return;
   }
 
-  if (user.role == "requester" && result.ownerId != user.userId) {
+  if (user.role == "requester" && result.ownerId != user.id) {
     throw new Error("owner");
     return;
   }
@@ -70,7 +70,7 @@ export const editTripRequest = async (tripRequest, tripRequestId, user) => {
     return;
   }
 
-  if (!(tripRequestToUpdate.ownerId === user.userId)) {
+  if (!(tripRequestToUpdate.ownerId === user.id)) {
     throw new Error("owner");
     return;
   }
@@ -103,7 +103,7 @@ export const deleteTripRequest = async (tripRequestId, user) => {
     return;
   }
 
-  if (!(tripRequest.ownerId === user.userId)) {
+  if (!(tripRequest.ownerId === user.id)) {
     throw new Error("owner");
     return;
   }

@@ -1,34 +1,64 @@
 "use strict";
+const { v4: uuidv4 } = require("uuid");
 
 module.exports = {
   async up(queryInterface, Sequelize) {
     try {
+      // await queryInterface.bulkInsert(
+      //   "Users",
+      //   [
+      //     {
+      //       id: uuidv4(),
+      //       firstName: "John",
+      //       lastName: "Doe",
+      //       email: "john.doe@test.com",
+      //       password: "password",
+      //       user_role: "manager",
+      //       createdAt: new Date(),
+      //       updatedAt: new Date(),
+      //     },
+      //     {
+      //       id: uuidv4(),
+      //       firstName: "Jane",
+      //       lastName: "Doe",
+      //       email: "jane.doe@test.com",
+      //       password: "password",
+      //       user_role: "requester",
+      //       createdAt: new Date(),
+      //       updatedAt: new Date(),
+      //     },
+      //     {
+      //       id: uuidv4(),
+      //       firstName: "Jacob",
+      //       lastName: "Doe",
+      //       email: "jacob.doe@test.com",
+      //       password: "password",
+      //       user_role: "requester",
+      //       createdAt: new Date(),
+      //       updatedAt: new Date(),
+      //     },
+      //   ],
+      //   {}
+      // );
+
       await queryInterface.bulkInsert(
-        "Users",
+        "accommodations",
         [
           {
-            id: Sequelize.UUIDV4,
-            name: "John Doe",
-            email: "john.doe@test.com",
-            user_role: "manager",
+            id: 1,
+            name: "Toronto Hotel",
+            address: "capital street, Toronto, Ontario",
+            country: "Canada",
+            rating: 4,
             createdAt: new Date(),
             updatedAt: new Date(),
           },
           {
-            id: Sequelize.UUIDV4,
-            name: "Jane Doe",
-            email: "jane.doe@test.com",
-            user_role: "requester",
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-          {
-            id: Sequelize.UUIDV4,
-            firstName: "Jacob",
-            lastName: "Doe",
-            email: "jacob.doe@test.com",
-            password: "password",
-            user_role: "requester",
+            id: 2,
+            name: "Reethi beach resort",
+            address: "Reethi Beach, Fonimagoodhoo Island 20215",
+            country: "Maldives",
+            rating: 4,
             createdAt: new Date(),
             updatedAt: new Date(),
           },
@@ -42,5 +72,6 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete("Users", null, {});
+    await queryInterface.bulkDelete("accommodations", null, {});
   },
 };

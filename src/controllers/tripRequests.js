@@ -56,7 +56,7 @@ export const createTripRequest = async (req, res) => {
   }
 
   tripRequest.status = "pending";
-  tripRequest.ownerId = req.user.userId;
+  tripRequest.ownerId = req.user.id;
   tripRequest.managerId = req.user.managerId;
 
   try {
@@ -79,10 +79,6 @@ export const editTripRequest = async (req, res) => {
   } else {
     tripRequest.tripType = "oneway";
   }
-
-  // tripRequest.status = "pending";
-  // tripRequest.ownerId = req.user.userId;
-  // tripRequest.managerId = req.user.managerId;
 
   try {
     const result = await tripServices.editTripRequest(

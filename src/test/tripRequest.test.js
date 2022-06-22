@@ -2,6 +2,8 @@ import chai from "chai";
 import request from "supertest";
 import models from "../database/models";
 import server from "../index";
+import Protection from "../middlewares/hash";
+const { hashPassword } = Protection;
 
 const { TripRequest, Accommodation, User } = { ...models };
 
@@ -50,7 +52,7 @@ describe("api/trip", async () => {
     it("should return 401 if token is invalid", async () => {
       const token = "a"; // Invalid token
 
-      const res = await await request(server)
+      const res = await request(server)
         .get(url)
         .set("Authorization", `Bearer ${token}`);
 
@@ -58,7 +60,6 @@ describe("api/trip", async () => {
     });
 
     it("should return 200, and all posts that belong to the user", async () => {
-      const token = 2;
       const posts = await tripRequestSeeder();
 
       const res = await request(server)
@@ -523,4 +524,15 @@ const fullTripRequest = () => {
     dateOfDeparture: "2022-07-17",
     dateOfReturn: "2022-07-27",
   };
+};
+
+const createUser = (isManager) => {
+  const userInput = {
+    name: "john doe",
+    email: "john.doe@gmail.com",
+    password: "password@123",
+    isAdmin: isAdmin,
+  };
+  const user = new User(userInput);
+  return user;
 };
