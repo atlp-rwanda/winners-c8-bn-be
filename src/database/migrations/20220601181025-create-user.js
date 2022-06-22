@@ -21,6 +21,10 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      verified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       password: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -28,10 +32,6 @@ module.exports = {
       user_role: {
         type: Sequelize.ENUM("admin", "requester", "manager", "traveler"),
         defaultValue: "requester",
-      },
-      email_verified: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
       },
       createdAt: {
         allowNull: false,

@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
       user_role: DataTypes.STRING,
-      email_verified: DataTypes.BOOLEAN,
+      verified: DataTypes.BOOLEAN,
     },
     {
       sequelize,

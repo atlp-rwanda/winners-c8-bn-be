@@ -13,7 +13,7 @@ class UserService {
 
 	static verifyUserAccount = async (email) => {
 		const data = await User.update({
-							email_verified: true
+							verified: true
 						}, {
 							where: { email }
 						});
