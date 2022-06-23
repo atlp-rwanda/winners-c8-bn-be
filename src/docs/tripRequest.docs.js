@@ -22,11 +22,11 @@
  *     tripRequest:
  *       type: object
  *       properties:
- *         departure:
- *           type: string
+ *         departureId:
+ *           type: integer
  *           required: true
- *         destination:
- *           type: string
+ *         destinationId:
+ *           type: integer
  *           required: true
  *         travelReason:
  *           type: string
@@ -40,8 +40,8 @@
  *         dateOfReturn:
  *           type: string
  *       example:
- *         departure: Kigali
- *         destination: Maldives
+ *         departureId: 1
+ *         destinationId: 2
  *         travelReason: Tour destination
  *         accommodationId: 1
  *         dateOfDeparture: '2022-07-17'

@@ -59,6 +59,13 @@ export const createTripRequest = async (req, res) => {
 
   tripRequest.status = "pending";
   tripRequest.ownerId = req.user.id;
+  if (!req.user.managerId) {
+    return errorResponse(
+      res,
+      403,
+      "Can not create trip request without manager"
+    );
+  }
   tripRequest.managerId = req.user.managerId;
 
   try {
