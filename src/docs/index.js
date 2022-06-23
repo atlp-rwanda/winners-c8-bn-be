@@ -28,9 +28,9 @@ const swaggerOptions = {
     components: {
       securitySchemes: {
         BearerToken: {
-          type: "apiKey",
-          in: "header",
-          name: "authorization",
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
         },
       },
     },

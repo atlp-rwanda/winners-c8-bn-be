@@ -84,13 +84,6 @@ router.post("/signin", verifySignin, signin);
 router.get("/register/verifyuser/:token", verifyUser);
 /**
  * @openapi
- * components:
- *      securitySchemes:
- *           BearerToken:
- *              type: apiKey
- *              in: header
- *              name: authorization
- *              default: Bearer 
  * /auth/signout:
  *      put:
  *          tags:
