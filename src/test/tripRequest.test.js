@@ -30,7 +30,7 @@ describe("api/trip", async () => {
     data: null,
   };
 
-  managerMock.user_role = "manager";
+  managerMock.user_role = "6927442b-84fb-4fc3-b799-11449fa62f52";
   managerMock.email = "manager@gmail.com";
   // Create tables in the test databases
   before(async () => {

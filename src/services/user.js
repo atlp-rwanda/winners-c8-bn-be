@@ -1,4 +1,4 @@
-import { User, Role, UserSession } from '../database/models';
+import { User, Role, UserSession } from "../database/models";
 
 class UserService {
   static async createUser(data) {
@@ -16,7 +16,7 @@ class UserService {
       return true;
     }
     const user = await User.findOne({ where: { id: userId } });
-    if (user && user.user_role === "manager") {
+    if (user && user.user_role === "6927442b-84fb-4fc3-b799-11449fa62f52") {
       return true;
     }
     return false;
@@ -34,17 +34,17 @@ class UserService {
     return data;
   };
 
-	static updateRole = async (email, roleId) => {
-		const user = await User.findOne({where: { email }});
-		const newRole = await Role.findOne({ where: { id: roleId } });
-		if (newRole == null) {
-			return null;
-		}
-		user.user_role = newRole.id;
-		await user.save();
-		return user;
-	};	
-	
+  static updateRole = async (email, roleId) => {
+    const user = await User.findOne({ where: { email } });
+    const newRole = await Role.findOne({ where: { id: roleId } });
+    if (newRole == null) {
+      return null;
+    }
+    user.user_role = newRole.id;
+    await user.save();
+    return user;
+  };
+
   static async createUserSession({ userId, token, loginDevice, lastSession }) {
     const userSession = await UserSession.create({
       userId,

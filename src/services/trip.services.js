@@ -5,7 +5,7 @@ const TripRequest = Db.TripRequest;
 export const getAllTripRequests = async (user) => {
   let result;
 
-  if (user.user_role == "manager") {
+  if (user.user_role == "6927442b-84fb-4fc3-b799-11449fa62f52") {
     result = await TripRequest.findAll({
       where: {
         managerId: user.id,
@@ -33,11 +33,17 @@ export const getOneTripRequest = async (user, tripId) => {
     throw new Error("notFound");
   }
 
-  if (user.user_role == "manager" && result.managerId != user.id) {
+  if (
+    user.user_role == "6927442b-84fb-4fc3-b799-11449fa62f52" &&
+    result.managerId != user.id
+  ) {
     throw new Error("manager");
   }
 
-  if (user.user_role == "requester" && result.ownerId != user.id) {
+  if (
+    user.user_role == "7adae2f1-4d35-470d-8512-1b9634330a9e" &&
+    result.ownerId != user.id
+  ) {
     throw new Error("owner");
   }
 
