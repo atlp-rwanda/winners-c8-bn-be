@@ -14,6 +14,9 @@
     "unmigrate": "npx sequelize-cli db:migrate:undo:all",
     "dbseed": "npx sequelize-cli db:seed:all",
     "seed-roles": "npx sequelize-cli db:seed --seed 20220617223718-seed-roles",
+    "seed-locations": "npx sequelize-cli db:seed --seed 20220623153808-demo-locations.js",
+    "seed-accommodations": "npx sequelize-cli db:seed --seed 20220520070048-dummy-user.js",
+    
     "seed-admin": "npx sequelize-cli db:seed --seed 20220617225052-seed-super-admin",
     "dbseed:undo": "npx sequelize-cli db:seed:undo",
     "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all",

@@ -37,16 +37,12 @@ module.exports = {
         type: Sequelize.INTEGER,
         autoIncrement: true,
       },
-      departure: {
-        type: Sequelize.STRING,
+      departureId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        validate: {
-          notEmpty: true,
-          len: [3, 100],
-        },
       },
-      destination: {
-        type: Sequelize.STRING,
+      destinationId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       travel_reason: {
@@ -85,26 +81,10 @@ module.exports = {
       ownerId: {
         type: Sequelize.UUID,
         allowNull: false,
-        name: "Request owner",
-        references: {
-          model: {
-            tableName: "Users",
-          },
-          key: "id",
-        },
-        onDelete: "cascade",
       },
       managerId: {
         type: Sequelize.UUID,
         allowNull: false,
-        name: "Direct Manager",
-        references: {
-          model: {
-            tableName: "Users",
-          },
-          key: "id",
-        },
-        onDelete: "cascade",
       },
       createdAt: {
         allowNull: false,

@@ -48,8 +48,13 @@ const schema = {
   }),
 
   tripRequest: Joi.object({
-    departure: Joi.string().required().min(3).max(150),
-    destination: Joi.string().required().min(3).max(150),
+    departureId: Joi.number().required(),
+    destinationId: Joi.number()
+      .required()
+      .invalid(Joi.ref("departureId"))
+      .messages({
+        "any.invalid": `Destination location must not be same as Departure location`,
+      }),
     travel_reason: Joi.string()
       .required()
       .min(3)
@@ -76,6 +81,13 @@ const schema = {
         "date.base": `Date format must be YYYY-MM-DD`,
       }),
   }),
+
+  location: Joi.object({
+    country: Joi.string().required().min(3).max(150),
+    state: Joi.string().min(3).max(150),
+    province: Joi.string().min(3).max(150),
+    city: Joi.string().required().min(3).max(150),
+  }),
 };
 
 const { signupvalidate } = schema;
@@ -101,18 +113,29 @@ class AuthValidation {
     }
     return next();
   }
+
+  static async verifyLocation(req, res, next) {
+    const { error } = schema.location.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        error: error.details[0].message.replace(/["'`]+/g, ""),
+      });
+    }
+    return next();
+  }
+
   static async verifyTripRequest(req, res, next) {
     const {
-      departure,
-      destination,
+      departureId,
+      destinationId,
       dateOfDeparture,
       travelReason,
       accommodationId,
     } = { ...req.body };
 
     const tripRequest = {
-      departure,
-      destination,
+      departureId,
+      destinationId,
       dateOfDeparture,
       travel_reason: travelReason,
       accommodationId,

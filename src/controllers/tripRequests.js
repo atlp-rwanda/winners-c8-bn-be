@@ -1,5 +1,8 @@
 import express from "express";
+import errorResponse from "../utils/error";
+import successResponse from "../utils/success";
 import { tripServices } from "../services";
+import { checkLocation } from "../services/locationServices";
 
 export const getAllTripRequests = async (req, res) => {
   const user = req.user;
@@ -38,6 +41,15 @@ export const getOneTripRequest = async (req, res) => {
 
 export const createTripRequest = async (req, res) => {
   const tripRequest = req.body;
+  const departureValid = await checkLocation(tripRequest.departureId);
+  const destinationValid = await checkLocation(tripRequest.destinationId);
+  if (!departureValid) {
+    return errorResponse(res, 400, "Invalid Departure Location");
+  }
+
+  if (!destinationValid) {
+    return errorResponse(res, 400, "Invalid Destination Location");
+  }
 
   if (tripRequest.dateOfReturn) {
     tripRequest.tripType = "return";
@@ -61,6 +73,17 @@ export const createTripRequest = async (req, res) => {
 export const editTripRequest = async (req, res) => {
   const tripRequest = req.body;
   const tripRequestId = req.params.id;
+
+  const departureValid = await checkLocation(tripRequest.departureId);
+  const destinationValid = await checkLocation(tripRequest.destinationId);
+
+  if (!departureValid) {
+    return errorResponse(res, 400, "Invalid Departure Location");
+  }
+
+  if (!destinationValid) {
+    return errorResponse(res, 400, "Invalid Destination Location");
+  }
   const user = req.user;
 
   if (tripRequest.dateOfReturn) {

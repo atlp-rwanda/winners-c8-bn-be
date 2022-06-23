@@ -6,8 +6,13 @@ import Protection from "../middlewares/hash";
 import { signup } from "./mocks/Users";
 import userSeeder from "./util/userSeeder";
 import accommodationSeeder from "./util/accommodationSeeder";
+import locationSeeder from "./util/locationSeeder";
 import tripRequestSeeder from "./util/tripRequestSeeder";
-import { noDepartureTripRequest, fullTripRequest } from "./mocks/TripRequests";
+import {
+  noDepartureTripRequest,
+  oneWayTripRequest,
+  fullTripRequest,
+} from "./mocks/TripRequests";
 
 const { hashPassword, verifyToken } = Protection;
 
@@ -34,6 +39,7 @@ describe("api/trips", async () => {
   managerMock.email = "manager@gmail.com";
   // Create tables in the test databases
   before(async () => {
+    let locations = await locationSeeder();
     try {
       await TripRequest.sync({ force: true });
       await Accommodation.destroy({ where: {} });
@@ -63,10 +69,11 @@ describe("api/trips", async () => {
       const resUser = await request(server)
         .post("/api/auth/signin")
         .send({ email: signup.email, password: signup.password });
+
       user.token = resUser.body.data;
       user.data = await verifyToken(user.token);
     } catch (error) {
-      console.error({ error });
+      console.log({ error });
     }
   });
 
@@ -81,7 +88,7 @@ describe("api/trips", async () => {
 
   afterEach(async () => {
     try {
-      await TripRequest.destroy({ where: {} });
+      await TripRequest.sync({ force: true });
     } catch (err) {
       console.log({ err });
     }
@@ -114,7 +121,7 @@ describe("api/trips", async () => {
         .set("Authorization", `Bearer ${user.token}`);
 
       expect(res.status).to.be.eq(200);
-      expect(res.body.every((t) => t.ownerId === user.data.id)).to.be.true;
+      expect(res.body.every((t) => t.owner.id === user.data.id)).to.be.true;
     });
 
     it("should return 200, and all posts that belong to the manager", async () => {
@@ -128,7 +135,8 @@ describe("api/trips", async () => {
         .set("Authorization", `Bearer ${manager.token}`);
 
       expect(res.status).to.be.eq(200);
-      expect(res.body.every((t) => t.managerId === manager.data.id)).to.be.true;
+      expect(res.body.every((t) => t.manager.id === manager.data.id)).to.be
+        .true;
     });
   });
 
@@ -171,7 +179,7 @@ describe("api/trips", async () => {
       const userMock = { ...signup };
       userMock.firstName = "Jacob";
       userMock.email = "jacob@gmail.com";
-      console.log(userMock);
+
       await User.create({
         ...userMock,
         password: hashPassword(signup.password),
@@ -237,7 +245,7 @@ describe("api/trips", async () => {
 
       expect(res.status).to.be.eq(200);
       expect(res.body.id).to.be.eq(tripRequestId);
-      expect(res.body.ownerId).to.be.eq(tripRequests[1].ownerId);
+      expect(res.body.owner.id).to.be.eq(tripRequests[1].ownerId);
     });
 
     it("Should return 200, if successful in retrieving the trip request for manager", async () => {
@@ -254,7 +262,7 @@ describe("api/trips", async () => {
 
       expect(res.status).to.be.eq(200);
       expect(res.body.id).to.be.eq(tripRequestId);
-      expect(res.body.managerId).to.be.eq(tripRequests[1].managerId);
+      expect(res.body.manager.id).to.be.eq(tripRequests[1].managerId);
     });
   });
 
@@ -288,9 +296,37 @@ describe("api/trips", async () => {
       expect(res.body.error).to.include("departure");
     });
 
+    it("should return 400, if DepartureId is not valid", async () => {
+      const token = user.token;
+      const tripRequest = fullTripRequest();
+      tripRequest.departureId = 777;
+      const res = await request(server)
+        .post(url)
+        .send(tripRequest)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).to.be.eq(400);
+    });
+
+    it("should return 400, if DestinationId is not valid", async () => {
+      const token = user.token;
+      const tripRequest = fullTripRequest();
+      tripRequest.destinationId = 777;
+      const res = await request(server)
+        .post(url)
+        .send(tripRequest)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).to.be.eq(400);
+    });
+
     it("should return 201, if successful", async () => {
       const token = user.token;
       const tripRequest = fullTripRequest();
+      await request(server)
+        .post(url)
+        .send(oneWayTripRequest())
+        .set("Authorization", `Bearer ${token}`);
 
       const res = await request(server)
         .post(url)
@@ -299,13 +335,15 @@ describe("api/trips", async () => {
 
       const tripRequestFromDb = await TripRequest.findOne({
         where: {
-          departure: tripRequest.departure,
+          departureId: tripRequest.departureId,
         },
       });
 
       expect(res.status).to.be.eq(201);
       expect(tripRequestFromDb).to.not.be.null;
-      expect(tripRequestFromDb.destination).to.be.eq(tripRequest.destination);
+      expect(tripRequestFromDb.destinationId).to.be.eq(
+        tripRequest.destinationId
+      );
       expect(tripRequestFromDb.dateOfDeparture).to.be.eq(
         tripRequest.dateOfDeparture
       );
@@ -394,8 +432,8 @@ describe("api/trips", async () => {
         where: { id: tripRequestId },
       });
       expect(res.status).to.be.eq(403);
-      expect(tripAfterUpdate.departure).to.not.be.eq(
-        tripRequestToUpdate.departure
+      expect(tripAfterUpdate.departureId).to.not.be.eq(
+        tripRequestToUpdate.departureId
       );
     });
 
@@ -420,6 +458,39 @@ describe("api/trips", async () => {
       expect(tripAfterUpdate.status).to.not.be.eq("pending");
     });
 
+    it("should return 400, if DepartureId is not valid", async () => {
+      const token = user.token;
+      const tripRequest = fullTripRequest();
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
+      const tripRequestId = tripRequests[1].id;
+      tripRequest.departureId = 777;
+      const res = await request(server)
+        .put(url + tripRequestId)
+        .send(tripRequest)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).to.be.eq(400);
+    });
+
+    it("should return 400, if DestinationId is not valid", async () => {
+      const token = user.token;
+      const tripRequest = fullTripRequest();
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
+      const tripRequestId = tripRequests[1].id;
+      tripRequest.destinationId = 777;
+      const res = await request(server)
+        .put(url + tripRequestId)
+        .send(tripRequest)
+        .set("Authorization", `Bearer ${token}`);
+      expect(res.status).to.be.eq(400);
+    });
+
     it("should return 201, If successful to update the trip request", async () => {
       const token = user.token;
       const tripRequests = await tripRequestSeeder(
@@ -439,8 +510,12 @@ describe("api/trips", async () => {
       });
 
       expect(res.status).to.be.eq(201);
-      expect(tripAfterUpdate.departure).to.not.be.eq(tripRequests[1].departure);
-      expect(tripAfterUpdate.departure).to.be.eq(tripRequestToUpdate.departure);
+      expect(tripAfterUpdate.departureId).to.not.be.eq(
+        tripRequests[1].departureId
+      );
+      expect(tripAfterUpdate.departureId).to.be.eq(
+        tripRequestToUpdate.departureId
+      );
     });
   });
 
@@ -508,7 +583,7 @@ describe("api/trips", async () => {
         where: { id: tripRequestId },
       });
       expect(res.status).to.be.eq(403);
-      expect(tripAfterUpdate.departure).to.not.be.null;
+      expect(tripAfterUpdate.departureId).to.not.be.null;
     });
 
     it("should return 403, IF trip request does not have status of pending", async () => {

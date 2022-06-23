@@ -6,8 +6,8 @@ const tripRequestSeeder = async (userId, managerId) => {
     const tripRequests = TripRequest.bulkCreate([
       {
         id: 1,
-        departure: "kigali",
-        destination: "toronto",
+        departureId: 1,
+        destinationId: 2,
         travel_reason: "Studying my bachelor degree",
         accommodationId: 1,
         dateOfDeparture: "2022-07-17",
@@ -21,8 +21,8 @@ const tripRequestSeeder = async (userId, managerId) => {
       },
       {
         id: 2,
-        departure: "kigali",
-        destination: "maladives",
+        departureId: 1,
+        destinationId: 3,
         travel_reason: "Tourism",
         accommodationId: 1,
         dateOfDeparture: "2022-07-17",
@@ -36,8 +36,8 @@ const tripRequestSeeder = async (userId, managerId) => {
       },
       {
         id: 3,
-        departure: "kigali",
-        destination: "maladives",
+        departureId: 1,
+        destinationId: 3,
         travel_reason: "Tourism",
         accommodationId: 1,
         dateOfDeparture: "2022-07-17",

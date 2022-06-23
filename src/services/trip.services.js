@@ -24,6 +24,25 @@ export const getAllTripRequests = async (user) => {
           as: "owner",
           attributes: ["id", "firstName", "lastName", "email"],
         },
+        {
+          model: Db.Location,
+          as: "departure",
+          attributes: ["id", "city", "state", "province", "country"],
+        },
+        {
+          model: Db.Location,
+          as: "destination",
+          attributes: ["id", "city", "state", "province", "country"],
+        },
+      ],
+      attributes: [
+        "id",
+        "status",
+        "travel_reason",
+        "accommodationId",
+        "dateOfDeparture",
+        "dateOfReturn",
+        "tripType",
       ],
     });
   } else {
@@ -42,6 +61,25 @@ export const getAllTripRequests = async (user) => {
           as: "owner",
           attributes: ["id", "firstName", "lastName", "email"],
         },
+        {
+          model: Db.Location,
+          as: "departure",
+          attributes: ["id", "city", "state", "province", "country"],
+        },
+        {
+          model: Db.Location,
+          as: "destination",
+          attributes: ["id", "city", "state", "province", "country"],
+        },
+      ],
+      attributes: [
+        "id",
+        "status",
+        "travel_reason",
+        "accommodationId",
+        "dateOfDeparture",
+        "dateOfReturn",
+        "tripType",
       ],
     });
   }
@@ -65,6 +103,25 @@ export const getOneTripRequest = async (user, tripId) => {
         as: "owner",
         attributes: ["id", "firstName", "lastName", "email"],
       },
+      {
+        model: Db.Location,
+        as: "departure",
+        attributes: ["id", "city", "state", "province", "country"],
+      },
+      {
+        model: Db.Location,
+        as: "destination",
+        attributes: ["id", "city", "state", "province", "country"],
+      },
+    ],
+    attributes: [
+      "id",
+      "status",
+      "travel_reason",
+      "accommodationId",
+      "dateOfDeparture",
+      "dateOfReturn",
+      "tripType",
     ],
   });
 
@@ -74,14 +131,14 @@ export const getOneTripRequest = async (user, tripId) => {
 
   if (
     (await findRoleById(user.user_role)).roleName == "manager" &&
-    result.managerId != user.id
+    result.manager.id != user.id
   ) {
     throw new Error("manager");
   }
 
   if (
     (await findRoleById(user.user_role)).roleName == "requester" &&
-    result.ownerId != user.id
+    result.owner.id != user.id
   ) {
     throw new Error("owner");
   }

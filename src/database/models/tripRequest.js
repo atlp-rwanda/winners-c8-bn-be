@@ -15,19 +15,23 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User, {
         as: "manager",
       });
+      this.belongsTo(models.Location, {
+        as: "departure",
+      });
+      this.belongsTo(models.Location, {
+        as: "destination",
+      });
     }
   }
   TripRequest.init(
     {
-      departure: {
-        type: DataTypes.STRING,
+      departureId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        name: "Departure",
       },
-      destination: {
-        type: DataTypes.STRING,
+      destinationId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        name: "Destination",
       },
       travel_reason: {
         type: DataTypes.STRING,
