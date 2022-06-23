@@ -87,7 +87,6 @@ router.get("/register/verifyuser/:token", verifyUser);
  *              name: authorization
  *              default: Bearer 
  * /auth/signout:
-
  *      put:
  *          tags:
  *              - User

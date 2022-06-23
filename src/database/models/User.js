@@ -1,6 +1,8 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-unused-vars */
-const { Model } = require("sequelize");
+
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -16,23 +18,40 @@ module.exports = (sequelize, DataTypes) => {
         },
         onDelete: "CASCADE",
       });
-      // define association here
+      this.belongsTo(models.Role, {foreignKey:'user_role', as: 'role', onDelete:'CASCADE', onUpdate: 'CASCADE'})
+    
     }
   }
   User.init(
     {
       id: {
-        allowNull: false,
-        primaryKey: true,
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       },
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull:true
+      },
+      verified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
       user_role: DataTypes.STRING,
-      verified: DataTypes.BOOLEAN,
+      
     },
     {
       sequelize,

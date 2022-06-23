@@ -1,4 +1,4 @@
-import { User, UserSession } from "../database/models";
+import { User, Role, UserSession } from '../database/models';
 
 class UserService {
   static async createUser(data) {
@@ -11,17 +11,35 @@ class UserService {
     return user;
   };
 
-  static verifyUserAccount = async (email) => {
-    const data = await User.update(
-      {
-        verified: true,
-      },
-      {
-        where: { email },
-      }
-    );
-    return data;
-  };
+	static verifyUserAccount = async (email) => {
+		const data = await User.update({
+							verified: true
+						}, {
+							where: { email }
+						});
+		return data;
+	};
+
+	static updateRole = async (email, roleId) => {
+		const user = await User.findOne({where: { email }});
+		const newRole = await Role.findOne({ where: { id: roleId } });
+		if (newRole == null) {
+			return null;
+		}
+		user.user_role = newRole.id;
+		await user.save();
+		return user;
+	};	
+	
+  static async createUserSession({ userId, token, loginDevice, lastSession }) {
+    const userSession = await UserSession.create({
+      userId,
+      token,
+      loginDevice,
+      lastSession,
+    });
+    return userSession;
+  }
   /**
    *
    * @note - This method is to update the userSession like when he make request to know last time the token was used

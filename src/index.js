@@ -8,8 +8,6 @@ import getDefault from "./helpers/getEnvironment";
 
 const PORT = getDefault(process.env.PORT, "5000");
 
-// const app = express();
-
 const app = express();
 
 // allow to parse json in body
