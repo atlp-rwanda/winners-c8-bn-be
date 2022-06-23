@@ -1,4 +1,3 @@
-// this folder will contain validation middlewares' definitions.
 import Joi from "joi";
 
 const schema = {

@@ -1,10 +1,10 @@
-
 import { Router } from "express";
 import auth from "./Auth";
 import locations from "./locations";
 import trips from "./tripRequests";
 import isAuthenticated from "../middlewares/Authorization";
 import userRoutes from "./usersRoutes";
+import user from './user'
 
 const router = Router();
 
@@ -13,8 +13,11 @@ router.get("/users", isAuthenticated, async (req, res) => {
     message: "Middlewares works successful!",
   });
 });
-router.use('/auth', auth);
-router.use('/v1/users', userRoutes)
-router.use('/', index);
+
+router.use("/auth", auth);
+router.use("/trips", trips);
+router.use("/locations", locations);
+router.use("/v1/users", userRoutes);
 router.use('/user',user)
+
 export default router;

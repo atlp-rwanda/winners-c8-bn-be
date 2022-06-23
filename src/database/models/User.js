@@ -51,30 +51,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      username:{
-        type: DataTypes.STRING,
-      },
-      phoneNumber:{
-        type: DataTypes.STRING,
-      },
-      image:{
-        type: DataTypes.STRING,
-      },
-      gender:{
-        type: DataTypes.STRING,
-      },
-      preferredLanguage:{
-        type: DataTypes.STRING,
-      },
-      preferredCurrency:{
-        type: DataTypes.STRING,
-      },
-      department:{
-        type: DataTypes.STRING,
-      },
-      lineManager:{
-        type: DataTypes.STRING,
-      },
       password: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -90,14 +66,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: null,
       },
-      user_role: DataTypes.STRING,
-      
-    },
-    {
-      sequelize,
-      modelName: "User",
-    }
-  );
+    username: DataTypes.STRING,
+    phoneNumber: DataTypes.STRING,
+    image: DataTypes.STRING,
+    gender: DataTypes.STRING,
+    preferredLanguage: DataTypes.STRING,
+    preferredCurrency:DataTypes.STRING,
+    department:DataTypes.STRING,
+    lineManager:DataTypes.STRING,
+   }
+  , {
+    sequelize,
+    modelName: 'User',
+  });
   return User;
 };
-
