@@ -121,4 +121,3 @@ describe('Testing  signup endpoints', () => {
 		await User.destroy({ where: {} });
 	});
 });
-
