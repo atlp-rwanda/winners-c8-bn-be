@@ -55,7 +55,7 @@
  *           schema:
  *             "$ref": "#/components/schemas/tripRequest"
  * paths:
- *   "/trip":
+ *   "/trips":
  *     get:
  *       security:
  *         - BearerToken: []
@@ -94,7 +94,7 @@
  *           "$ref": "#/components/responses/ForbiddenError"
  *         '500':
  *           "$ref": "#/components/responses/ServerError"
- *   "/trip/{tripId}":
+ *   "/trips/{tripId}":
  *     get:
  *       security:
  *         - BearerToken: []

@@ -18,6 +18,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         onDelete: "CASCADE",
       });
+
+      this.hasMany(models.TripRequest, {
+        foreignKey: "ownerId",
+        foreignKey: "managerId",
+      });
+
       this.belongsTo(models.Role, {
         foreignKey: "user_role",
         as: "role",
@@ -59,12 +65,6 @@ module.exports = (sequelize, DataTypes) => {
       managerId: {
         type: DataTypes.UUID,
         defaultValue: null,
-        references: {
-          key: "id",
-          model: {
-            modelName: "User",
-          },
-        },
       },
     },
     {

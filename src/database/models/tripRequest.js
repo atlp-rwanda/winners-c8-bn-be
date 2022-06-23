@@ -8,7 +8,14 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {}
+    static associate(models) {
+      this.belongsTo(models.User, {
+        as: "owner",
+      });
+      this.belongsTo(models.User, {
+        as: "manager",
+      });
+    }
   }
   TripRequest.init(
     {
@@ -61,24 +68,10 @@ module.exports = (sequelize, DataTypes) => {
       ownerId: {
         type: DataTypes.UUID,
         allowNull: false,
-        references: {
-          key: "id",
-          model: {
-            tableName: "Users",
-            modelName: "User",
-          },
-        },
       },
       managerId: {
         type: DataTypes.UUID,
         allowNull: false,
-        references: {
-          key: "id",
-          model: {
-            tableName: "Users",
-            modelName: "User",
-          },
-        },
       },
     },
     {

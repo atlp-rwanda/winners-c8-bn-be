@@ -17,8 +17,8 @@ let manager;
 let userToken;
 let managerToken;
 
-describe("api/trip", async () => {
-  let url = "/api/trip/";
+describe("api/trips", async () => {
+  let url = "/api/trips/";
 
   const managerMock = { ...signup };
   const user = {

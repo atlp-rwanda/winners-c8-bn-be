@@ -1,21 +1,48 @@
 import Db from "../database/models";
+import RoleService from "./roleServices";
+
+const { findRoleById } = RoleService;
 
 const TripRequest = Db.TripRequest;
 
 export const getAllTripRequests = async (user) => {
   let result;
 
-  if (user.user_role == "6927442b-84fb-4fc3-b799-11449fa62f52") {
+  if ((await findRoleById(user.user_role)).roleName == "manager") {
     result = await TripRequest.findAll({
       where: {
         managerId: user.id,
       },
+      include: [
+        {
+          model: Db.User,
+          as: "manager",
+          attributes: ["id", "firstName", "lastName", "email"],
+        },
+        {
+          model: Db.User,
+          as: "owner",
+          attributes: ["id", "firstName", "lastName", "email"],
+        },
+      ],
     });
   } else {
     result = await TripRequest.findAll({
       where: {
         ownerId: user.id,
       },
+      include: [
+        {
+          model: Db.User,
+          as: "manager",
+          attributes: ["id", "firstName", "lastName", "email"],
+        },
+        {
+          model: Db.User,
+          as: "owner",
+          attributes: ["id", "firstName", "lastName", "email"],
+        },
+      ],
     });
   }
 
@@ -27,6 +54,18 @@ export const getOneTripRequest = async (user, tripId) => {
     where: {
       id: tripId,
     },
+    include: [
+      {
+        model: Db.User,
+        as: "manager",
+        attributes: ["id", "firstName", "lastName", "email"],
+      },
+      {
+        model: Db.User,
+        as: "owner",
+        attributes: ["id", "firstName", "lastName", "email"],
+      },
+    ],
   });
 
   if (result == null) {
@@ -34,14 +73,14 @@ export const getOneTripRequest = async (user, tripId) => {
   }
 
   if (
-    user.user_role == "6927442b-84fb-4fc3-b799-11449fa62f52" &&
+    (await findRoleById(user.user_role)).roleName == "manager" &&
     result.managerId != user.id
   ) {
     throw new Error("manager");
   }
 
   if (
-    user.user_role == "7adae2f1-4d35-470d-8512-1b9634330a9e" &&
+    (await findRoleById(user.user_role)).roleName == "requester" &&
     result.ownerId != user.id
   ) {
     throw new Error("owner");

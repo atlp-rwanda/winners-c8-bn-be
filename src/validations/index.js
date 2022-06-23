@@ -118,20 +118,19 @@ class AuthValidation {
       accommodationId,
     };
 
-    if (req.body.dateOfReturn) {
-      tripRequest.dateOfReturn = req.body.dateOfReturn;
-    } else {
-      tripRequest.dateOfReturn = null;
-    }
-
     try {
       const result = await schema.tripRequest.validateAsync(tripRequest);
     } catch (err) {
       res.status(400).json({ error: err.message });
       return;
     }
-
+    if (req.body.dateOfReturn) {
+      tripRequest.dateOfReturn = req.body.dateOfReturn;
+    } else {
+      tripRequest.dateOfReturn = null;
+    }
     req.body = tripRequest;
+
     return next();
   }
 }
