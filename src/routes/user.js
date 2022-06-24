@@ -25,10 +25,8 @@ router.patch('/update',protect,updateUserProfile)
  *         description: Internal server error
  *  
  *     requestBody:
- *          description: Add the data
- *          required: true
- *          content:
- *              application/json:
+ *      content:
+ *       multipart/form-data:
  *                  schema:
  *                      type: object
  *                      properties:
@@ -42,16 +40,15 @@ router.patch('/update',protect,updateUserProfile)
  *                              type: string
  *                          gender:
  *                              type: string
- *                          email:
- *                              type: string
+ *                          image:
+*                              type: file
  *                          preferredLanguage:
  *                              type: string
  *                          preferredCurrency:
  *                              type: string
  *                          department:
  *                              type: string
- *                          lineManager:
- *                              type: string
+ *                          
  *                          
  *                       
  *                 

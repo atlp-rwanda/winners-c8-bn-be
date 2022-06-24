@@ -35,7 +35,7 @@
     "type": "string",
     "title": "SSL Mode",
     "default": "require"
-},
+  },
   "homepage": "https://github.com/atlp-rwanda/winners-c8-bn-be#readme",
   "devDependencies": {
     "@babel/cli": "^7.17.10",
@@ -64,6 +64,7 @@
     "bcrypt": "^5.0.1",
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
+    "cloudinary": "^1.30.0",
     "config": "^3.3.7",
     "core-js": "^3.22.5",
     "corejs": "^1.0.0",
@@ -73,6 +74,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-async-handler": "^1.2.0",
+    "express-fileupload": "^1.4.0",
     "fs": "^0.0.1-security",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",

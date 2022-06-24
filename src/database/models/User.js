@@ -73,7 +73,6 @@ module.exports = (sequelize, DataTypes) => {
     preferredLanguage: DataTypes.STRING,
     preferredCurrency:DataTypes.STRING,
     department:DataTypes.STRING,
-    lineManager:DataTypes.STRING,
    }
   , {
     sequelize,

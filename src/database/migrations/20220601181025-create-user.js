@@ -45,16 +45,15 @@ module.exports = {
         onDelete: "cascade",
       },
 		  username: {
-			type: Sequelize.STRING
+			type: Sequelize.STRING,
+      unique: true,
 		  },
 		  phoneNumber: {
-			type: Sequelize.STRING
+			type: Sequelize.STRING,
+      unique: true,
 		  },
 		  image: {
 			type: Sequelize.STRING
-		  },
-		  isVerified:{
-			type: Sequelize.BOOLEAN
 		  },
 		  gender:{
 			type: Sequelize.STRING
@@ -68,10 +67,7 @@ module.exports = {
 		  department:{
 			type: Sequelize.STRING
 		  },
-		  lineManager:{
-			type: Sequelize.STRING
-		  },
-	  	createdAt: {
+		createdAt: {
 			allowNull: false,
 			type: Sequelize.DATE,
 		},
