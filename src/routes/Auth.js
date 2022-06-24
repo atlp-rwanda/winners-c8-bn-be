@@ -30,10 +30,15 @@ const { verifySignup, verifySignin } = AuthValidation;
  *                              type: string
  *                          lastName:
  *                              type: string
- *                          password:
- *                              type: string
  *                          email:
  *                              type: string
+ *                          password:
+ *                              type: string
+ *                          user_role:
+ *                              type: string
+ *                          managerId:
+ *                              type: string
+ *
  *      responses:
  *          '201':
  *              description: success response
@@ -79,13 +84,6 @@ router.post("/signin", verifySignin, signin);
 router.get("/register/verifyuser/:token", verifyUser);
 /**
  * @openapi
- * components:
- *      securitySchemes:
- *           BearerToken:
- *              type: apiKey
- *              in: header
- *              name: authorization
- *              default: Bearer 
  * /auth/signout:
  *      put:
  *          tags:

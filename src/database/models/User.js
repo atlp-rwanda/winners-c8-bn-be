@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-unused-vars */
 
-const { Model } = require('sequelize');
+const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -18,17 +18,26 @@ module.exports = (sequelize, DataTypes) => {
         },
         onDelete: "CASCADE",
       });
-      this.belongsTo(models.Role, {foreignKey:'user_role', as: 'role', onDelete:'CASCADE', onUpdate: 'CASCADE'})
-    
+
+      this.hasMany(models.TripRequest, {
+        foreignKey: "ownerId",
+        foreignKey: "managerId",
+      });
+
+      this.belongsTo(models.Role, {
+        foreignKey: "user_role",
+        as: "role",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
     }
   }
   User.init(
     {
       id: {
-      allowNull: false,
-      primaryKey: true,
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
       },
       firstName: {
         type: DataTypes.STRING,
@@ -44,14 +53,19 @@ module.exports = (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING,
-        allowNull:true
+        allowNull: true,
       },
-      verified: {
+      isVerified: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
       },
-      user_role: DataTypes.STRING,
-      
+      user_role: {
+        type: DataTypes.UUID,
+      },
+      managerId: {
+        type: DataTypes.UUID,
+        defaultValue: null,
+      },
     },
     {
       sequelize,
@@ -60,4 +74,3 @@ module.exports = (sequelize, DataTypes) => {
   );
   return User;
 };
-
