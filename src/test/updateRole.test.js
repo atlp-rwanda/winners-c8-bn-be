@@ -118,14 +118,6 @@ describe("PATCH Update role of User", () => {
     expect(res.body).to.be.a('object');
     expect(res.status).to.be.equal(200)
   });
-  it('it should not roles when admin is not logged in', async ()=>{
-    const res = await chai
-                .request(app)
-                .get("/api/users/roles");
-
-    expect(res.body).to.be.a('object');
-    expect(res.status).to.be.equal(200)
-  })
 
   after(async () => {
     await User.destroy({ where: {} });
