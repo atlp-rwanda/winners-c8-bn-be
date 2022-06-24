@@ -7,9 +7,16 @@ import errorResponse from "../utils/error";
 import successResponse from "../utils/success";
 import Protection from "../middlewares/hash";
 import sendVerificationEmail from "../helpers/sendVerificationEmail";
+import error from "../utils/error";
 
 const { hashPassword, checkPassword, signToken, verifyToken } = Protection;
-const { createUser, checkUser, deleteSession, verifyUserAccount } = UserService;
+const {
+  createUser,
+  checkUser,
+  checkManager,
+  deleteSession,
+  verifyUserAccount,
+} = UserService;
 /**
  * @description - This class is used to handle the user authentication
  */
@@ -19,17 +26,21 @@ class Auth {
       const { password } = req.body;
 
       const exists = await checkUser(req.body.email);
+      const isManager = await checkManager(req.body.managerId);
       if (exists) {
         return errorResponse(res, 409, "Ooops! User already exists!");
+      }
+      if (!isManager) {
+        return errorResponse(res, 409, "Ooops! Invalid manager id!");
       }
       const user = await createUser({
         ...req.body,
         password: hashPassword(password),
       });
 
-      const { id, email, user_role } = user;
+      const { id, managerId, email, user_role } = user;
 
-      const token = await signToken({ id, email, user_role });
+      const token = await signToken({ id, managerId, email, user_role });
 
       await sendVerificationEmail(email, token);
 
@@ -54,13 +65,14 @@ class Auth {
       if (!checkPassword(password, user.password)) {
         return errorResponse(res, 401, "Invalid credentials");
       }
-      if (!user.verified) {
+      if (!user.isVerified) {
         return errorResponse(res, 403, `User email is not verified!`);
       }
       const token = await signToken({
         id: user.id,
         email: user.email,
         user_role: user.user_role,
+        managerId: user.managerId,
       });
       await user.createUserSession({
         token,
@@ -78,12 +90,17 @@ class Auth {
       );
     }
   }
+
   static async signout(req, res) {
     try {
-      if (!req.user || !req.headers["authorization"])
+      if (!req.user || !req.headers["authorization"]) {
+        console.log(req.user);
+        console.log(req.headers);
         errorResponse(res, 403, "User not logged in");
+      }
+
       const token = req.headers["authorization"].split(" ")[1];
-      await deleteSession({ userId: req.user.id, token });
+      await deleteSession(null, req.user.id, token);
       return successResponse(
         res,
         200,
@@ -123,9 +140,11 @@ class Auth {
       );
     }
   }
+
   static async getUserSessions(request, response) {
     try {
       const sessions = await request.user.getUserSessions();
+      console.log(sessions);
       return successResponse(
         response,
         200,
@@ -140,6 +159,7 @@ class Auth {
       );
     }
   }
+
   static async removeSession(request, response) {
     try {
       const { sessionId } = request.params;

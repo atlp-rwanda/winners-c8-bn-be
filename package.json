@@ -4,7 +4,7 @@
   "main": "test.js",
   "scripts": {
     "build": "npx babel src --out-dir lib",
-    "test": "cross-env NODE_ENV=test npm run unmigrate && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test nyc --reporter=text --reporter=html  mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 100000 --exit ",
+    "test": "cross-env NODE_ENV=test npm run unmigrate && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed-roles && cross-env NODE_ENV=test nyc --reporter=text --reporter=html  mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 100000 --exit && cross-env NODE_ENV=test npm run unmigrate",
     "coverage": "nyc  --reporter=text-lcov --reporter=lcov npm run test | coveralls",
     "start": "cross-env NODE_ENV=production npm run migrate && node lib/index.js",
     "dev": "cross-env NODE_ENV=development nodemon --exec npx babel-node src/index.js",
@@ -14,6 +14,8 @@
     "unmigrate": "npx sequelize-cli db:migrate:undo:all",
     "dbseed": "npx sequelize-cli db:seed:all",
     "seed-roles": "npx sequelize-cli db:seed --seed 20220617223718-seed-roles",
+    "seed-locations": "npx sequelize-cli db:seed --seed 20220623153808-demo-locations.js",
+    "seed-accommodations": "npx sequelize-cli db:seed --seed 20220520070048-dummy-user.js",
     "seed-admin": "npx sequelize-cli db:seed --seed 20220617225052-seed-super-admin",
     "dbseed:undo": "npx sequelize-cli db:seed:undo",
     "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all",
@@ -40,6 +42,7 @@
     "@babel/core": "^7.17.12",
     "@babel/plugin-transform-runtime": "^7.17.12",
     "@babel/preset-env": "^7.17.12",
+    "chai": "^4.3.6",
     "eslint": "^8.15.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -50,7 +53,8 @@
     "mocha": "^10.0.0",
     "nodemon": "^2.0.16",
     "nyc": "^15.1.0",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "supertest": "^6.2.3"
   },
   "dependencies": {
     "@babel/node": "^7.17.10",
@@ -75,8 +79,10 @@
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.19.2",
+    "swagger": "^0.0.1",
     "swagger-jsdoc": "^6.2.1",
     "swagger-ui-express": "^4.4.0",
+    "uuid": "^8.3.2",
     "yarn": "^1.22.19"
   },
   "description": ""

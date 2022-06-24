@@ -18,7 +18,7 @@ describe("Auth check middlewares", () => {
     user = await User.create({
       ...signup,
       password: Protection.hashPassword(signup.password),
-      verified: true,
+      isVerified: true,
     });
     const res = await chai
       .request(app)

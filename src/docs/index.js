@@ -19,7 +19,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "/api",
+        url: "http://localhost:5000/api",
       },
       {
         url: "https://winners-c8-bn-be-staging.herokuapp.com/api",
@@ -28,9 +28,9 @@ const swaggerOptions = {
     components: {
       securitySchemes: {
         BearerToken: {
-          type: "apiKey",
-          in: "header",
-          name: "authorization",
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
         },
       },
     },
