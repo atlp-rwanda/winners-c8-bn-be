@@ -16,6 +16,6 @@ router.get("/users", isAuthenticated, async (req, res) => {
 router.use("/auth", auth);
 router.use("/trips", trips);
 router.use("/locations", locations);
-router.use("/v1/users", userRoutes);
+router.use("/users", userRoutes);
 
 export default router;
