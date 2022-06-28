@@ -1,23 +1,12 @@
-import "core-js/stable";
-import swaggerDocs from './docs';
-import swaggerUI from 'swagger-ui-express';
-import "regenerator-runtime/runtime";
+import swaggerDocs from "./docs";
+import swaggerUI from "swagger-ui-express";
 import DB from "./database/index";
 import express from "express";
 import routes from "./routes/index";
 import "dotenv/config";
-import getDefault from './helpers/getEnvironment'
+import getDefault from "./helpers/getEnvironment";
 
-
-// connecting to database
-DB.authenticate()
-  .then(() => {
-    console.log("Database Connected");
-  })
-
-
-const PORT=getDefault(process.env.PORT, "5000")
-
+const PORT = getDefault(process.env.PORT, "5000");
 
 const app = express();
 
@@ -25,9 +14,13 @@ const app = express();
 app.use(express.json());
 
 app.use("/api", routes);
-routes.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
-app.get("/", async (req, res) => {
-  res.send({ message:'Hello World!' });
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+app.get("/", (request, response) => {
+  response.status(200).json({ message: "Hello World!" });
+});
+DB.authenticate().then(() => {
+  DB.sync();
+  console.log("Database Connected");
 });
 
 app.listen(PORT, () => {
