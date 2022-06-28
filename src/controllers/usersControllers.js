@@ -1,3 +1,4 @@
+import RoleService from "../services/roleServices";
 import UserService from "../services/user";
 
 export class UserControllers{
@@ -5,9 +6,13 @@ export class UserControllers{
     static async assignRole(req, res){
 
     const {email, roleId} = req.body
+
     try {
         const user = await UserService.checkUser(email);
         if(user == null) return res.status(404).json({status:404, message:"user doesn't exist"});
+
+        const role = await RoleService.findRoleById(roleId);
+        if(role == false) return res.status(400).json({status:400, message:"invalid role id"});
 
         const updatedUser = await UserService.updateRole(email, roleId);
 
@@ -32,5 +37,17 @@ export class UserControllers{
         return res.status(500).json({error:error.message})
     }
        
+    }
+
+    static async getRoles(req, res){
+        try {
+            const roles = await RoleService.findAllRoles();
+            if(roles == null) return res.status(404).json({status:404, message:"no role yet to show!"});
+            return res.status(200).json({status:200, roles});
+
+        } catch (error) {
+            return res.status(500).json({error:error.message});
+        }
+        
     }
 }

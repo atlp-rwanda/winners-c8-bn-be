@@ -45,14 +45,14 @@ describe("PATCH Update role of User", () => {
   it("it should not update role of non exist user", async () => {
     const res = await chai
       .request(app)
-      .patch("/api/v1/users/assignRole")
+      .patch("/api/users/assignRole")
       .set("Authorization", `Bearer ${adminToken}`)
       .set("Content-Type", "application/json")
       .send({
         email: "maby.com",
         roleId: "d01c0e35-b0ec-4724-85d6-48c2ecc995e7",
       });
-
+    
     expect(res.status).to.be.equal(404);
     expect(res.body).to.be.a("object");
     expect(res.body).to.have.property("message");
@@ -62,21 +62,21 @@ describe("PATCH Update role of User", () => {
   it("it should not update user for invalid role", async () => {
     const res = await chai
       .request(app)
-      .patch("/api/v1/users/assignRole")
+      .patch("/api/users/assignRole")
       .set("Authorization", `Bearer ${adminToken}`)
       .set("Content-Type", "application/json")
       .send({
         email: signup.email,
         roleId: "12f",
       });
-
-    expect(res.status).to.be.equal(500);
+   
+    expect(res.status).to.be.equal(400);
   });
 
   it("it should not update user for non exist role", async () => {
     const res = await chai
       .request(app)
-      .patch("/api/v1/users/assignRole")
+      .patch("/api/users/assignRole")
       .set("Authorization", `Bearer ${adminToken}`)
       .set("Content-Type", "application/json")
       .send({
@@ -95,7 +95,7 @@ describe("PATCH Update role of User", () => {
   it("it should update user role", async () => {
     const res = await chai
       .request(app)
-      .patch("/api/v1/users/assignRole")
+      .patch("/api/users/assignRole")
       .set("Authorization", `Bearer ${adminToken}`)
       .set("Content-Type", "application/json")
       .send({
@@ -107,6 +107,16 @@ describe("PATCH Update role of User", () => {
     expect(res.body).to.be.a("object");
     expect(res.body).to.have.property("message");
     expect(res.body.message).to.be.equal("User role updated succesfully!");
+  });
+
+  it('it should return all roles of the application', async ()=>{
+    const res = await chai
+                .request(app)
+                .get("/api/users/roles")
+                .set("Authorization", `Bearer ${adminToken}`);
+
+    expect(res.body).to.be.a('object');
+    expect(res.status).to.be.equal(200)
   });
 
   after(async () => {
