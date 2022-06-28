@@ -19,13 +19,6 @@ module.exports = {
       location_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: {
-            tableName: "Locations",
-          },
-          key: "id",
-        },
-        onDelete: "cascade",
       },
       latitude: {
         type: Sequelize.DOUBLE,

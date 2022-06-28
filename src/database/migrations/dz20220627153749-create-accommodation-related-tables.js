@@ -12,13 +12,6 @@ module.exports = {
       accommodation_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: {
-            tableName: "accommodations",
-          },
-          key: "id",
-        },
-        onDelete: "cascade",
       },
       bed_type: {
         type: Sequelize.STRING,
@@ -48,13 +41,6 @@ module.exports = {
       accommodation_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: {
-            tableName: "accommodations",
-          },
-          key: "id",
-        },
-        onDelete: "cascade",
       },
       link: {
         type: Sequelize.STRING,
@@ -79,13 +65,6 @@ module.exports = {
       room_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: {
-            tableName: "accommodation_rooms",
-          },
-          key: "id",
-        },
-        onDelete: "cascade",
       },
       link: {
         type: Sequelize.STRING,
@@ -110,13 +89,6 @@ module.exports = {
       accommodation_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: {
-            tableName: "accommodations",
-          },
-          key: "id",
-        },
-        onDelete: "cascade",
       },
       name: {
         type: Sequelize.STRING,
@@ -145,13 +117,6 @@ module.exports = {
       accommodation_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: {
-            tableName: "accommodations",
-          },
-          key: "id",
-        },
-        onDelete: "cascade",
       },
       name: {
         type: Sequelize.STRING,
@@ -172,6 +137,7 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable("accommodation_room_images");
     await queryInterface.dropTable("accommodation_rooms");
     await queryInterface.dropTable("accommodation_images");
     await queryInterface.dropTable("accommodation_add_on_services");
