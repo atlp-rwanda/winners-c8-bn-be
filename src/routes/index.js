@@ -4,6 +4,7 @@ import locations from "./locations";
 import trips from "./tripRequests";
 import isAuthenticated from "../middlewares/Authorization";
 import userRoutes from "./usersRoutes";
+import accommodations from "./accommodations";
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use("/auth", auth);
 router.use("/trips", trips);
 router.use("/locations", locations);
 router.use("/v1/users", userRoutes);
+router.use("/accommodations", accommodations)
 
 export default router;

@@ -13,13 +13,42 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
       });
     }
+    static associate(models) {
+      this.belongsTo(models.Location, {
+        foreignKey: { name: "location_id", type: DataTypes.INTEGER },
+      });
+    }
   }
   Accommodation.init(
     {
-      name: DataTypes.STRING,
-      address: DataTypes.STRING,
-      country: DataTypes.STRING,
-      rating: DataTypes.INTEGER,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      location_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: "Locations",
+            modelName: "Location",
+          },
+          key: "id",
+        },
+        onDelete: "cascade",
+      },
+      latitude: {
+        type: DataTypes.DOUBLE,
+        allowNull: true,
+      },
+      longitude: {
+        type: DataTypes.DOUBLE,
+        allowNull: true,
+      },
     },
     {
       sequelize,

@@ -10,15 +10,30 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
-      address: {
+      description: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
-      country: {
-        type: Sequelize.STRING,
-      },
-      rating: {
+      location_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: "Locations",
+          },
+          key: "id",
+        },
+        onDelete: "cascade",
+      },
+      latitude: {
+        type: Sequelize.DOUBLE,
+        allowNull: true,
+      },
+      longitude: {
+        type: Sequelize.DOUBLE,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
