@@ -1,11 +1,21 @@
-// this folder will contain routes methods, with the needed middlewares being passed as parameters ( ... )
-import express from "express";
-const router = express.Router();
+import { Router } from "express";
+import auth from "./Auth";
+import locations from "./locations";
+import trips from "./tripRequests";
+import isAuthenticated from "../middlewares/Authorization";
+import userRoutes from "./usersRoutes";
 
-router.get("/users/", async (req, res) => {
-    res.send({
-      "message": "Nothing is set yet!"
-    });
+const router = Router();
+
+router.get("/users", isAuthenticated, async (req, res) => {
+  res.send({
+    message: "Middlewares works successful!",
   });
+});
+
+router.use("/auth", auth);
+router.use("/trips", trips);
+router.use("/locations", locations);
+router.use("/users", userRoutes);
 
 export default router;
