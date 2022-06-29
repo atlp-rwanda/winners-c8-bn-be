@@ -94,18 +94,6 @@ describe("api/locations", async () => {
       expect(res.status).to.be.eq(401);
     });
 
-    it("should return 403, if the current user is not super admin", async () => {
-      const locations = await locationSeeder();
-
-      const token = user.token;
-
-      const res = await request(server)
-        .get(url)
-        .set("Authorization", `Bearer ${token}`);
-
-      expect(res.status).to.be.eq(403);
-    });
-
     it("should return 200, and all locations", async () => {
       const locations = await locationSeeder();
       const res = await request(server)
@@ -131,18 +119,6 @@ describe("api/locations", async () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).to.be.eq(401);
-    });
-
-    it("should return 403, if the current user is not super admin", async () => {
-      const locations = await locationSeeder();
-
-      const token = user.token;
-      const locationId = locations[0].id;
-      const res = await request(server)
-        .get(url + locationId)
-        .set("Authorization", `Bearer ${token}`);
-
-      expect(res.status).to.be.eq(403);
     });
 
     it("should return 404 if the location is not found", async () => {

@@ -48,3 +48,12 @@ export const adminCredentials = {
   user_role: "013dddd7-2769-4de6-8fc3-7aa527114879",
   isVerified: true,
 };
+
+export const managerCredentials = {
+  firstName: "manager",
+  lastName: "user",
+  email: "manager@mail.com",
+  password: "Tester@12345",
+  user_role: "6927442b-84fb-4fc3-b799-11449fa62f52",
+  isVerified: true,
+};
