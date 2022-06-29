@@ -16,9 +16,9 @@ const {
   deleteLocation,
 } = locationControllers;
 
-router.get("/", [verifyToken, isSuperAdmin], getAllLocations);
+router.get("/", [verifyToken], getAllLocations);
 
-router.get("/:id", [verifyToken, isSuperAdmin], getOneLocation);
+router.get("/:id", [verifyToken], getOneLocation);
 
 router.post(
   "/",
