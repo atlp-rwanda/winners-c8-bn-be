@@ -162,8 +162,7 @@ router.post("/requestPasswordReset", requestResetPassword);
  *                      properties:
  *                          email:
  *                              type: string
- *                          redirectUrl:
- *                              type: string
+ *                         
  *      responses:
  *          '200':
  *              description: success response
@@ -191,7 +190,7 @@ router.post("/resetPassword", resetPassword);
  *                  schema:
  *                      type: object
  *                      properties:
- *                          userId:
+ *                          token:
  *                              type: string
  *                          newPassword:
  *                              type: string
