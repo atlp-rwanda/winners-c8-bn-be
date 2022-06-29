@@ -28,6 +28,18 @@ module.exports = {
         type: Sequelize.DOUBLE,
         allowNull: true,
       },
+      images_links: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: true,
+      },
+      add_on_services: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      amenities: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

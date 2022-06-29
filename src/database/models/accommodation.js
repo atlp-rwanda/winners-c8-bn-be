@@ -49,6 +49,30 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DOUBLE,
         allowNull: true,
       },
+      images_links: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
+      },
+      add_on_services: {
+        type: DataTypes.TEXT,
+        get: function () {
+          return JSON.parse(this.getDataValue('add_on_services'));
+        },
+        set: function (add_on_services) {
+            this.setDataValue('add_on_services', JSON.stringify(add_on_services));
+        },
+        allowNull: true,
+      },
+      amenities: {
+        type: DataTypes.TEXT,
+        get: function () {
+          return JSON.parse(this.getDataValue('amenities'));
+        },
+        set: function (amenities) {
+            this.setDataValue('amenities', JSON.stringify(amenities));
+        },
+        allowNull: true,
+      },
     },
     {
       sequelize,

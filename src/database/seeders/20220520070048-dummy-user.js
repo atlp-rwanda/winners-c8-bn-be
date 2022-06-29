@@ -49,8 +49,29 @@ module.exports = {
             name: "Toronto Hotel",
             description: "capital street, Toronto, Ontario",
             location_id: 1,
-            latitude: 4,
-            longitude: 4,
+            latitude: 20.57,
+            longitude: -10.32,
+            images_links: ["https://freesvg.org/img/SC0007.Scribble-house.png","https://freesvg.org/img/maison2.png"],
+            add_on_services: JSON.stringify([
+              {
+                "name": "Car",
+                "details": "A five-seats car is proviced."
+              },
+              {
+                "name": "Pool",
+                "details": "a 3x3x3 metres swimming pool."
+              }
+            ]),
+            amenities: JSON.stringify([
+              {
+                "name": "Car",
+                "details": "A five-seats car is proviced."
+              },
+              {
+                "name": "Pool",
+                "details": "a 3x3x3 metres swimming pool."
+              }
+            ]),
             createdAt: new Date(),
             updatedAt: new Date(),
           },
@@ -61,6 +82,27 @@ module.exports = {
             location_id: 2,
             latitude: 4,
             longitude: 4,
+            images_links: ["https://freesvg.org/img/spooky-house.png","https://freesvg.org/img/purzen_House_icon.png"],
+            add_on_services: JSON.stringify([
+              {
+                "name": "Car",
+                "details": "A five-seats car is proviced."
+              },
+              {
+                "name": "Pool",
+                "details": "a 3x3x3 metres swimming pool."
+              }
+            ]),
+            amenities:JSON.stringify([
+              {
+                "name": "Car",
+                "details": "A five-seats car is proviced."
+              },
+              {
+                "name": "Pool",
+                "details": "a 3x3x3 metres swimming pool."
+              }
+            ]),
             createdAt: new Date(),
             updatedAt: new Date(),
           },

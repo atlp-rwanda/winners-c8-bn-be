@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: null,
       },
+      images_links: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
+      },
     },
     {
       sequelize,
