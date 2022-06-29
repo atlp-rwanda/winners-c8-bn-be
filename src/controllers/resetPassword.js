@@ -3,8 +3,10 @@ import errorResponse from "../utils/error";
 import successResponse from "../utils/success";
 import sendResetEmail from "../helpers/sendResetEmail";
 import Protection from "../middlewares/hash";
+import 'dotenv/config';
 
-const { hashPassword, checkPassword } = Protection;
+
+const { hashPassword, checkPassword, signToken, verifyToken } = Protection;
 
 
 
@@ -13,8 +15,8 @@ const { checkUser, verifyUserAccount,checkUserById } = UserService;
 class Reset{
     static async requestResetPassword ( req, res){
         try {
-            const {email , redirectUrl} = req.body;
-    
+            const {email} = req.body;
+            const redirectUrl = process.env.REDIRECT_URL;
             //Check if the user(email) exist 
             const user = await checkUser(email);
             if(!user){
@@ -24,9 +26,10 @@ class Reset{
             if (!user.isVerified) {
                 return errorResponse(res, 403, `This account is not verified!`);
               }
-              console.log(user)
+
+              const token = await signToken({userId: user.id})
               //procceding with email to reset password
-              sendResetEmail(user, redirectUrl, res);
+              sendResetEmail(user, redirectUrl, res, token);
     
               return successResponse(res, 201, "Email set link sent successfully");
     
@@ -43,7 +46,9 @@ class Reset{
     
     static async resetPassword(req, res){
         try {
-            let {userId, newPassword} = req.body;
+            let {token, newPassword} = req.body;
+
+            const {userId} = await verifyToken(token)
     
             //Check if the user with given id  exist 
             const user = await checkUserById(userId);
