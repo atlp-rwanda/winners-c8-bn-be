@@ -2,6 +2,7 @@
 
 import { Router } from "express";
 import authcontrollers from "../controllers/Authcontrollers";
+import passwordResetController from "../controllers/resetPassword";
 import isAuthenticated from "../middlewares/Authorization";
 import AuthValidation from "../validations/index";
 import sessionsRoutes from "./session";
@@ -9,6 +10,7 @@ import sessionsRoutes from "./session";
 const router = Router();
 
 const { signup, signin, verifyUser, signout } = authcontrollers;
+const { requestResetPassword, resetPassword } = passwordResetController;
 const { verifySignup, verifySignin } = AuthValidation;
 
 /**
@@ -145,4 +147,8 @@ router.use("/sessions", isAuthenticated, sessionsRoutes);
  */
 
 router.get("/register/verifyuser/:token", verifyUser);
+
+router.post("/requestPasswordReset", requestResetPassword);
+
+router.post("/resetPassword", resetPassword);
 export default router;
