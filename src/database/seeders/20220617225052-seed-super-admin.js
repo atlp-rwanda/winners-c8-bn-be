@@ -14,7 +14,7 @@ module.exports = {
           email: "nyakamweaimable@gmail.com",
           password: hashPassword("Tester@12345"),
           user_role: "013dddd7-2769-4de6-8fc3-7aa527114879",
-          isverified: true,
+          isVerified: true,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
-import "dotenv/config";
-import { compareSync, hashSync, genSaltSync } from "bcrypt";
-import { sign, verify } from "jsonwebtoken";
+require("dotenv/config");
+const { compareSync, hashSync, genSaltSync } = require("bcrypt");
+const { sign, verify } = require("jsonwebtoken");
 
 class Protection {
   static async signToken(data) {

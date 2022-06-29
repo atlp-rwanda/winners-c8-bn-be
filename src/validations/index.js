@@ -45,6 +45,115 @@ const schema = {
     email: Joi.string().required(),
     password: Joi.string().required(),
   }),
+  updateprofile: Joi.object().keys({
+    firstName: Joi.string()
+      .empty()
+      .min(2)
+      .max(20)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+    lastName: Joi.string()
+      .empty()
+      .min(2)
+      .max(20)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+    phoneNumber: Joi.string()
+      .required()
+      .empty()
+      .min(10)
+      .max(10)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain 10 numbers",
+      }),
+      username: Joi.string()
+      .empty()
+      .min(6)
+      .max(20)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+      gender: Joi.string()
+      .empty()
+      .min(1)
+      .max(10)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+      image: Joi.string()
+      .empty()
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only image format.",
+      }),
+      preferredLanguage: Joi.string()
+      .empty()
+      .min(6)
+      .max(20)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+      preferredCurrency: Joi.string()
+      .empty()
+      .min(3)
+      .max(10)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+      department: Joi.string()
+      .empty()
+      .min(3)
+      .max(20)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+    user_role: Joi.string(),
+    managerId: Joi.string(),
+  }),
 
   tripRequest: Joi.object({
     departureId: Joi.number().required(),
