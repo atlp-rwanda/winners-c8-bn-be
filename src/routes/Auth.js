@@ -174,13 +174,17 @@ router.post("/requestPasswordReset", requestResetPassword);
  *              description: internal server error
  */
 
-router.post("/resetPassword", resetPassword);
+router.post("/resetPassword/:token", resetPassword);
 /**
  * @openapi
- * /auth/resetPassword:
+ * /auth/resetPassword/{token}:
  *  post:
  *      tags:
  *          - User
+ *      parameters:
+ *       - name: token
+ *         in: path
+ *         required: true
  *      description: Reset password
  *      requestBody:
  *          description: Resetting password
@@ -190,9 +194,9 @@ router.post("/resetPassword", resetPassword);
  *                  schema:
  *                      type: object
  *                      properties:
- *                          token:
- *                              type: string
  *                          newPassword:
+ *                              type: string
+ *                          confirmPassword:
  *                              type: string
  *      responses:
  *          '200':

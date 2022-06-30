@@ -45,42 +45,55 @@ class Reset{
     
     
     static async resetPassword(req, res){
-        try {
-            let {token, newPassword} = req.body;
-
-            const {userId} = await verifyToken(token)
-    
-            //Check if the user with given id  exist 
-            const user = await checkUserById(userId);
-            if(user){
-               try {
-                 //hash the new password
-                const hashedPassword= hashPassword(newPassword);
-                //Update the user password
-                user.update({password: hashedPassword});
-                return successResponse(res, 201, "Password updated successfully");
-    
-               } catch (error) {
+        let newPassword = req.body.newPassword;
+        let confirmPassword = req.body.confirmPassword;
+        // const password = (newPassword == confirmPassword);
+        if(newPassword == confirmPassword){
+            try {
+                let token = req.params.token;
+                const {userId} = await verifyToken(token)
+        
+                //Check if the user with given id  exist 
+                const user = await checkUserById(userId);
+                if(user){
+                   try {
+                    if(newPassword == confirmPassword){
+                         //hash the new password
+                    const hashedPassword= hashPassword(newPassword);
+                    //Update the user password
+                    user.update({password: hashedPassword});
+                    return successResponse(res, 201, "Password updated successfully");
+                    }
+        
+                   } catch (error) {
+                    return errorResponse(
+                        res,
+                        500,
+                        `Ooops! Updating user password failed ${error.message}`
+                      );
+                   }
+        
+                }else{
+                    return errorResponse(
+                        res,
+                        500,
+                        `Ooops! You can't update the user who doesn't exist ${error.message}`
+                      );
+                }
+        
+            } catch (error) {
                 return errorResponse(
                     res,
                     500,
-                    `Ooops! Updating user password failed ${error.message}`
-                  );
-               }
-    
-            }else{
-                return errorResponse(
-                    res,
-                    500,
-                    `Ooops! You can't update the user who doesn't exist ${error.message}`
+                    `Ooops! Checking for password reset failed ${error.message}`
                   );
             }
-    
-        } catch (error) {
+
+        }else{
             return errorResponse(
                 res,
                 500,
-                `Ooops! Checking for password reset failed ${error.message}`
+                `Ooops! Entered passwords doesn't match`
               );
         }
         
