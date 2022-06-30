@@ -8,7 +8,7 @@ export default async function accommodationMiddleware (req, res, next){
 		next();
 	}
 	
-	// parse a file upload
+	// parse an uploaded file
 	const form = new Formidable.IncomingForm();
 
 	form.parse(req, (err, fields, files) => {
