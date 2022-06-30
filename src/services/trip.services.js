@@ -1,9 +1,43 @@
+import { get } from "config";
 import Db from "../database/models";
 import RoleService from "./roleServices";
 
 const { findRoleById } = RoleService;
 
 const TripRequest = Db.TripRequest;
+
+const tripAttributes = [
+  "id",
+  "status",
+  "travel_reason",
+  "accommodationId",
+  "dateOfDeparture",
+  "dateOfReturn",
+  "tripType",
+];
+
+const tripInclude = [
+  {
+    model: Db.User,
+    as: "manager",
+    attributes: ["id", "firstName", "lastName", "email"],
+  },
+  {
+    model: Db.User,
+    as: "owner",
+    attributes: ["id", "firstName", "lastName", "email"],
+  },
+  {
+    model: Db.Location,
+    as: "departure",
+    attributes: ["id", "city", "state", "province", "country"],
+  },
+  {
+    model: Db.Location,
+    as: "destination",
+    attributes: ["id", "city", "state", "province", "country"],
+  },
+];
 
 export const getAllTripRequests = async (user) => {
   let result;
@@ -13,77 +47,18 @@ export const getAllTripRequests = async (user) => {
       where: {
         managerId: user.id,
       },
-      include: [
-        {
-          model: Db.User,
-          as: "manager",
-          attributes: ["id", "firstName", "lastName", "email"],
-        },
-        {
-          model: Db.User,
-          as: "owner",
-          attributes: ["id", "firstName", "lastName", "email"],
-        },
-        {
-          model: Db.Location,
-          as: "departure",
-          attributes: ["id", "city", "state", "province", "country"],
-        },
-        {
-          model: Db.Location,
-          as: "destination",
-          attributes: ["id", "city", "state", "province", "country"],
-        },
-      ],
-      attributes: [
-        "id",
-        "status",
-        "travel_reason",
-        "accommodationId",
-        "dateOfDeparture",
-        "dateOfReturn",
-        "tripType",
-      ],
+      include: tripInclude,
+      attributes: tripAttributes,
     });
   } else {
     result = await TripRequest.findAll({
       where: {
         ownerId: user.id,
       },
-      include: [
-        {
-          model: Db.User,
-          as: "manager",
-          attributes: ["id", "firstName", "lastName", "email"],
-        },
-        {
-          model: Db.User,
-          as: "owner",
-          attributes: ["id", "firstName", "lastName", "email"],
-        },
-        {
-          model: Db.Location,
-          as: "departure",
-          attributes: ["id", "city", "state", "province", "country"],
-        },
-        {
-          model: Db.Location,
-          as: "destination",
-          attributes: ["id", "city", "state", "province", "country"],
-        },
-      ],
-      attributes: [
-        "id",
-        "status",
-        "travel_reason",
-        "accommodationId",
-        "dateOfDeparture",
-        "dateOfReturn",
-        "tripType",
-      ],
+      include: tripInclude,
+      attributes: tripAttributes,
     });
   }
-
   return result;
 };
 
@@ -92,37 +67,8 @@ export const getOneTripRequest = async (user, tripId) => {
     where: {
       id: tripId,
     },
-    include: [
-      {
-        model: Db.User,
-        as: "manager",
-        attributes: ["id", "firstName", "lastName", "email"],
-      },
-      {
-        model: Db.User,
-        as: "owner",
-        attributes: ["id", "firstName", "lastName", "email"],
-      },
-      {
-        model: Db.Location,
-        as: "departure",
-        attributes: ["id", "city", "state", "province", "country"],
-      },
-      {
-        model: Db.Location,
-        as: "destination",
-        attributes: ["id", "city", "state", "province", "country"],
-      },
-    ],
-    attributes: [
-      "id",
-      "status",
-      "travel_reason",
-      "accommodationId",
-      "dateOfDeparture",
-      "dateOfReturn",
-      "tripType",
-    ],
+    include: tripInclude,
+    attributes: tripAttributes,
   });
 
   if (result == null) {
@@ -208,4 +154,62 @@ export const deleteTripRequest = async (tripRequestId, user) => {
   });
 
   return result;
+};
+
+export const searchTripRequest = async (queryParameters, locations, user) => {
+  let trips;
+
+  if ((await findRoleById(user.user_role)).roleName == "manager") {
+    trips = await TripRequest.findAll({
+      where: {
+        ...queryParameters,
+        managerId: user.id,
+      },
+      include: tripInclude,
+      attributes: tripAttributes,
+    });
+  } else {
+    trips = await TripRequest.findAll({
+      where: {
+        ...queryParameters,
+        ownerId: user.id,
+      },
+      include: tripInclude,
+      attributes: tripAttributes,
+    });
+  }
+
+  const filterdTrips = trips.filter((trip) => {
+    let valid = true;
+    if (locations.destination) {
+      let inDestination = false;
+      Object.keys(trip.destination.dataValues).forEach((key) => {
+        let value = trip.destination.dataValues[key];
+        typeof value === "string" ? (value = value.toLowerCase().trim()) : "";
+
+        if (value == locations.destination) {
+          inDestination = true;
+        }
+      });
+
+      !inDestination ? (valid = false) : "";
+    }
+
+    if (locations.departure) {
+      let inDeparture = false;
+      Object.keys(trip.departure.dataValues).forEach((key) => {
+        let value = trip.departure.dataValues[key];
+        typeof value === "string" ? (value = value.toLowerCase().trim()) : "";
+
+        if (value == locations.departure) {
+          inDeparture = true;
+        }
+      });
+
+      !inDeparture ? (valid = false) : "";
+    }
+    console.log(valid, trip.destination.dataValues, trip.departure.dataValues);
+    return valid;
+  });
+  return filterdTrips;
 };

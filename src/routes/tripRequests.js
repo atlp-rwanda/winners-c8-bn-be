@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.get("/", [authChecker], tripControllers.getAllTripRequests);
 
+router.get("/search", [authChecker], tripControllers.searchTripRequest);
+
 router.get("/:id", [authChecker], tripControllers.getOneTripRequest);
 
 router.post(

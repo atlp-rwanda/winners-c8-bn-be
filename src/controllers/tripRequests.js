@@ -1,4 +1,3 @@
-import express from "express";
 import errorResponse from "../utils/error";
 import successResponse from "../utils/success";
 import { tripServices } from "../services";
@@ -160,5 +159,51 @@ export const deleteTripRequest = async (req, res) => {
         console.log(err);
     }
     return;
+  }
+};
+
+export const searchTripRequest = async (req, res) => {
+  const user = req.user;
+
+  const allowedQueries = {
+    owner_id: "ownerId",
+    destination: "destination",
+    departure: "departure",
+    departure_date: "dateOfDeparture",
+    status: "status",
+    type: "tripType",
+  };
+
+  let queries = {};
+
+  let locations = {};
+
+  Object.keys(req.query).forEach((query) => {
+    // Check if query is contained in allowed queries
+    const isValidQuery = Object.keys(allowedQueries).includes(query);
+
+    if (!isValidQuery) {
+      return errorResponse(res, 400, `Invalid query parameter ${query}`);
+    }
+    if (query == "destination" || query == "departure") {
+      console.log("Destination parameter");
+      console.log(req.query);
+      console.log(query);
+      locations[query] = req.query[query];
+    } else {
+      queries[allowedQueries[query]] = req.query[query];
+    }
+  });
+
+  try {
+    const result = await tripServices.searchTripRequest(
+      queries,
+      locations,
+      user
+    );
+
+    return successResponse(res, 200, "trips found", result);
+  } catch (err) {
+    return errorResponse(res, 500, err.message);
   }
 };
