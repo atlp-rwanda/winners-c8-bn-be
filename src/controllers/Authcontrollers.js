@@ -26,12 +26,8 @@ class Auth {
       const { password } = req.body;
 
       const exists = await checkUser(req.body.email);
-      const isManager = await checkManager(req.body.managerId);
       if (exists) {
         return errorResponse(res, 409, "Ooops! User already exists!");
-      }
-      if (!isManager) {
-        return errorResponse(res, 409, "Ooops! Invalid manager id!");
       }
       const user = await createUser({
         ...req.body,
@@ -82,7 +78,7 @@ class Auth {
       });
       return successResponse(res, 200, "User loggedIn", token);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return errorResponse(
         res,
         500,

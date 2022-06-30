@@ -114,10 +114,6 @@
  *       responses:
  *         '200':
  *           description: The trip request was successfully got with the given trip id.
- *           content-type:
- *             application/json:
- *               schema:
- *                 "$ref": "#/components/schemas/tripRequestResponse"
  *         '401':
  *           "$ref": "#/components/responses/UnauthorizedError"
  *         '403':
@@ -178,12 +174,6 @@
  *       responses:
  *         '201':
  *           description: All trip requests owned by the user signed in
- *           content-type:
- *             application/json:
- *               schema:
- *                 type: array
- *                 items:
- *                   "$ref": "#/components/schemas/tripRequestResponse"
  *         '401':
  *           "$ref": "#/components/responses/UnauthorizedError"
  *         '403':
