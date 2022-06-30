@@ -51,29 +51,6 @@ accommodationController.createOne = async (req, res) => {
   return successResponse(res, 201, "Accommodation facility created successfully", result);;
 };
 
-accommodationController.overwriteOne = async (req, res) => {
-  const facility = await AccommodationService.getOne(req.params.id);
-  if(!(facility)){
-    return errorResponse(res, 404, "Accommodation facility not found!");
-  }
-  try{
-    const location = await locationServices.getOneLocation(req.body.location_id);
-    if(!location){
-      return errorResponse(res, 404, "location_id not found!");
-    }
-  }
-  catch(err){
-    return errorResponse(res, 404, "location_id not found!");
-  }
-  
-  let result = await AccommodationService.updateOne(req.params.id,req.body);
-  result = JSON.parse(JSON.stringify(result));
-  // result.accommodation_image_details = await AccommodationService.createOneImage({
-  //   accommodation_id: result.id,
-  //   link: req.body.accommodation_image_link,
-  // },"AccommodationImage");
-  return successResponse(res, 201, "Accommodation facility overwritten successfully", result);;
-};
 
 accommodationController.updateOne = async (req, res) => {
   
@@ -109,11 +86,14 @@ accommodationController.updateOne = async (req, res) => {
   if(req.body.image_link){
     facility.images_links.push(req.body.image_link);
   }
-  if(req.body.add_on_service){
-    facility.add_on_services.push(req.body.add_on_service);
+  if(req.body.images_links){
+    facility.images_links = (req.body.image_links);
   }
-  if(req.body.amenity){
-    facility.amenities.push(req.body.amenity);
+  if(req.body.add_on_services){
+    facility.add_on_services = (req.body.add_on_services);
+  }
+  if(req.body.amenities){
+    facility.amenities = (req.body.amenities);
   }
 
   let result = await AccommodationService.updateOne(req.params.id,facility);
@@ -127,7 +107,8 @@ accommodationController.deleteOne = async (req, res) => {
     return errorResponse(res, 404, "Accommodation facility not found!");
   }
   const result = await AccommodationService.deleteOne(req.params.id);
-  return successResponse(res, 200, "Accommodation facility deleted successfully", result);;
+  const roomDeletion = await AccommodationService.deleteAllRooms(req.params.id);
+  return successResponse(res, 200, "Accommodation facility deleted successfully", {accommodation_deletions: result, room_deletions : roomDeletion});
 };
 
 
@@ -147,39 +128,39 @@ accommodationController.createOneRoom = async (req, res) => {
   if(!(facility)){
     return errorResponse(res, 404, "Accommodation facility not found!");
   }
-  req.body.accomodation_id = accommodationId;
+  req.body.accommodation_id = accommodationId;
   let result = await AccommodationService.createOneRoom(req.body);
   result = JSON.parse(JSON.stringify(result));
   return successResponse(res, 200, "Room created in the DB successfully", result);;
 };
 
-accommodationController.overwriteOneRoom = async (req, res) => {
-  let facility_url = await AccommodationService.getOne(req.params.id);
-  if(!(facility_url)){
-    return errorResponse(res, 404, "Accommodation facility (provided in the URL) not found!");
-  }
-  const facility = await AccommodationService.getOne(req.body.accommodation_id);
-  if(!(facility)){
-    return errorResponse(res, 404, "Accommodation facility not found!");
-  }
-  let room = await AccommodationService.getOneRoom(req.params.roomId);
-  if(!(room)){
-    return errorResponse(res, 404, "Room not found!");
-  }
-  let result = await AccommodationService.updateOneRoom(req.params.id,req.body);
-  result = JSON.parse(JSON.stringify(result));
-  return successResponse(res, 201, "Room entry overwritten successfully", result);;
-};
+// accommodationController.overwriteOneRoom = async (req, res) => {
+//   let facility_url = await AccommodationService.getOne(req.params.id);
+//   if(!(facility_url)){
+//     return errorResponse(res, 404, "Accommodation facility (provided in the URL) not found!");
+//   }
+//   const facility = await AccommodationService.getOne(req.body.accommodation_id);
+//   if(!(facility)){
+//     return errorResponse(res, 404, "Accommodation facility not found!");
+//   }
+//   let room = await AccommodationService.getOneRoom(req.params.roomId);
+//   if(!(room)){
+//     return errorResponse(res, 404, "Room not found!");
+//   }
+//   let result = await AccommodationService.updateOneRoom(req.params.id,req.body);
+//   result = JSON.parse(JSON.stringify(result));
+//   return successResponse(res, 201, "Room entry overwritten successfully", result);;
+// };
 
 accommodationController.updateOneRoom = async (req, res) => {
   
-  let facility_url = await AccommodationService.getOne(req.params.id);
-  if(!(facility_url)){
-    return errorResponse(res, 404, "Accommodation facility (provided in the URL) not found!");
-  }
-  let room = await AccommodationService.getOneRoom(req.params.roomId);
+  // let facility_url = await AccommodationService.getOne(req.params.id);
+  // if(!(facility_url)){
+  //   return errorResponse(res, 404, "Accommodation facility (provided in the URL) not found!");
+  // }
+  let room = await AccommodationService.getOneRoom(req.params.id,req.params.roomId);
   if(!(room)){
-    return errorResponse(res, 404, "Room not found!");
+    return errorResponse(res, 404, `Room with id = ${req.params.roomId} from accommodation facility of id = ${req.params.id}  not found!`);
   }
   room = JSON.parse(JSON.stringify(room));
   if(req.body.accommodation_id){
@@ -199,22 +180,25 @@ accommodationController.updateOneRoom = async (req, res) => {
   if(req.body.image_link){
     room.images_links.push(req.body.image_link);
   }
-  let result = await AccommodationService.updateOneRoom(req.params.roomId,room);
+  if(req.body.images_links){
+    room.images_links = (req.body.images_links);
+  }
+  let result = await AccommodationService.updateOneRoom(req.params.id,req.params.roomId,room);
   result = JSON.parse(JSON.stringify(result));
   return successResponse(res, 201, "Room entry updated successfully", result);;
 };
 
 accommodationController.deleteOneRoom = async (req, res) => {
-  const facility = await AccommodationService.getOne(req.params.id);
-  if(!(facility)){
-    return errorResponse(res, 404, "Accommodation facility not found!");
-  }
-  let room = await AccommodationService.getOneRoom(req.params.roomId);
+  // const facility = await AccommodationService.getOne(req.params.id);
+  // if(!(facility)){
+  //   return errorResponse(res, 404, "Accommodation facility not found!");
+  // }
+  let room = await AccommodationService.getOneRoom(req.params.id,req.params.roomId);
   if(!(room)){
-    return errorResponse(res, 404, "Room not found!");
+    return errorResponse(res, 404, `Room with id = ${req.params.roomId} from accommodation facility of id = ${req.params.id}  not found!`);
   }
-  const result = await AccommodationService.deleteOneRoom(req.params.roomId);
-  return successResponse(res, 200, "Accommodation facility deleted successfully", result);;
+  const result = await AccommodationService.deleteOneRoom(req.params.id,req.params.roomId);
+  return successResponse(res, 200, "Room deleted successfully", result);;
 };
 
 export default accommodationController;

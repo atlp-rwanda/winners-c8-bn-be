@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
     static associate(models) {
+      Accommodation.hasMany(models.AccommodationRoom, {
+        foreignKey: "accommodation_id",
+        onDelete: "cascade",
+      });
+    }
+    static associate(models) {
       this.belongsTo(models.Location, {
         foreignKey: { name: "location_id", type: DataTypes.INTEGER },
       });

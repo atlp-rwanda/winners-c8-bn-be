@@ -41,30 +41,35 @@ class AccommodationService {
     return outputData;
   }
 
-  static getOneRoom = async (id) => {
-    const outputData = AccommodationRoom.findOne({ where: { id } });
+  static getOneRoom = async (accommodation_id,id) => {
+    const outputData = AccommodationRoom.findOne({ where: { accommodation_id,id } });
     return outputData;
   };
 
-  static getAllRooms = async (id) => {
-    const outputData = AccommodationRoom.findAll({ where: { accommodation_id : id } });
+  static getAllRooms = async (accommodation_id) => {
+    const outputData = AccommodationRoom.findAll({ where: { accommodation_id } });
     return outputData;
   };
 
-  static updateOneRoom = async (id,inputData) => {
+  static updateOneRoom = async (accommodation_id,id,inputData) => {
     const data = await AccommodationRoom.update(
       {
         ...inputData
       },
       {
-        where: { id },
+        where: { accommodation_id, id },
       }
     );
     return data;
   };
 
-  static deleteOneRoom = async (id) => {
-    const data = await AccommodationRoom.destroy({ where: { id } });
+  static deleteOneRoom = async (accommodation_id,id) => {
+    const data = await AccommodationRoom.destroy({ where: { accommodation_id, id } });
+    return data;
+  }
+
+  static deleteAllRooms = async (accommodation_id) => {
+    const data = await AccommodationRoom.destroy({ where: { accommodation_id } });
     return data;
   }
 

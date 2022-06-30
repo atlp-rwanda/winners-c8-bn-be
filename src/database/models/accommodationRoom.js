@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Accommodation, {
-        foreignKey: { name: "accommodation_id", type: DataTypes.INTEGER },
+        foreignKey: { name: "accommodation_id", type: DataTypes.INTEGER, onDelete: "cascade" },
       });
     }
   }

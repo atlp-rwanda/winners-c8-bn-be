@@ -10,7 +10,7 @@ cloudinary.config({
 const imageUploader = {}
 
 imageUploader.accommodationCreation = (req, res, next) => {
-    if(Object.keys(req.inputFiles).length>0){
+    if((Object.keys(req.inputFiles).includes("accommodation_image"))){
         try{
             cloudinary.uploader.upload(
                 req.inputFiles.accommodation_image.filepath, 
@@ -28,10 +28,15 @@ imageUploader.accommodationCreation = (req, res, next) => {
                 error: `Failed to upload the image, due to this error: ${err}`,
               });
         }
+    }
+    else{ 
+        return res.status(400).json({
+            error: "the accommodation facility's image file is not provided.",
+          });
     }
 }
 imageUploader.accommodationUpdate = (req, res, next) => {
-    if(Object.keys(req.inputFiles).length>0){
+    if((Object.keys(req.inputFiles).includes("accommodation_image"))){
         try{
             cloudinary.uploader.upload(
                 req.inputFiles.accommodation_image.filepath, 
@@ -50,9 +55,12 @@ imageUploader.accommodationUpdate = (req, res, next) => {
               });
         }
     }
+    else{ 
+        next();
+    }
 }
 imageUploader.roomCreation = (req, res, next) => {
-    if(Object.keys(req.inputFiles).length>0){
+    if((Object.keys(req.inputFiles).includes("room_image"))){
         try{
             cloudinary.uploader.upload(
                 req.inputFiles.room_image.filepath, 
@@ -71,9 +79,12 @@ imageUploader.roomCreation = (req, res, next) => {
               });
         }
     }
+    else{ 
+        next();
+    }
 }
 imageUploader.roomUpdate = (req, res, next) => {
-    if(Object.keys(req.inputFiles).length>0){
+    if((Object.keys(req.inputFiles).includes("room_image"))){
         try{
             cloudinary.uploader.upload(
                 req.inputFiles.room_image.filepath, 
@@ -91,6 +102,9 @@ imageUploader.roomUpdate = (req, res, next) => {
                 error: `Failed to upload the image, due to this error: ${err}`,
               });
         }
+    }
+    else{ 
+        next();
     }
 }
 

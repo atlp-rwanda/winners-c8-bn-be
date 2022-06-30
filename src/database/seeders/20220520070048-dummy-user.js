@@ -45,7 +45,7 @@ module.exports = {
         "accommodations",
         [
           {
-            id: 1,
+            id: -1,
             name: "Toronto Hotel",
             description: "capital street, Toronto, Ontario",
             location_id: 1,
@@ -76,7 +76,7 @@ module.exports = {
             updatedAt: new Date(),
           },
           {
-            id: 2,
+            id: 0,
             name: "Reethi beach resort",
             description: "Reethi Beach, Fonimagoodhoo Island 20215",
             location_id: 2,

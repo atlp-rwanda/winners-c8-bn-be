@@ -21,30 +21,31 @@ const schema = {
   accommodationEdition: Joi.object({
     name: Joi.string().min(2).max(150),
     description: Joi.string(),
-    location_id: Joi.string(),
-    latitude: Joi.string().pattern(/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/),
-    longitude: Joi.string().pattern(/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/),
+    location_id: Joi.number(),
+    latitude: Joi.number(),
+    longitude: Joi.number(),
     image_link: Joi.string(),
-    add_on_service: Joi.object().keys({
+    images_links: Joi.array().items(Joi.string()),
+    add_on_services: Joi.array().items(Joi.object().keys({
       name: Joi.string().required(),
       details: Joi.string()
-     }),
-    amenity: Joi.object().keys({
+     })),
+    amenities: Joi.array().items(Joi.object().keys({
       name: Joi.string().required(),
       details: Joi.string()
-    }),
+    })),
   }),
   roomCreation: Joi.object({
-    accommodation_id: Joi.string().required(),
     bed_type: Joi.string().required(),
     cost: Joi.string().required(),
     images_links: Joi.array().items(Joi.string()),
   }),
   roomEdition: Joi.object({
-    accommodation_id: Joi.string(),
+    accommodation_id: Joi.number(),
     bed_type: Joi.string(),
-    cost: Joi.string(),
+    cost: Joi.number(),
     image_link: Joi.string(),
+    images_links: Joi.array().items(Joi.string()),
   }),
 };
 
@@ -55,11 +56,6 @@ validateAccommodation.onCreate = (req, res, next) => {
   if (error) {
     return res.status(400).json({
       error: error.details[0].message.replace(/["'`]+/g, ""),
-    });
-  }
-  if(!(req.inputFiles.accommodation_image)){
-    return res.status(400).json({
-      error: "the 'accommodation image' file is not provided.",
     });
   }
   return next();

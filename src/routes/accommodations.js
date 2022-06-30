@@ -22,12 +22,6 @@ router.post("/", authChecker,
   accommodationController.createOne
 );
 
-router.put("/:id", authChecker,
-  isTravelAdmin ,
-  validateAccommodation.onCreate,
-  // accomm,
-  accommodationController.overwriteOne
-);
 
 router.patch(
   "/:id", authChecker,
@@ -52,11 +46,7 @@ router.post("/:id/rooms/", authChecker,
   validateAccommodation.onCreateRoom,
   accommodationController.createOneRoom
 );
-router.put("/:id/rooms/:roomId", authChecker,
-  isTravelAdmin ,
-  validateAccommodation.onCreateRoom,
-  accommodationController.createOneRoom
-);
+
 router.patch("/:id/rooms/:roomId", authChecker,
   isTravelAdmin ,
   accommodationMiddleware,  
