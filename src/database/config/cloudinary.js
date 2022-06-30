@@ -1,10 +1,10 @@
 import {v2 as cloudinary} from 'cloudinary';
+require('dotenv').config();
 
 cloudinary.config({ 
-    cloud_name: 'duaym10fi', 
-    api_key: '137329397428676', 
-    api_secret: '1EHbOJRXuIVO4sb6P67H-YqmsII' 
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY, 
+    api_secret: process.env.CLOUDINARY_API_SECRET 
   });
-
 
 export default cloudinary.uploader;

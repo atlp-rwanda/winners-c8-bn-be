@@ -53,12 +53,18 @@ export const update_user={
 	firstName: "elamu",
 	lastName: "fghjkl",
 	username: "johnDoe",
-	email: "john1@gmail.com",
 	phoneNumber: "0780591269",
-	image: "gggggg",
+	image: "http://res.cloudinary.com/duaym10fi/image/upload/v1656582777/winners-c8-bn-be/jx2eu9barltm0tpnyn95.jpg",
 	gender: "male",
 	preferredLanguage: "kinyarwanda",
 	preferredCurrency: "RWF",
 	department: "developers",
-	lineManager: "Mugisha Eric"
 }
+export const managerCredentials = {
+  firstName: "manager",
+  lastName: "user",
+  email: "manager@mail.com",
+  password: "Tester@12345",
+  user_role: "6927442b-84fb-4fc3-b799-11449fa62f52",
+  isVerified: true,
+};

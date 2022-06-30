@@ -222,6 +222,16 @@ class AuthValidation {
     return next();
   }
 
+  static async verifyUpdateUserProfile(req, res, next) {
+    const { error } = schema.updateprofile.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        error: error.details[0].message.replace(/["'`]+/g, ""),
+      });
+    }
+    return next();
+  }
+
   static async verifyLocation(req, res, next) {
     const { error } = schema.location.validate(req.body);
     if (error) {

@@ -1,9 +1,12 @@
 import { Router } from "express";
 import {updateUserProfile} from '../controllers/user'
 import { protect } from "../middlewares/AuthoMiddleware";
+import Validations from "../validations";
+
+const verifyUpdateUserProfile=Validations.verifyUpdateUserProfile
 
 const router=Router()
-router.patch('/update',protect,updateUserProfile)
+router.patch('/update',[protect,verifyUpdateUserProfile],updateUserProfile)
 
 /**
  * @swagger

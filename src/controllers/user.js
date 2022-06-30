@@ -19,13 +19,14 @@ const user=req.user.dataValues
             if(!firstName || !lastName || !username || !phoneNumber || !image || !gender || !preferredLanguage || !preferredCurrency || !department){
                return errorResponse(res,400,"Please fill empty fields!")
             }
+            const data={firstName,lastName,username,phoneNumber,image,gender,preferredLanguage,preferredCurrency,department};
             const updatedUser=  await User.update({
-                firstName,lastName,username,phoneNumber,image,gender,preferredLanguage,preferredCurrency,department
+               data
             },{
                 where:{id:user.id}
             })
             if(updatedUser)
-            res.status(200).json({message:"user Profile updated well done"})
+            res.status(200).json({message:"user Profile updated well done",data})
 
         } catch (error) {
             return errorResponse(res,500,error.message)

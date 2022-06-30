@@ -39,10 +39,6 @@ describe('Testing  User Profile endpoint', () => {
        .send()
        .set('Authorization', token)
 		expect(update.status).to.be.equal(400);
-		expect(update.body).to.have.property(
-			'message',
-			'Please fill empty fields!',
-		);
 	});
 	it('it should Unauthorization', async () => {
        const update=await chai.request(app)
