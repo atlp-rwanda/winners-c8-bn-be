@@ -50,7 +50,7 @@ io.attach(server)
 // })
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/api/v1/users/chats', (req,res)=>{
+app.use('/chats', (req,res)=>{
   res.sendFile(path.join(`${__dirname}/public/chat.html`));
 })
 export default app;

@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { generateTimeForChat } = require('../../helpers/generateTimeForChat');
 module.exports = (sequelize, DataTypes) => {
   class Chat extends Model {
     /**
@@ -11,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+    }
+    toJSON(){
+      return {...this.get(), id:undefined, updatedAt:undefined,
+        createdAt: generateTimeForChat(this.createdAt)
+      }
     }
   }
   Chat.init({

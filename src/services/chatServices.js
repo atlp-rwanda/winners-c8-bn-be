@@ -1,9 +1,9 @@
 import model from '../database/models';
 
 class ChatService{
-    static async retrieveMessage(){
-        const messages = await model.Chat.findAll();
-        return messages
+    static async retrieveMessages(){
+        let messages = await model.Chat.findAll();
+        return messages;
     }
 
     static async saveMessage(data){
