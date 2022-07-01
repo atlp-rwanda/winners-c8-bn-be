@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Users", {
@@ -21,7 +22,7 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      verified: {
+      isVerified: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
@@ -32,6 +33,16 @@ module.exports = {
       user_role: {
         type: Sequelize.UUID,
         defaultValue: "7adae2f1-4d35-470d-8512-1b9634330a9e",
+      },
+      managerId: {
+        type: Sequelize.UUID,
+        references: {
+          model: {
+            tableName: "Users",
+          },
+          key: "id",
+        },
+        onDelete: "cascade",
       },
       createdAt: {
         allowNull: false,

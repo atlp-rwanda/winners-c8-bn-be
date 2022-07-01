@@ -1,17 +1,18 @@
 import chai, { expect } from "chai";
+import UserService from "../services/user";
 import chaiHttp from "chai-http";
 import app from "../index";
 chai.use(chaiHttp);
 
 import { User, Role } from "../database/models";
-import { adminCredentials, signup } from "./mocks/Users";
+import { adminCredentials, signup, managerCredentials } from "./mocks/Users";
 import { travel } from "./mocks/roles-mocks";
 import Protection from "../middlewares/hash";
-const { hashPassword } = Protection;
+const { hashPassword, verifyToken } = Protection;
 
 let adminToken = "";
 
-describe("PATCH Update role of User", () => {
+describe("PATCH Update manager of User", () => {
   before(async () => {
     await User.create({
       firstName: adminCredentials.firstName,
@@ -23,12 +24,25 @@ describe("PATCH Update role of User", () => {
     });
 
     await User.create({
+      firstName: managerCredentials.firstName,
+      lastName: managerCredentials.lastName,
+      email: managerCredentials.email,
+      password: hashPassword(managerCredentials.password),
+      user_role: managerCredentials.user_role,
+      isVerified: true,
+    });
+
+    await User.create({
       firstName: signup.firstName,
       lastName: signup.lastName,
       email: signup.email,
       password: hashPassword(adminCredentials.password),
       isVerified: true,
     });
+  });
+
+  after(async () => {
+    await User.destroy({ where: {} });
   });
 
   it("login admin user", async () => {
@@ -42,85 +56,80 @@ describe("PATCH Update role of User", () => {
     adminToken = res.body.data;
   });
 
-  it("it should not update role of non exist user", async () => {
+  it("it should not update manager of non exist user", async () => {
     const res = await chai
       .request(app)
-      .patch("/api/users/assignRole")
+      .patch("/api/users/assignManager")
       .set("Authorization", `Bearer ${adminToken}`)
       .set("Content-Type", "application/json")
       .send({
         email: "maby.com",
-        roleId: "d01c0e35-b0ec-4724-85d6-48c2ecc995e7",
-      });
-    
-    expect(res.status).to.be.equal(404);
-    expect(res.body).to.be.a("object");
-    expect(res.body).to.have.property("message");
-    expect(res.body.message).to.be.equal("user doesn't exist");
-  });
-
-  it("it should not update user for invalid role", async () => {
-    const res = await chai
-      .request(app)
-      .patch("/api/users/assignRole")
-      .set("Authorization", `Bearer ${adminToken}`)
-      .set("Content-Type", "application/json")
-      .send({
-        email: signup.email,
-        roleId: "12f",
-      });
-   
-    expect(res.status).to.be.equal(400);
-  });
-
-  it("it should not update user for non exist role", async () => {
-    const res = await chai
-      .request(app)
-      .patch("/api/users/assignRole")
-      .set("Authorization", `Bearer ${adminToken}`)
-      .set("Content-Type", "application/json")
-      .send({
-        email: signup.email,
-        roleId: "f01c0e35-b0ec-f724-85d6-48c2ecc995ef",
+        managerId: "12f",
       });
 
     expect(res.status).to.be.equal(400);
     expect(res.body).to.be.a("object");
     expect(res.body).to.have.property("message");
-    expect(res.body.message).to.be.equal(
-      "role you want to assign does not exist"
-    );
   });
 
-  it("it should update user role", async () => {
+  it("returns 400 if user does not provide one of the required fields", async () => {
     const res = await chai
       .request(app)
-      .patch("/api/users/assignRole")
+      .patch("/api/users/assignManager")
+      .set("Authorization", `Bearer ${adminToken}`)
+      .set("Content-Type", "application/json")
+      .send({
+        email: "maby.com",
+      });
+
+    expect(res.status).to.be.equal(400);
+    expect(res.body).to.be.a("object");
+    expect(res.body).to.have.property("error");
+  });
+
+  it("it should not update user for user is not manager", async () => {
+    const admin = await verifyToken(adminToken);
+    const res = await chai
+      .request(app)
+      .patch("/api/users/assignManager")
       .set("Authorization", `Bearer ${adminToken}`)
       .set("Content-Type", "application/json")
       .send({
         email: signup.email,
-        roleId: travel.id,
+        managerId: admin.id,
+      });
+
+    expect(res.status).to.be.equal(400);
+    expect(res.body).to.be.a("object");
+    expect(res.body).to.have.property("message");
+  });
+
+  it("it should update user manager", async () => {
+    const managers = await UserService.findAllManagers();
+    const managerId = managers[0].id;
+    console.log(managerId);
+    const res = await chai
+      .request(app)
+      .patch("/api/users/assignManager")
+      .set("Authorization", `Bearer ${adminToken}`)
+      .set("Content-Type", "application/json")
+      .send({
+        email: signup.email,
+        managerId: managerId,
       });
 
     expect(res.status).to.be.equal(200);
     expect(res.body).to.be.a("object");
     expect(res.body).to.have.property("message");
-    expect(res.body.message).to.be.equal("User role updated succesfully!");
   });
 
-  it('it should return all roles of the application', async ()=>{
+  it("it should return all managers of the application", async () => {
     const res = await chai
-                .request(app)
-                .get("/api/users/roles")
-                .set("Authorization", `Bearer ${adminToken}`);
+      .request(app)
+      .get("/api/users/managers")
+      .set("Authorization", `Bearer ${adminToken}`);
 
-    expect(res.body).to.be.a('object');
-    expect(res.status).to.be.equal(200)
-  });
-
-  after(async () => {
-    await User.destroy({ where: {} });
-    await Role.destroy({ where: {} });
+    expect(res.body).to.be.a("object");
+    expect(res.status).to.be.equal(200);
   });
 });
