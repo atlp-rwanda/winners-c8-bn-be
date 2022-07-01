@@ -7,6 +7,7 @@ import "dotenv/config";
 import getDefault from "./helpers/getEnvironment";
 import socket from "socket.io";
 import path from "path";
+import io from "./utils/chat-bot";
 
 const PORT = getDefault(process.env.PORT, "5000");
 
@@ -29,11 +30,25 @@ const server = app.listen(PORT, () => {
   console.log("Server has started on port", PORT);
 });
 
-// Socket setup
-const io = socket(server);
-io.on('connection', socket=>{
-  console.log('socket connected')
-})
+io.attach(server)
+
+// // Socket setup
+// const io = socket(server);
+// io.on('connection', socket=>{
+//   console.log('socket connected')
+
+//   // receive data from client
+//   socket.on('chat', data=>{
+
+//     // send back data to all connected users/sockets
+//     io.sockets.emit('chat', data)
+//   });
+
+//   socket.on('typing', data=>{
+//     socket.broadcast.emit('typing', data)
+//   })
+// })
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/v1/users/chats', (req,res)=>{
   res.sendFile(path.join(`${__dirname}/public/chat.html`));

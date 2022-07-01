@@ -1,6 +1,6 @@
 // setup socket on client/ browser by using io object from linked cdn
 
-const socket = io.connect("http://localhost:5000/api/v1/users/chats");
+const socket = io.connect("http://localhost:5000");
 
 const senderName = document.querySelector('#name');
 const message = document.querySelector('#message');
@@ -15,25 +15,24 @@ sendBtn.addEventListener('click', ()=>{
         message:message.value,
         name:senderName.value
     })
-
-
 })
+
 
 //event for keypress on message
 message.addEventListener('keypress', function(){
 
-    socket.on('typing', senderName.value)
-
+    socket.emit('typing', senderName.value)
+    // alert(senderName.value)
 
 })
 
 // Listening or receiving to message sent by server
 
 socket.on('chat', function(data){
-    feedback.innerHTML =  "";
+    feedback.innerHTML = "";
     output.innerHTML += "<p><em> "+data.name +": </em> " +data.message + "</p>"
 })
 
 socket.on('typing',function(data){
-    feedback.innerHTML = "<p> " + data + "is typing..." + "</p>" 
+    feedback.innerHTML = "<p> " + data + " is typing..." + "</p>" 
 })
