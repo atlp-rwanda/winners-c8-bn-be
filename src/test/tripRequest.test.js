@@ -91,7 +91,7 @@ describe("api/trips", async () => {
       await TripRequest.sync({ force: true });
     } catch (err) {
       console.log({ err });
-    }
+    } ;
   });
 
   describe("GET /", () => {

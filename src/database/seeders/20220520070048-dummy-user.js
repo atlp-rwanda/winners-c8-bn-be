@@ -1,45 +1,38 @@
 "use strict";
 const { v4: uuidv4 } = require("uuid");
-
+const {hashPassword} = require("../../middlewares/hash");
 module.exports = {
   async up(queryInterface, Sequelize) {
     try {
-      // await queryInterface.bulkInsert(
-      //   "Users",
-      //   [
-      //     {
-      //       id: uuidv4(),
-      //       firstName: "John",
-      //       lastName: "Doe",
-      //       email: "john.doe@test.com",
-      //       password: "password",
-      //       user_role: "manager",
-      //       createdAt: new Date(),
-      //       updatedAt: new Date(),
-      //     },
-      //     {
-      //       id: uuidv4(),
-      //       firstName: "Jane",
-      //       lastName: "Doe",
-      //       email: "jane.doe@test.com",
-      //       password: "password",
-      //       user_role: "requester",
-      //       createdAt: new Date(),
-      //       updatedAt: new Date(),
-      //     },
-      //     {
-      //       id: uuidv4(),
-      //       firstName: "Jacob",
-      //       lastName: "Doe",
-      //       email: "jacob.doe@test.com",
-      //       password: "password",
-      //       user_role: "requester",
-      //       createdAt: new Date(),
-      //       updatedAt: new Date(),
-      //     },
-      //   ],
-      //   {}
-      // );
+      await queryInterface.bulkInsert(
+			'Users',
+			[
+				{
+					id: '6927442b-84fb-4fc3-b799-11449fa62f52',
+					firstName: 'Manager',
+					lastName: 'User',
+					email: 'manager@gmail.com',
+					password: hashPassword('String@01'),
+					user_role: '6927442b-84fb-4fc3-b799-11449fa62f52',
+					isVerified: true,
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					id: '7adae2f1-4d35-470d-8512-1b963433ea9f',
+					firstName: 'Requester',
+					lastName: 'User',
+					email: 'requester@gmail.com',
+					password: hashPassword('String@01'),
+					user_role: '7adae2f1-4d35-470d-8512-1b9634330a9e',
+					isVerified: true,
+					createdAt: new Date(),
+					updatedAt: new Date(),
+					managerId: '6927442b-84fb-4fc3-b799-11449fa62f52',
+				},
+			],
+			{},
+		);
 
       await queryInterface.bulkInsert(
         "accommodations",

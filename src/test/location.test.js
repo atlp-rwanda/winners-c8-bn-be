@@ -58,7 +58,7 @@ describe("api/locations", async () => {
     } catch (error) {
       console.log({ error });
     }
-  });
+});
 
   after(async () => {
     try {

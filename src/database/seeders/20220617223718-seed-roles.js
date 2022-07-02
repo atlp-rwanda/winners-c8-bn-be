@@ -2,7 +2,8 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('roles', [
+    try {
+      await queryInterface.bulkInsert('roles', [
       {
         id: "013dddd7-2769-4de6-8fc3-7aa527114879",
         roleName: "super-admin",
@@ -29,7 +30,9 @@ module.exports = {
         updatedAt: new Date()
       }
        ], {});
-    
+      }catch(er){
+        console.log(er)
+      }
   },
 
   async down (queryInterface, Sequelize) {

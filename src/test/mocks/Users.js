@@ -48,12 +48,26 @@ export const adminCredentials = {
   user_role: "013dddd7-2769-4de6-8fc3-7aa527114879",
   isVerified: true,
 };
-
 export const managerCredentials = {
-  firstName: "manager",
-  lastName: "user",
-  email: "manager@mail.com",
-  password: "Tester@12345",
-  user_role: "6927442b-84fb-4fc3-b799-11449fa62f52",
-  isVerified: true,
+	firstName: 'manager',
+	lastName: 'user',
+	email: 'manager@mail.com',
+	password: 'Tester@12345',
+	user_role: '6927442b-84fb-4fc3-b799-11449fa62f52',
+	isVerified: true,
+};
+export const unknown = {
+	firstName: 'manager',
+	lastName: 'user',
+	email: 'manager@mail.com',
+	password: 'Tester@12345',
+	user_role: '6927442b-84fb-4fc3-b799-11449fa62f00',
+};
+export const commentor = {
+  id: '7adae2f1-4d35-470d-8512-1b9634330a9e',
+	firstName: 'Commentor',
+	lastName: 'User',
+	email: 'commentor@gmail.com',
+	password: 'commentor@20000',
+  user_role: "6927442b-84fb-4fc3-b799-11449fa62f52"
 };

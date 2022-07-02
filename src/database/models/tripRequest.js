@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Location, {
         as: "destination",
       });
+      this.hasMany(models.Comments, {
+			foreignKey: 'tripId',
+			onDelete: 'CASCADE',
+		});
     }
   }
   TripRequest.init(

@@ -2,6 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    try{
     await queryInterface.bulkInsert(
       "Locations",
       [
@@ -34,7 +35,9 @@ module.exports = {
         },
       ],
       {}
-    );
+    );}catch(e){
+      console.log(e)
+    }
   },
 
   async down(queryInterface, Sequelize) {
