@@ -171,5 +171,16 @@ class AuthValidation {
 
     return next();
   }
+  static async verifyTripRequestStatusUpdate(req, res, next) {
+    try {
+      const result = await Joi.object({
+        status: Joi.valid("Approved", "Rejected").required(),
+      }).validateAsync(req.body);
+      req.body = result;
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    return next();
+  }
 }
 export default AuthValidation;

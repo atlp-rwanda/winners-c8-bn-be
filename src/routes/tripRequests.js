@@ -22,7 +22,11 @@ router.put(
   [authChecker, tripValidator],
   tripControllers.editTripRequest
 );
-
+router.put(
+  "/:id/status",
+  [authChecker, Validations.verifyTripRequestStatusUpdate],
+  tripControllers.updateTripRequestStatus
+);
 router.delete("/:id", [authChecker], tripControllers.deleteTripRequest);
 
 export default router;

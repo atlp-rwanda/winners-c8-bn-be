@@ -2,6 +2,7 @@
 
 import { Router } from "express";
 import authcontrollers from "../controllers/Authcontrollers";
+import passwordResetController from "../controllers/resetPassword";
 import isAuthenticated from "../middlewares/Authorization";
 import AuthValidation from "../validations/index";
 import sessionsRoutes from "./session";
@@ -9,6 +10,7 @@ import sessionsRoutes from "./session";
 const router = Router();
 
 const { signup, signin, verifyUser, signout } = authcontrollers;
+const { requestResetPassword, resetPassword } = passwordResetController;
 const { verifySignup, verifySignin } = AuthValidation;
 
 /**
@@ -141,4 +143,69 @@ router.use("/sessions", isAuthenticated, sessionsRoutes);
  */
 
 router.get("/register/verifyuser/:token", verifyUser);
+
+router.post("/requestPasswordReset", requestResetPassword);
+/**
+ * @openapi
+ * /auth/requestPasswordReset:
+ *  post:
+ *      tags:
+ *          - User
+ *      description: requesting for password reset
+ *      requestBody:
+ *          description: Request link for password reset
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                         
+ *      responses:
+ *          '200':
+ *              description: success response
+ *          '400':
+ *              description: user error
+ *          '404':
+ *              description: user not found
+ *          '500':
+ *              description: internal server error
+ */
+
+router.post("/resetPassword/:token", resetPassword);
+/**
+ * @openapi
+ * /auth/resetPassword/{token}:
+ *  post:
+ *      tags:
+ *          - User
+ *      parameters:
+ *       - name: token
+ *         in: path
+ *         required: true
+ *      description: Reset password
+ *      requestBody:
+ *          description: Resetting password
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          newPassword:
+ *                              type: string
+ *                          confirmPassword:
+ *                              type: string
+ *      responses:
+ *          '200':
+ *              description: success response
+ *          '400':
+ *              description: user error
+ *          '404':
+ *              description: user not found
+ *          '500':
+ *              description: internal server error
+ */
 export default router;
