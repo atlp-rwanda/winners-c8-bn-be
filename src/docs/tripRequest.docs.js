@@ -114,10 +114,6 @@
  *       responses:
  *         '200':
  *           description: The trip request was successfully got with the given trip id.
- *           content-type:
- *             application/json:
- *               schema:
- *                 "$ref": "#/components/schemas/tripRequestResponse"
  *         '401':
  *           "$ref": "#/components/responses/UnauthorizedError"
  *         '403':
@@ -184,6 +180,62 @@
  *                 type: array
  *                 items:
  *                   "$ref": "#/components/schemas/tripRequestResponse"
+ *         '401':
+ *           "$ref": "#/components/responses/UnauthorizedError"
+ *         '403':
+ *           "$ref": "#/components/responses/ForbiddenError"
+ *         '404':
+ *           "$ref": "#/components/responses/NotFoundError"
+ *         '500':
+ *           "$ref": "#/components/responses/ServerError"
+ *
+ *   "/trips/search":
+ *     get:
+ *       security:
+ *         - BearerToken: []
+ *       description: search for a trip request
+ *       summary: It will return all trip request matching the given search parameters
+ *       tags:
+ *         - Trip Requests
+ *       parameters:
+ *         - in: query
+ *           name: owner_id
+ *           required: false
+ *           description: Id for the owner of the trip request
+ *         - in: query
+ *           type: string
+ *           name: destination
+ *           required: false
+ *           description: Name of destination for the trip request
+ *         - in: query
+ *           type: string
+ *           name: departure
+ *           required: false
+ *           description: Name of destination for the trip request
+ *         - in: query
+ *           type: string
+ *           name: departure_date
+ *           required: false
+ *           description: Date of departure for the trip request
+ *         - in: query
+ *           type: string
+ *           name: status
+ *           required: false
+ *           description: Status of the trip request
+ *           schema:
+ *              type: string
+ *              enum: [approved, pending, denied]
+ *         - in: query
+ *           type: string
+ *           name: type
+ *           required: false
+ *           schema:
+ *              type: string
+ *              enum: [oneway, return]
+ *           description: Type of trip request
+ *       responses:
+ *         '200':
+ *           description: The trip request was successfully got with the given trip id.
  *         '401':
  *           "$ref": "#/components/responses/UnauthorizedError"
  *         '403':
