@@ -35,7 +35,7 @@
     "type": "string",
     "title": "SSL Mode",
     "default": "require"
-},
+  },
   "homepage": "https://github.com/atlp-rwanda/winners-c8-bn-be#readme",
   "devDependencies": {
     "@babel/cli": "^7.17.10",

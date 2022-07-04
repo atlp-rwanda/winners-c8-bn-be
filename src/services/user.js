@@ -12,6 +12,12 @@ class UserService {
     return user;
   };
 
+  static checkUserById = async (userId) => {
+    const user = await User.findOne({ where: { id: userId } });
+    return user;
+  };
+
+
   static checkManager = async (userId) => {
     if (!userId) {
       return true;
