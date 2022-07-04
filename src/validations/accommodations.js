@@ -9,14 +9,14 @@ const schema = {
     latitude: Joi.string().required().pattern(/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/),
     longitude: Joi.string().required().pattern(/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/),
     images_links: Joi.array().items(Joi.string()),
-    add_on_services: Joi.array().items(Joi.object().keys({
-      name: Joi.string().required(),
-      details: Joi.string()
-     })),
-    amenities: Joi.array().items(Joi.object().keys({
-      name: Joi.string().required(),
-      details: Joi.string()
-    })),
+    // add_on_services: Joi.array().items(Joi.object().keys({
+    //   name: Joi.string().required(),
+    //   details: Joi.string()
+    //  })),
+    // amenities: Joi.array().items(Joi.object().keys({
+    //   name: Joi.string().required(),
+    //   details: Joi.string()
+    // })),
   }),
   accommodationEdition: Joi.object({
     name: Joi.string().min(2).max(150),

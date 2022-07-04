@@ -40,8 +40,20 @@
  *           description: Successful response
  *           content:
  *             application/json: {}
+ *         "400":
+ *           description: Bad request (validation)
+ *           content:
+ *             application/json: {}
  *         "401":
- *           description: Unauthorized
+ *           description: Unauthorized (something wrong with auth token)
+ *           content:
+ *             application/json: {}
+ *         "403":
+ *           description: Forbidden (user not allowed to do this)
+ *           content:
+ *             application/json: {}
+ *         "500":
+ *           description: Internal server error
  *           content:
  *             application/json: {}
  *     get:

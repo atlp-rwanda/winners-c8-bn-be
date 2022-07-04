@@ -122,7 +122,7 @@ accommodationController.createOneRoom = async (req, res) => {
   req.body.accommodation_id = accommodationId;
   let result = await AccommodationService.createOneRoom(req.body);
   result = JSON.parse(JSON.stringify(result));
-  return successResponse(res, 200, "Room created in the DB successfully", result);;
+  return successResponse(res, 201, "Room created in the DB successfully", result);;
 };
 
 accommodationController.updateOneRoom = async (req, res) => {
