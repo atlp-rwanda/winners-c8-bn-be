@@ -10,14 +10,15 @@ cloudinary.config({
 const imageUploader = {}
 
 imageUploader.accommodationCreation = (req, res, next) => {
-    if((Object.keys(req.inputFiles).includes("accommodation_image"))){
+    const files = req.files;
+    if(files && (Object.keys(files).includes("accommodation_image"))){
         try{
             cloudinary.uploader.upload(
-                req.inputFiles.accommodation_image.filepath, 
+                req.files.accommodation_image.tempFilePath, 
                 { folder: `winners-c8-bn-be/${process.env.NODE_ENV}/accommodations/facilities/` },
                 (error, result) => {
     
-                    req.inputFiles.cloudinaryOutput = result;
+                    // save the link to the image
                     req.body.images_links = [result.url];
                     next()
                 }
@@ -36,14 +37,15 @@ imageUploader.accommodationCreation = (req, res, next) => {
     }
 }
 imageUploader.accommodationUpdate = (req, res, next) => {
-    if((Object.keys(req.inputFiles).includes("accommodation_image"))){
+    const files = req.files;
+    if(files && (Object.keys(files).includes("accommodation_image"))){
         try{
             cloudinary.uploader.upload(
-                req.inputFiles.accommodation_image.filepath, 
+                req.files.accommodation_image.tempFilePath, 
                 { folder: `winners-c8-bn-be/${process.env.NODE_ENV}/accommodations/facilities/` },
                 (error, result) => {
     
-                    req.inputFiles.cloudinaryOutput = result;
+                    // save the link to the image
                     req.body.image_link = result.url;
                     next()
                 }
@@ -60,14 +62,15 @@ imageUploader.accommodationUpdate = (req, res, next) => {
     }
 }
 imageUploader.roomCreation = (req, res, next) => {
-    if((Object.keys(req.inputFiles).includes("room_image"))){
+    const files = req.files;
+    if(files && (Object.keys(files).includes("room_image"))){
         try{
             cloudinary.uploader.upload(
-                req.inputFiles.room_image.filepath, 
+                req.files.room_image.tempFilePath, 
                 { folder: `winners-c8-bn-be/${process.env.NODE_ENV}/accommodations/rooms/` },
                 (error, result) => {
     
-                    req.inputFiles.cloudinaryOutput = result;
+                    // save the link to the image
                     req.body.images_links = [result.url];
                     next()
                 }
@@ -84,14 +87,15 @@ imageUploader.roomCreation = (req, res, next) => {
     }
 }
 imageUploader.roomUpdate = (req, res, next) => {
-    if((Object.keys(req.inputFiles).includes("room_image"))){
+    const files = req.files;
+    if(files && (Object.keys(files).includes("room_image"))){
         try{
             cloudinary.uploader.upload(
-                req.inputFiles.room_image.filepath, 
+                req.files.room_image.tempFilePath, 
                 { folder: `winners-c8-bn-be/${process.env.NODE_ENV}/accommodations/rooms/` },
                 (error, result) => {
     
-                    req.inputFiles.cloudinaryOutput = result;
+                    // save the link to the image
                     req.body.image_link = result.url;
                     next()
                 }
@@ -107,6 +111,5 @@ imageUploader.roomUpdate = (req, res, next) => {
         next();
     }
 }
-
 
 export default imageUploader; 

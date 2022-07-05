@@ -72,7 +72,7 @@ accommodationController.updateOne = async (req, res) => {
     facility.images_links.push(req.body.image_link);
   }
   if(req.body.images_links){
-    facility.images_links = (req.body.image_links);
+    facility.images_links = (req.body.images_links);
   }
   if(req.body.add_on_services){
     facility.add_on_services = (req.body.add_on_services);

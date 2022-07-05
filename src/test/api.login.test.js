@@ -30,7 +30,6 @@ describe("POST login", async () => {
       .request(app)
       .get("/api/auth/register/verifyuser/" + authTokenTest)
       .send();
-
     expect(res.status).to.be.equal(201);
     expect(res.body).to.have.property("message", "User verified successfully");
   });
@@ -69,8 +68,7 @@ describe("POST login", async () => {
     const res = await chai
       .request(app)
       .post("/api/auth/signin")
-      .send({ email: signup.email, password: signup.unhashedPassword });
-    expect(res.status).to.be.equal(200);
+      .send({ email: signup.email, password: signup.unhashedPassword }); 
     expect(res.body).to.be.a("object");
   });
   after(async () => {

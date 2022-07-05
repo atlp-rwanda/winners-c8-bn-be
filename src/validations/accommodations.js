@@ -40,6 +40,7 @@ const schema = {
     bed_type: Joi.string().required(),
     cost: Joi.string().required(),
     images_links: Joi.array().items(Joi.string()),
+    room_image: Joi.any(),
   }),
   roomEdition: Joi.object({
     accommodation_id: Joi.number(),
