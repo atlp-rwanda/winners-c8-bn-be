@@ -3,6 +3,7 @@ import errorResponse from "../utils/error";
 import successResponse from "../utils/success";
 import { tripServices } from "../services";
 import { checkLocation } from "../services/locationServices";
+import RoleService from "../services/roleServices";
 
 export const getAllTripRequests = async (req, res) => {
   const user = req.user;
@@ -160,5 +161,37 @@ export const deleteTripRequest = async (req, res) => {
         console.log(err);
     }
     return;
+  }
+};
+export const updateTripRequestStatus = async (req, res) => {
+  const user = req.user;
+  const tripId = req.params.id;
+  const { status } = req.body;
+  try {
+    const userRole = await RoleService.findRoleById(user.user_role);
+
+    const trip = await tripServices.getOneTripRequest(user, tripId);
+    if (!trip) return errorResponse(res, 404, "trip not found");
+    if (trip.manager.id !== user.id)
+      return errorResponse(
+        res,
+        403,
+        "You are not authorized to update trip request status"
+      );
+    await trip.update({ status });
+    return res
+      .status(200)
+      .json({ message: "Trip request status updated", trip });
+  } catch (err) {
+    switch (err.message) {
+      case "manager":
+        res.status(403).json({
+          error: "You are not the manage of the owner of the trip request",
+        });
+        break;
+      case "notFound":
+        res.status(404).json({ error: "The trip request not found" });
+        break;
+    }
   }
 };
