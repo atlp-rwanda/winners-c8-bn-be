@@ -4,6 +4,7 @@ import RoleService from "./roleServices";
 const { findRoleById } = RoleService;
 
 const TripRequest = Db.TripRequest;
+const TripRequestDestination = Db.TripRequestDestination;
 
 export const getAllTripRequests = async (user) => {
   let result;
@@ -31,9 +32,8 @@ export const getAllTripRequests = async (user) => {
         },
         {
           model: Db.Location,
-          as: "destination",
-          attributes: ["id", "city", "state", "province", "country"],
-        },
+          as:"destinations",
+        }
       ],
       attributes: [
         "id",
@@ -65,12 +65,12 @@ export const getAllTripRequests = async (user) => {
           model: Db.Location,
           as: "departure",
           attributes: ["id", "city", "state", "province", "country"],
-        },
+        }
+        ,
         {
           model: Db.Location,
-          as: "destination",
-          attributes: ["id", "city", "state", "province", "country"],
-        },
+          as:"destinations",
+        }
       ],
       attributes: [
         "id",
@@ -106,11 +106,6 @@ export const getOneTripRequest = async (user, tripId) => {
       {
         model: Db.Location,
         as: "departure",
-        attributes: ["id", "city", "state", "province", "country"],
-      },
-      {
-        model: Db.Location,
-        as: "destination",
         attributes: ["id", "city", "state", "province", "country"],
       },
     ],
@@ -208,4 +203,16 @@ export const deleteTripRequest = async (tripRequestId, user) => {
   });
 
   return result;
+};
+export const addDestination=async (tripId, destinationId) => {
+  const destination=await TripRequestDestination.create({
+    tripId,
+    destinationId
+  })
+  return destination;
+};
+export const editDestination=async (tripId, destinationIds) => {
+  await TripRequestDestination.destroy({ where:{tripId}  });
+  destinationIds.forEach(async destinationId => await addDestination(destinationId))
+  return destination;
 };

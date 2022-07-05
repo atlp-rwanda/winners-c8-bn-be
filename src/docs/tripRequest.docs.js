@@ -25,8 +25,8 @@
  *         departureId:
  *           type: integer
  *           required: true
- *         destinationId:
- *           type: integer
+ *         destinationsId:
+ *           type: array
  *           required: true
  *         travelReason:
  *           type: string
@@ -41,11 +41,11 @@
  *           type: string
  *       example:
  *         departureId: 1
- *         destinationId: 2
+ *         destinationsId: 2
  *         travelReason: Tour destination
  *         accommodationId: 1
  *         dateOfDeparture: '2022-07-17'
- *         dateOfReturn: '2022-07-27'
+ *         dateOfReturn: '2022-07-17'
  *   requestBodies:
  *     tripRequestBody:
  *       description: A JSON object for the trip request body
@@ -60,8 +60,8 @@
  *       security:
  *         - BearerToken: []
  *       description: It will return all trip requests owned by the user signed in.
- *       summary: It will all the trip requests which are owned by the user signed in
- *         or the user is a direct manager of the trip request owner.
+ *       summary: It will retun all the trip requests which are owned by the user who signed in
+ *         or if the user is a direct manager of the trip request owner.
  *       tags:
  *       - Trip Requests
  *       responses:
@@ -78,7 +78,7 @@
  *     post:
  *       security:
  *         - BearerToken: []
- *       description: It will create a trip request for the user signed in
+ *       description: It will create a single or multi city trip request for the user who signed in 
  *       requestBody:
  *         "$ref": "#/components/requestBodies/tripRequestBody"
  *       tags:
@@ -98,9 +98,9 @@
  *     get:
  *       security:
  *         - BearerToken: []
- *       description: It will return all trip requests owned by the user signed in.
+ *       description: It will return all trip requests owned by the user who signed in.
  *       summary: It will get the trip request with the given trip id in the path, if
- *         the trip request exists and the user logged is the owner or the direct manager
+ *         the trip request exists and if the user who logged in is  the owner or the direct manager
  *         of the owner.
  *       tags:
  *       - Trip Requests

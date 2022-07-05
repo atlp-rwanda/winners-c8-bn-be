@@ -52,7 +52,8 @@ const schema = {
 
   tripRequest: Joi.object({
     departureId: Joi.number().required(),
-    destinationId: Joi.number()
+    destinationsId: Joi.alternatives()
+     .try(Joi.number(),Joi.string(), Joi.array().items(Joi.alternatives(Joi.number(), Joi.string())))
       .required()
       .invalid(Joi.ref("departureId"))
       .messages({
@@ -142,7 +143,7 @@ class AuthValidation {
   static async verifyTripRequest(req, res, next) {
     const {
       departureId,
-      destinationId,
+      destinationsId,
       dateOfDeparture,
       travelReason,
       accommodationId,
@@ -150,7 +151,7 @@ class AuthValidation {
 
     const tripRequest = {
       departureId,
-      destinationId,
+      destinationsId,
       dateOfDeparture,
       travel_reason: travelReason,
       accommodationId,
