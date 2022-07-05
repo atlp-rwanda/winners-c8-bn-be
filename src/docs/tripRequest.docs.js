@@ -182,4 +182,44 @@
  *           "$ref": "#/components/responses/NotFoundError"
  *         '500':
  *           "$ref": "#/components/responses/ServerError"
+ *   "/trips/{tripId}/status":
+ *     put:
+ *       security:
+ *         - BearerToken: []
+ *       description: It will update a trip request which has the trip id provided in
+ *         path;
+ *       summary: Updates a trip request for the trip id provided in path provided that
+ *         the user logged in is the owner of the trip request and trip request has a
+ *         status of "pending".
+ *       requestBody:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                  type: string
+ *                  enum:
+ *                   - Approved
+ *                   - Rejected
+ *       tags:
+ *       - Trip Requests
+ *       parameters:
+ *       - schema:
+ *           type: integer
+ *         name: tripId
+ *         in: path
+ *         required: true
+ *         description: id of the trip request
+ *       responses:
+ *         '200':
+ *           description: The trip request status has been approved.
+ *         '401':
+ *           "$ref": "#/components/responses/UnauthorizedError"
+ *         '403':
+ *           "$ref": "#/components/responses/ForbiddenError"
+ *         '404':
+ *           "$ref": "#/components/responses/NotFoundError"
+ *         '500':
+ *           "$ref": "#/components/responses/ServerError"
  */
