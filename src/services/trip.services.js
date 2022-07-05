@@ -187,7 +187,7 @@ export const searchTripRequest = async (queryParameters, locations, user) => {
         let value = trip.destination.dataValues[key];
         typeof value === "string" ? (value = value.toLowerCase().trim()) : "";
 
-        if (value == locations.destination) {
+        if (value == locations.destination.toLowerCase().trim()) {
           inDestination = true;
         }
       });
@@ -201,14 +201,14 @@ export const searchTripRequest = async (queryParameters, locations, user) => {
         let value = trip.departure.dataValues[key];
         typeof value === "string" ? (value = value.toLowerCase().trim()) : "";
 
-        if (value == locations.departure) {
+        if (value == locations.departure.toLowerCase().trim()) {
           inDeparture = true;
         }
       });
 
       !inDeparture ? (valid = false) : "";
     }
-    console.log(valid, trip.destination.dataValues, trip.departure.dataValues);
+
     return valid;
   });
   return filterdTrips;

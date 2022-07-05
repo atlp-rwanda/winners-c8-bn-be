@@ -186,9 +186,6 @@ export const searchTripRequest = async (req, res) => {
       return errorResponse(res, 400, `Invalid query parameter ${query}`);
     }
     if (query == "destination" || query == "departure") {
-      console.log("Destination parameter");
-      console.log(req.query);
-      console.log(query);
       locations[query] = req.query[query];
     } else {
       queries[allowedQueries[query]] = req.query[query];

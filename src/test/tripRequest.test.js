@@ -16,7 +16,7 @@ import {
 
 const { hashPassword, verifyToken } = Protection;
 
-const { TripRequest, Accommodation, User } = { ...models };
+const { TripRequest, Accommodation, User, Location } = { ...models };
 let user;
 let manager;
 let userToken;
@@ -263,6 +263,59 @@ describe("api/trips", async () => {
       expect(res.status).to.be.eq(200);
       expect(res.body.id).to.be.eq(tripRequestId);
       expect(res.body.manager.id).to.be.eq(tripRequests[1].managerId);
+    });
+  });
+
+  describe("GET /search", () => {
+    it("should return 401 if user does not provide token(Not logged in)", async () => {
+      const res = await request(server).get(url + "search");
+
+      expect(res.status).to.be.eq(401);
+    });
+
+    it("should return 401 if token is invalid", async () => {
+      const token = "a"; // Invalid token
+
+      const res = await request(server)
+        .get(url + "search")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).to.be.eq(401);
+    });
+
+    it("should return 400 if search parameter provided is invalid", async () => {
+      // Seed trip requests
+      await tripRequestSeeder(user.data.id, manager.data.id);
+      const token = user.token;
+      const invalidQuery = { invalid: "continue" };
+
+      const res = await request(server)
+        .get(url + "search")
+        .query(invalidQuery)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).to.be.eq(400);
+    });
+
+    it("Should return 200, if successful in retrieving the trip requests matching the search parameters", async () => {
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
+      const locationId = tripRequests[1].departureId;
+      const location = await Location.findOne({
+        where: { id: locationId },
+      });
+      const locationQuery = { departure: location.country };
+      const token = user.token;
+
+      const res = await request(server)
+        .get(url + "search")
+        .query(locationQuery)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).to.be.eq(200);
+      expect(res.body.data[0].departure.country).to.be.eq(location.country);
     });
   });
 

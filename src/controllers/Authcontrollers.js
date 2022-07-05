@@ -82,7 +82,7 @@ class Auth {
       });
       return successResponse(res, 200, "User loggedIn", token);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return errorResponse(
         res,
         500,
