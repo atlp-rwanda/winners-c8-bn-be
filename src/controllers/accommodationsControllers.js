@@ -12,7 +12,7 @@ accommodationController.getAll = async (req, res) => {
   for(let i = 0; i<result.length ; i++){
     result[i].rooms= await AccommodationService.getAllRooms(result[i].id);
   }
-  return successResponse(res, 200, "Accommodation facilities querried from the DB successfully", result);;
+  return successResponse(res, 200, "Accommodations querried successfully", result);;
 };
 
 accommodationController.getOne = async (req, res) => {
@@ -23,7 +23,7 @@ accommodationController.getOne = async (req, res) => {
   }
   result = JSON.parse(JSON.stringify(result));
   result.rooms= await AccommodationService.getAllRooms(result.id);
-  return successResponse(res, 200, "Accommodation facility querried from the DB successfully", result);
+  return successResponse(res, 200, "Accommodation facility querried successfully", result);
 };
 
 accommodationController.createOne = async (req, res) => {

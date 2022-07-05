@@ -14,7 +14,7 @@ imageUploader.accommodationCreation = (req, res, next) => {
         try{
             cloudinary.uploader.upload(
                 req.inputFiles.accommodation_image.filepath, 
-                { folder: "winners-c8-bn-be/accommodations/facilities/" },
+                { folder: `winners-c8-bn-be/${process.env.NODE_ENV}/accommodations/facilities/` },
                 (error, result) => {
     
                     req.inputFiles.cloudinaryOutput = result;
@@ -40,7 +40,7 @@ imageUploader.accommodationUpdate = (req, res, next) => {
         try{
             cloudinary.uploader.upload(
                 req.inputFiles.accommodation_image.filepath, 
-                { folder: "winners-c8-bn-be/accommodations/facilities/" },
+                { folder: `winners-c8-bn-be/${process.env.NODE_ENV}/accommodations/facilities/` },
                 (error, result) => {
     
                     req.inputFiles.cloudinaryOutput = result;
@@ -64,7 +64,7 @@ imageUploader.roomCreation = (req, res, next) => {
         try{
             cloudinary.uploader.upload(
                 req.inputFiles.room_image.filepath, 
-                { folder: "winners-c8-bn-be/accommodations/rooms/" },
+                { folder: `winners-c8-bn-be/${process.env.NODE_ENV}/accommodations/rooms/` },
                 (error, result) => {
     
                     req.inputFiles.cloudinaryOutput = result;
@@ -88,7 +88,7 @@ imageUploader.roomUpdate = (req, res, next) => {
         try{
             cloudinary.uploader.upload(
                 req.inputFiles.room_image.filepath, 
-                { folder: "winners-c8-bn-be/accommodations/rooms/" },
+                { folder: `winners-c8-bn-be/${process.env.NODE_ENV}/accommodations/rooms/` },
                 (error, result) => {
     
                     req.inputFiles.cloudinaryOutput = result;
