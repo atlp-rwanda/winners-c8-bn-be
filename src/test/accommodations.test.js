@@ -168,6 +168,13 @@ describe("api/accommodations/", async () => {
 
       expect(res.status).to.be.eq(200);
     });
+
+    it("should return 404 code when accommodation id does not exist", async () => {
+      const res = await request(server).get(url+ "-100")
+      .set("Authorization", `Bearer ${admin.token}`);
+
+      expect(res.status).to.be.eq(404);
+    });
   });
 
   describe("PATCH /", () => {
@@ -217,6 +224,41 @@ describe("api/accommodations/", async () => {
         .field("latitude", "10")
         .field("longitude", "20")
         .attach("accommodation_image","./src/test/mocks/files/accommodation_images/house.jpg","house.jpg")
+        .set("Authorization", `Bearer ${admin.token}`);
+      // console.log({status: res.status, body: res.body})
+      expect(res.status).to.be.eq(201);
+    });
+
+    it("should RETURN 201, if all validations are passing (using JSON)", async () => {
+      // console.log("\n\n\n the url is :", url);
+      const res = await request(server)
+        .patch(url + 1)
+        .send({
+          "add_on_services": [
+                {
+                    "name": "Car",
+                    "details": "A five-seats car is proviced."
+                },
+                {
+                    "name": "Pool",
+                    "details": "a 3x3x3 metres swimming pool."
+                }
+            ],
+          "amenities": [
+              {
+                  "name": "Car",
+                  "details": "A five-seats car is proviced."
+              },
+              {
+                  "name": "Pool",
+                  "details": "a 3x3x3 metres swimming pool."
+              }
+            ],
+          "images_links": [
+            "https://freesvg.org/img/SC0007.Scribble-house.png",
+            "https://freesvg.org/img/maison2.png"
+          ]
+        })
         .set("Authorization", `Bearer ${admin.token}`);
       // console.log({status: res.status, body: res.body})
       expect(res.status).to.be.eq(201);
@@ -392,12 +434,37 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
       expect(res.status).to.be.eq(404);
     });
 
+    it("should return 404 when accommodation_id (in body) does not exist", async () => {
+      const res = await request(server)
+        .patch(url + 1)
+        .field("accommodation_id", '-100')
+        .field("bed_type", 'small')
+        .field("cost", '7993')
+        .set("Authorization", `Bearer ${admin.token}`);
+
+      expect(res.status).to.be.eq(404);
+    });
+
     it("should return 201, if all validations are passing", async () => {
       const res = await request(server)
         .patch(url + 1)
         .field("bed_type", 'small')
         .field("cost", '7546')
         .attach("room_image","./src/test/mocks/files/accommodation_images/room.png","room.png")
+        .set("Authorization", `Bearer ${admin.token}`);
+
+      expect(res.status).to.be.eq(201);
+    });
+
+    it("should return 201, if all validations are passing (using JSON)", async () => {
+      const res = await request(server)
+        .patch(url + 1)
+        .send({
+          "images_links": [
+            "https://freesvg.org/img/SC0007.Scribble-house.png",
+            "https://freesvg.org/img/maison2.png"
+          ]
+        })
         .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(201);

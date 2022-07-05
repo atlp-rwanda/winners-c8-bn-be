@@ -29,9 +29,6 @@ accommodationController.getOne = async (req, res) => {
 accommodationController.createOne = async (req, res) => {
   try{
     const location = await locationServices.getOneLocation(req.body.location_id);
-    if(!location){
-      return errorResponse(res, 404, "location_id not found!");
-    }
   }
   catch(err){
     return errorResponse(res, 404, "location_id not found!");
@@ -59,9 +56,6 @@ accommodationController.updateOne = async (req, res) => {
   if(req.body.location_id){
     try{
       const location = await locationServices.getOneLocation(req.body.location_id);
-      if(!location){
-        return errorResponse(res, 404, "location_id not found!");
-      }
     }
     catch(err){
       return errorResponse(res, 404, "location_id not found!");
