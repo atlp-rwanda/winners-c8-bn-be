@@ -4,6 +4,7 @@ import DB from "./database/index";
 import express from "express";
 import routes from "./routes/index";
 import "dotenv/config";
+import fileUpload from "express-fileupload";
 import getDefault from "./helpers/getEnvironment";
 
 const PORT = getDefault(process.env.PORT, "5000");
@@ -12,6 +13,7 @@ const app = express();
 
 // allow to parse json in body
 app.use(express.json());
+app.use(fileUpload({useTempFiles: true}))
 
 app.use("/api", routes);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));

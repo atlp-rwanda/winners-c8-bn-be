@@ -4,6 +4,7 @@ import locations from "./locations";
 import trips from "./tripRequests";
 import isAuthenticated from "../middlewares/Authorization";
 import userRoutes from "./usersRoutes";
+import user from './user'
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.get("/users", isAuthenticated, async (req, res) => {
 router.use("/auth", auth);
 router.use("/trips", trips);
 router.use("/locations", locations);
+router.use('/user',user)
 router.use("/users", userRoutes);
 
 export default router;
