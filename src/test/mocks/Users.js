@@ -1,3 +1,6 @@
+import { requester, manager } from "./roles-mocks";
+import { v4 as uuidv4 } from "uuid";
+const managerId = uuidv4();
 export const signup = {
   firstName: "Test",
   lastName: "User",
@@ -61,10 +64,20 @@ export const update_user={
 	department: "developers",
 }
 export const managerCredentials = {
+  id: managerId,
   firstName: "manager",
   lastName: "user",
   email: "manager@mail.com",
   password: "Tester@12345",
-  user_role: "6927442b-84fb-4fc3-b799-11449fa62f52",
+  user_role: manager.id,
+  isVerified: true,
+};
+export const requesterCredentials = {
+  firstName: "requester",
+  lastName: "user",
+  email: "requester@mail.com",
+  password: "Tester@12345",
+  user_role: requester.id,
+  managerId: managerId,
   isVerified: true,
 };
