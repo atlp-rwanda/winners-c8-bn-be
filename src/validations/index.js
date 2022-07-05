@@ -38,8 +38,6 @@ const schema = {
         "string.pattern.base":
           "{{#label}} must contain at least a number, a special character, an upper-case letter and longer than 8 characters",
       }),
-    user_role: Joi.string(),
-    managerId: Joi.string(),
   }),
   signin: Joi.object({
     email: Joi.string().required(),
@@ -155,6 +153,11 @@ const schema = {
     managerId: Joi.string(),
   }),
 
+  addManager: Joi.object({
+    email: Joi.string().required(),
+    managerId: Joi.string().required(),
+  }),
+
   tripRequest: Joi.object({
     departureId: Joi.number().required(),
     destinationId: Joi.number()
@@ -228,6 +231,17 @@ class AuthValidation {
       return res.status(400).json({
         error: error.details[0].message.replace(/["'`]+/g, ""),
       });
+    }
+    return next();
+  }
+  static async verifyManager(req, res, next) {
+    const { error } = schema.addManager.validate(req.body);
+    if (error) {
+      throw new Error(
+        res.status(400).json({
+          error: error.details[0].message.replace(/["'`]+/g, ""),
+        })
+      );
     }
     return next();
   }
