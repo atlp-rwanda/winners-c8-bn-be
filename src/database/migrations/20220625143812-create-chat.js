@@ -8,6 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      sender: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      postedBy: {
+        allowNull: false,
+        type: Sequelize.UUID
+      },
       message: {
         type: Sequelize.STRING
       },

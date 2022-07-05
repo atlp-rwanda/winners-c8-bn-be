@@ -32,25 +32,8 @@ const server = app.listen(PORT, () => {
 
 io.attach(server)
 
-// // Socket setup
-// const io = socket(server);
-// io.on('connection', socket=>{
-//   console.log('socket connected')
-
-//   // receive data from client
-//   socket.on('chat', data=>{
-
-//     // send back data to all connected users/sockets
-//     io.sockets.emit('chat', data)
-//   });
-
-//   socket.on('typing', data=>{
-//     socket.broadcast.emit('typing', data)
-//   })
-// })
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/chats', (req,res)=>{
-  res.sendFile(path.join(`${__dirname}/public/chat.html`));
+  res.sendFile(path.join(`${__dirname}/public/login.html`));
 })
 export default app;

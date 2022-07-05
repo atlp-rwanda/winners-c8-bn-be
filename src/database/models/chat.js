@@ -11,7 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.User, {
+        foreignKey: 'postedBy',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
     }
     toJSON(){
       return {...this.get(), id:undefined, updatedAt:undefined,
@@ -20,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Chat.init({
+    sender: DataTypes.STRING,
+    postedBy:DataTypes.UUID,
     message: DataTypes.STRING
   }, {
     sequelize,

@@ -8,6 +8,8 @@ class ChatService{
 
     static async saveMessage(data){
         const message = await model.Chat.create({
+            sender:data.sender,
+            postedBy:data.postedBy,
             message:data.message
         });
         return message

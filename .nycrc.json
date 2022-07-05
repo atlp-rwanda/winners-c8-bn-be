@@ -6,5 +6,5 @@
   "functions": 80,
   "lines": 80,
   "include": ["src/**/*.js"],
-  "exclude": ["src/test/**", "src/database", "src/docs"]
+  "exclude": ["src/test/**", "src/database", "src/docs", "src/public"]
 }
