@@ -1,7 +1,7 @@
 import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 import app from "../index";
-import { User, Location } from "../database/models";
+import { User, Location, Accommodation, TripRequest } from "../database/models";
 import {
   adminCredentials,
   managerCredentials,
@@ -65,6 +65,16 @@ describe("PUT /trips/{tripId}/status", () => {
     });
     expect(res.status).to.equal(200);
     adminToken = res.body.data;
+  });
+
+  after(async () => {
+    await User.destroy({
+      where: {},
+      truncate: true,
+    });
+    await Location.destroy({ where: {}, truncate: true });
+    await Accommodation.destroy({ where: {} });
+    await TripRequest.destroy({ where: {}, truncate: true });
   });
 
   it("should return 401 if user does not provide token(Not logged in)", async () => {
