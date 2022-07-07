@@ -8,6 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "destinationId",
       });
     }
+    static associate(models) {
+      this.hasMany(models.Accommodation, {
+        foreignKey: "location_id",
+      });
+    }
   }
   Location.init(
     {
