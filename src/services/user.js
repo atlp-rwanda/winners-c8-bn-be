@@ -51,14 +51,6 @@ class UserService {
     await user.save();
     return user;
   };
-	static verifyUserAccount = async (email) => {
-		const data = await User.update({
-							verified: true
-						}, {
-							where: { email }
-						});
-		return data;
-	};
 
   static async createUserSession({ userId, token, loginDevice, lastSession }) {
     const userSession = await UserSession.create({
