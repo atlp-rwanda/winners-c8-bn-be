@@ -1,0 +1,69 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+.chat-container{
+    max-width: 600px;
+    /* width: 400px; */
+    margin: 30px auto;
+    background-color: #fff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 1);
+    padding: 30px;
+    border-radius: 5px;
+    
+}
+#output{
+    height: 400px;
+    border: 1px solid rgb(248, 243, 243);
+    overflow: auto;
+}
+.chat-display .sp{
+    display: block;
+    margin: 20px;
+    border-bottom: 1px solid rgb(212, 208, 208);
+    font-size: 10px;
+}
+.chat-display > .sp p{
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+.chat-display .sp:hover{
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+}
+textarea, input{
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 0;
+    background: #eee;
+}
+
+button{
+    display: block;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: rgb(58, 52, 52);
+    border-radius: 4px;
+    color: #fff;
+    border: 0;
+    font-size: 20px;
+    width: 100%;
+}
+button:hover{
+    cursor: pointer;
+}
+
+
+/* login page styling */
+.chat-container #join-form div{
+    margin-bottom: 10px;
+}
+
+.chat-container #join-form input[type='submit']:hover{
+    background-color: rgb(99, 180, 99);
+    cursor: pointer;
+}
