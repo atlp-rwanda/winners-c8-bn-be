@@ -1,4 +1,5 @@
 "use strict";
+const { v4: uuidv4 } = require("uuid");
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -8,31 +9,31 @@ module.exports = {
         [
           {
             id: 1,
-            departure: "kigali",
-            destination: "toronto",
+            departureId: 1,
+            destinationId: 2,
             travel_reason: "Studying my bachelor degree",
-            accommodationId: 1,
+            accommodationId: -1,
             dateOfDeparture: "17-07-2022",
             dateOfReturn: null,
             status: "thinking",
             tripType: "idontknow",
-            ownerId: 2,
-            managerId: 1,
+            ownerId: uuidv4(),
+            managerId: uuidv4(),
             createdAt: new Date(),
             updatedAt: new Date(),
           },
           {
             id: 2,
-            departure: "kigali",
-            destination: "maladives",
+            departureId: 1,
+            destinationId: 2,
             travel_reason: "Tourism",
-            accommodationId: 1,
+            accommodationId: 0,
             dateOfDeparture: "17-07-2022",
             dateOfReturn: "1-07-2022",
             status: "thinking",
             tripType: "return",
-            ownerId: 3,
-            managerId: 1,
+            ownerId: uuidv4(),
+            managerId: uuidv4(),
             createdAt: new Date(),
             updatedAt: new Date(),
           },
