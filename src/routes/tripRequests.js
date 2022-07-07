@@ -1,5 +1,7 @@
 import express from "express";
-import { tripControllers } from "../controllers";
+import { tripControllers, tripStats } from "../controllers";
+
+
 import Validations from "../validations";
 import authChecker from "../middlewares/Authorization";
 
@@ -28,5 +30,9 @@ router.put(
   tripControllers.updateTripRequestStatus
 );
 router.delete("/:id", [authChecker], tripControllers.deleteTripRequest);
+
+//Trip statistics for users(travellers) and managers
+
+router.get("/trip/statistics", tripStats.getAllTrips);
 
 export default router;
