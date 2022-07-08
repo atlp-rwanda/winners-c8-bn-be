@@ -4,6 +4,7 @@ import locations from "./locations";
 import trips from "./tripRequests";
 import isAuthenticated from "../middlewares/Authorization";
 import userRoutes from "./usersRoutes";
+import chatRoutes from "../routes/chatRoutes";
 import accommodations from "./accommodations";
 import user from './user'
 
@@ -21,5 +22,5 @@ router.use("/locations", locations);
 router.use("/accommodations", accommodations)
 router.use('/user',user)
 router.use("/users", userRoutes);
-
+router.use("/users/chats", chatRoutes)
 export default router;
