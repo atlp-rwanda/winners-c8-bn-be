@@ -11,7 +11,12 @@ const router = express.Router();
 
 router.get("/", [authChecker], tripControllers.getAllTripRequests);
 
+//Trip statistics for users(travellers) and managers
+
+router.get("/tripstatistics", tripStats.getAllTrips);
+
 router.get("/:id", [authChecker], tripControllers.getOneTripRequest);
+
 
 router.post(
   "/",
@@ -30,9 +35,5 @@ router.put(
   tripControllers.updateTripRequestStatus
 );
 router.delete("/:id", [authChecker], tripControllers.deleteTripRequest);
-
-//Trip statistics for users(travellers) and managers
-
-router.get("/trip/statistics", tripStats.getAllTrips);
 
 export default router;

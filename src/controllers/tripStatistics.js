@@ -4,8 +4,10 @@ import successResponse from "../utils/success";
 
 
 export const getAllTrips = async(req,res) =>{
+    const userId = req.body;
+    // console.log(userId)
     try {
-        const requestedTrips = await tripStats.getAllTrips();
+        const requestedTrips = await tripStats.getAllTrips(userId);
         return successResponse(
             res,
             200,
