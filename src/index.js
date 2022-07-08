@@ -6,6 +6,9 @@ import routes from "./routes/index";
 import "dotenv/config";
 import fileUpload from "express-fileupload";
 import getDefault from "./helpers/getEnvironment";
+import socket from "socket.io";
+import path from "path";
+import io from "./utils/chat-bot";
 
 const PORT = getDefault(process.env.PORT, "5000");
 
@@ -25,8 +28,14 @@ DB.authenticate().then(() => {
   console.log("Database Connected");
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log("Server has started on port", PORT);
 });
 
+io.attach(server)
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/chats', (req,res)=>{
+  res.sendFile(path.join(`${__dirname}/public/login.html`));
+})
 export default app;

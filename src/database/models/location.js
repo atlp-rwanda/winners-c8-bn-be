@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
         through: models.TripRequestDestination,
       });
     }
+    static associate(models) {
+      this.hasMany(models.Accommodation, {
+        foreignKey: "location_id",
+      });
+    }
   }
   Location.init(
     {
