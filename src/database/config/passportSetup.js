@@ -1,7 +1,7 @@
 /* eslint-disable */
-
+import GoogleStrategy from 'passport-google-oauth2';
 import passport from 'passport';
-import GoogleStrategy from 'passport-google-oauth20';
+// import GoogleStrategy from 'passport-google-oauth2';
 import FacebookStrategy from 'passport-facebook';
 import 'dotenv/config';
 import userService from '../../services/userService';
@@ -27,9 +27,10 @@ passport.deserializeUser(async (user, done) => {
 passport.use(new GoogleStrategy({
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: '/api/v1/users/auth/google/callback',
+  callbackURL: process.env.SERVER_ADDRESS+'/api/v1/users/auth/google/callback',
+  passReqToCallback: true,
 },
-(accessToken, refreshToken, profile, done) => {
+(request ,accessToken, refreshToken, profile, done) => {
   done(null, profile);
 },));
 // passport.use(new FacebookStrategy({
