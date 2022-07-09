@@ -12,10 +12,14 @@ class Social {
     let facebook = null;
     const column = `${req.user.provider}`;
     if (column === 'google') {
-      google = req.user.id;
+      google = req.user.id; 
     } else {
       facebook = req.user.id;
-    }
+    } 
+    return res.status(200).json({
+      message: `authenticated at last!!!!`,
+      body: req.user,
+    });
     const googleSearch = await userService.findByProp({
       googleId: req.user.id,
     });
