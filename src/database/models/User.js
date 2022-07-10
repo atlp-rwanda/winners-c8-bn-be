@@ -84,15 +84,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: null,
       },
-      username: DataTypes.STRING,
-      phoneNumber: DataTypes.STRING,
-      image: DataTypes.STRING,
-      gender: DataTypes.STRING,
-      preferredLanguage: DataTypes.STRING,
-      preferredCurrency: DataTypes.STRING,
-      department: DataTypes.STRING,
-      googleId: {
-        type: DataTypes.STRING,
+      remember_info: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
       facebookId: {
         type: DataTypes.STRING,

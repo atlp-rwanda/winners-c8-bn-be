@@ -3,6 +3,7 @@ import { updateUserProfile } from "../controllers/user";
 import { protect } from "../middlewares/AuthoMiddleware";
 import Validations from "../validations";
 import notificationRoutes from "./notification";
+import { setRememberInfo } from '../controllers/user'
 
 const verifyUpdateUserProfile = Validations.verifyUpdateUserProfile;
 
@@ -61,4 +62,22 @@ router.use("/notifications", notificationRoutes);
  *
  */
 
-export default router;
+router.put('/remember-info', protect, setRememberInfo)
+/**
+ * @swagger
+ * /user/remember-info:
+ *   put:
+ *     summary: update remember info option
+ *     tags:
+ *       - User
+ *     security:
+ *             - BearerToken: []
+ *     responses:
+ *       '200':
+ *         description: Successfully.
+ *       '500':
+ *         description: Internal server error
+
+*/
+ 
+export default router
