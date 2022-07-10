@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "location_id",
       });
     }
+    static associate(models) {
+      this.hasMany(models.Accommodation, {
+        foreignKey: "location_id",
+      });
+    }
   }
   Location.init(
     {
