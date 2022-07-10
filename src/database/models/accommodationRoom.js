@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Accommodation, {
         foreignKey: { name: "accommodation_id", type: DataTypes.INTEGER, onDelete: "cascade" },
       });
+      this.hasMany(models.BookingRoom, {
+        foreignKey:'roomId'
+      });
+
     }
   }
   AccommodationRoom.init(
@@ -40,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: true,
       },
+      isBooked:{
+        type:DataTypes.BOOLEAN,
+        defaultValue: false
+      }
     },
     {
       sequelize,
