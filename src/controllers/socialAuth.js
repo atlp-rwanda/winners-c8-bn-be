@@ -16,10 +16,10 @@ class Social {
     } else {
       facebook = req.user.id;
     } 
-    return res.status(200).json({
-      message: `authenticated at last!!!!`,
-      body: req.user,
-    });
+    // return res.status(200).json({
+    //   message: `authenticated at last!!!!`,
+    //   body: req.user,
+    // });
     const googleSearch = await userService.findByProp({
       googleId: req.user.id,
     });
