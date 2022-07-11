@@ -1,4 +1,3 @@
-// this folder will contain validation middlewares' definitions.
 import Joi from "joi";
 
 const schema = {
@@ -39,17 +38,130 @@ const schema = {
         "string.pattern.base":
           "{{#label}} must contain at least a number, a special character, an upper-case letter and longer than 8 characters",
       }),
-    user_role: Joi.string(),
-    managerId: Joi.string(),
   }),
   signin: Joi.object({
     email: Joi.string().required(),
     password: Joi.string().required(),
   }),
+  updateprofile: Joi.object().keys({
+    firstName: Joi.string()
+      .empty()
+      .min(2)
+      .max(20)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+    lastName: Joi.string()
+      .empty()
+      .min(2)
+      .max(20)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+    phoneNumber: Joi.string()
+      .required()
+      .empty()
+      .min(10)
+      .max(10)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain 10 numbers",
+      }),
+      username: Joi.string()
+      .empty()
+      .min(6)
+      .max(20)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+      gender: Joi.string()
+      .empty()
+      .min(1)
+      .max(10)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+      image: Joi.string()
+      .empty()
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only image format.",
+      }),
+      preferredLanguage: Joi.string()
+      .empty()
+      .min(6)
+      .max(20)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+      preferredCurrency: Joi.string()
+      .empty()
+      .min(3)
+      .max(10)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+      department: Joi.string()
+      .empty()
+      .min(3)
+      .max(20)
+      .pattern(/^[a-zA-Z]/)
+      .messages({
+        "any.required": "{{#label}} field is required",
+        "string.base": "{{#label}} must be of type string",
+        "string.empty": "{{#label}} can not be empty",
+        "string.pattern.base":
+          "{{#label}} must contain only characters from a to z.",
+      }),
+    user_role: Joi.string(),
+    managerId: Joi.string(),
+  }),
+
+  addManager: Joi.object({
+    email: Joi.string().required(),
+    managerId: Joi.string().required(),
+  }),
 
   tripRequest: Joi.object({
     departureId: Joi.number().required(),
-    destinationId: Joi.number()
+    destinationsId: Joi.alternatives()
+     .try(Joi.number(),Joi.string(), Joi.array().items(Joi.alternatives(Joi.number(), Joi.string())))
       .required()
       .invalid(Joi.ref("departureId"))
       .messages({
@@ -114,6 +226,27 @@ class AuthValidation {
     return next();
   }
 
+  static async verifyUpdateUserProfile(req, res, next) {
+    const { error } = schema.updateprofile.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        error: error.details[0].message.replace(/["'`]+/g, ""),
+      });
+    }
+    return next();
+  }
+  static async verifyManager(req, res, next) {
+    const { error } = schema.addManager.validate(req.body);
+    if (error) {
+      throw new Error(
+        res.status(400).json({
+          error: error.details[0].message.replace(/["'`]+/g, ""),
+        })
+      );
+    }
+    return next();
+  }
+
   static async verifyLocation(req, res, next) {
     const { error } = schema.location.validate(req.body);
     if (error) {
@@ -127,7 +260,7 @@ class AuthValidation {
   static async verifyTripRequest(req, res, next) {
     const {
       departureId,
-      destinationId,
+      destinationsId,
       dateOfDeparture,
       travelReason,
       accommodationId,
@@ -135,7 +268,7 @@ class AuthValidation {
 
     const tripRequest = {
       departureId,
-      destinationId,
+      destinationsId,
       dateOfDeparture,
       travel_reason: travelReason,
       accommodationId,
@@ -154,6 +287,17 @@ class AuthValidation {
     }
     req.body = tripRequest;
 
+    return next();
+  }
+  static async verifyTripRequestStatusUpdate(req, res, next) {
+    try {
+      const result = await Joi.object({
+        status: Joi.valid("Approved", "Rejected").required(),
+      }).validateAsync(req.body);
+      req.body = result;
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
     return next();
   }
 }

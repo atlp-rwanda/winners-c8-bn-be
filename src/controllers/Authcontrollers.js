@@ -26,12 +26,8 @@ class Auth {
       const { password } = req.body;
 
       const exists = await checkUser(req.body.email);
-      const isManager = await checkManager(req.body.managerId);
       if (exists) {
         return errorResponse(res, 409, "Ooops! User already exists!");
-      }
-      if (!isManager) {
-        return errorResponse(res, 409, "Ooops! Invalid manager id!");
       }
       const user = await createUser({
         ...req.body,
@@ -94,8 +90,6 @@ class Auth {
   static async signout(req, res) {
     try {
       if (!req.user || !req.headers["authorization"]) {
-        console.log(req.user);
-        console.log(req.headers);
         errorResponse(res, 403, "User not logged in");
       }
 
@@ -181,6 +175,6 @@ class Auth {
       );
     }
   }
-}
+		}
 
 export default Auth;

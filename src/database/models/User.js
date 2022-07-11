@@ -30,6 +30,9 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
+      this.hasMany(models.Chat, {
+        foreignKey: "postedBy",
+      });
     }
   }
   User.init(
@@ -66,11 +69,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: null,
       },
-    },
-    {
-      sequelize,
-      modelName: "User",
-    }
-  );
+    username: DataTypes.STRING,
+    phoneNumber: DataTypes.STRING,
+    image: DataTypes.STRING,
+    gender: DataTypes.STRING,
+    preferredLanguage: DataTypes.STRING,
+    preferredCurrency:DataTypes.STRING,
+    department:DataTypes.STRING,
+   }
+  , {
+    sequelize,
+    modelName: 'User',
+  });
   return User;
 };
