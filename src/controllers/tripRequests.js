@@ -84,10 +84,10 @@ export const createTripRequest = async (req, res) => {
     );
   }
   tripRequest.managerId = req.user.managerId;
-
+  let destinations = tripRequest.destinationsId;
+  delete tripRequest.destinationsId
   try {
-    const trip = await tripServices.createTripRequest(tripRequest);
-    tripRequest.destinationsId.forEach(async id=>await tripServices.addDestination(trip.id,id))
+    const trip = await tripServices.createTripRequest(tripRequest, destinations);
     return res.status(201).send("Trip request successfully created");
   } catch (err) {
     console.log(err);
@@ -134,7 +134,6 @@ export const editTripRequest = async (req, res) => {
       tripRequestId,
       user
     );
-    if(tripRequest.destinationsId.length) tripServices.editDestination(result.id,tripRequest.destinationIds)
     return res.status(201).send("Trip request successfully updated");
   } catch (err) {
     switch (err.message) {

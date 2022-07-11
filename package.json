@@ -4,7 +4,7 @@
   "main": "test.js",
   "scripts": {
     "build": "npx babel src --out-dir lib",
-    "test": "cross-env NODE_ENV=test npm run unmigrate && npx cross-env NODE_ENV=test npm run migrate&& cross-env NODE_ENV=test npm run seed-roles && cross-env NODE_ENV=test nyc --reporter=text --reporter=html  mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 10000 --exit && cross-env NODE_ENV=test npm run unmigrate",
+    "test": "cross-env NODE_ENV=test npm run unmigrate && npx cross-env NODE_ENV=test npm run migrate&& cross-env NODE_ENV=test npm run seed-roles && cross-env NODE_ENV=test nyc --reporter=text --reporter=html  mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 30000 --exit && cross-env NODE_ENV=test npm run unmigrate",
     "coverage": "nyc  --reporter=text-lcov --reporter=lcov npm run test | coveralls",
     "start": "cross-env NODE_ENV=production npm run migrate && node lib/index.js",
     "dev": "cross-env NODE_ENV=development nodemon --exec npx babel-node src/index.js",
