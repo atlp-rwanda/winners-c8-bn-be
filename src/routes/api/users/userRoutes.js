@@ -25,17 +25,5 @@ router.get('/auth/google/failure', (req, res) => {
 router.get('/auth/facebook/failure', (req, res) => {
     errorResponse(res, 401, "failed to authenticate through facebook");
 });
-
-router.get('auth/google/logout', (req, res) => {
-    req.logout();
-    req.session.destroy();
-    successResponse(res, 200, "Signed out from google auth", result);
-});
-
-router.get('auth/facebook/logout', (req, res) => {
-    req.logout();
-    req.session.destroy();
-    successResponse(res, 200, "Signed out from facebook auth", result);
-});
  
 export default router;

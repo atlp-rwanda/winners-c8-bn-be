@@ -2,6 +2,11 @@
 import jwt from 'jsonwebtoken';
 import userService from '../services/userService';
 import Util from '../helpers/utils';
+import Protection from "../middlewares/hash";
+import UserService2 from "../services/user";
+import successResponse from "../utils/success";
+
+const { signToken } = Protection;
 const util = new Util();
 class Social {
   static async Oauth(req, res) {
@@ -26,6 +31,9 @@ class Social {
     const facebookSearch = await userService.findByProp({
       facebookId: req.user.id,
     });
+    if(req.user.emails.length == 0) {
+      return errorResponse(res, 403, `cannot login. the user's ${req.user.provider} account has no assigned email.`);
+    }
     const exist = await userService.findByProp({
       email: req.user.emails[0].value,
     });
@@ -47,39 +55,33 @@ class Social {
         firstName: req.user.name.familyName,
         lastName: req.user.name.givenName,
         email: req.user.emails[0].value,
+        password: Math.random().toString(),
         isVerified: req.user.emails[0].verified,
         googleId: google,
         facebookId: facebook,
       };
       const inserter = await userService.createuser(newUser);
-      userGot = inserter.dataValues;
+      userGot = inserter.dataValues; console.log(userGot);
       Action = 'SignUp';
       status = 201;
     }
-    const token = jwt.sign(
-      {
+
+    const token = await signToken({
         id: userGot.id,
         email: userGot.email,
-      },
-      process.env.JWT_SECRET_KEY,
-      {
-        expiresIn: '7d', // should expire in a week
-      },
-    );
-    const message = `Welcome, ${Action} succesful `;
-    const fullName = `${userGot.firstName} ${userGot.lastName} `
-    const { email, roleId } = userGot
-    const data = {
-      id: userGot.id,
-      email: userGot.email,
-      TokenKey: token,
-    };
-    util.setSuccess(status, message, data);
-    res.writeHead(302, {
-      Location: `https://elite-staging.herokuapp.com/dashboard?name=${fullName}&email=${email}&roleId=${roleId}&token=${token}`
+        user_role: userGot.user_role,
+        managerId: userGot.managerId,
+      });
+    
+    const user = await UserService2.checkUser(userGot.email);
+    await user.createUserSession({
+      token,
+      deviceType: req.headers["user-agent"],
+      loginIp: req.ip,
+      lastSessionTime: new Date(),
     });
-    res.end();
-    // return util.send(res);
+    return successResponse(res, 200, "User loggedIn", token);
+    
   }
 }
 export default Social;

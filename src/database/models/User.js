@@ -77,10 +77,10 @@ module.exports = (sequelize, DataTypes) => {
     preferredCurrency:DataTypes.STRING,
     department:DataTypes.STRING,
     googleId: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
     },
     facebookId: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
     },
    }
   , {
