@@ -35,8 +35,7 @@ const tripInclude = [
   },
   {
     model: Db.Location,
-    as: "destination",
-    attributes: ["id", "city", "state", "province", "country"],
+    as: "destinations",
   },
 ];
 
@@ -192,13 +191,15 @@ export const searchTripRequest = async (queryParameters, locations, user) => {
     let valid = true;
     if (locations.destination) {
       let inDestination = false;
-      Object.keys(trip.destination.dataValues).forEach((key) => {
-        let value = trip.destination.dataValues[key];
-        typeof value === "string" ? (value = value.toLowerCase().trim()) : "";
+      trip.destinations.forEach((destination) => {
+        Object.keys(destination.dataValues).forEach((key) => {
+          let value = destination.dataValues[key];
+          typeof value === "string" ? (value = value.toLowerCase().trim()) : "";
 
-        if (value == locations.destination.toLowerCase().trim()) {
-          inDestination = true;
-        }
+          if (value == locations.destination.toLowerCase().trim()) {
+            inDestination = true;
+          }
+        });
       });
 
       !inDestination ? (valid = false) : "";

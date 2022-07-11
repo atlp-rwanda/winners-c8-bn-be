@@ -43,29 +43,31 @@ export const createTripRequest = async (req, res) => {
   const tripRequest = req.body;
   const departureValid = await checkLocation(tripRequest.departureId);
   let destinationsValid;
-  if(typeof tripRequest.destinationsId == "number"|| typeof tripRequest.destinationsId == "string"){
-
+  if (
+    typeof tripRequest.destinationsId == "number" ||
+    typeof tripRequest.destinationsId == "string"
+  ) {
     destinationsValid = await checkLocation(tripRequest.destinationsId);
-    console.log()
+    console.log();
     if (!destinationsValid) {
       return errorResponse(res, 400, "Invalid Destination Location");
     }
     tripRequest.destinationsId = [tripRequest.destinationsId];
-    
-  }
-   else{
-    tripRequest.destinationsId.forEach(async destinationId => {
-      const destinationValid= await checkLocation(destinationId);
-      if(!destinationValid){
-        return errorResponse (res, 400,`Destination ${destinationId} doesn't exist.`)
+  } else {
+    tripRequest.destinationsId.forEach(async (destinationId) => {
+      const destinationValid = await checkLocation(destinationId);
+      if (!destinationValid) {
+        return errorResponse(
+          res,
+          400,
+          `Destination ${destinationId} doesn't exist.`
+        );
       }
-    })
-   }
+    });
+  }
   if (!departureValid) {
     return errorResponse(res, 400, "Invalid Departure Location");
   }
-
-
 
   if (tripRequest.dateOfReturn) {
     tripRequest.tripType = "return";
@@ -84,9 +86,12 @@ export const createTripRequest = async (req, res) => {
   }
   tripRequest.managerId = req.user.managerId;
   let destinations = tripRequest.destinationsId;
-  delete tripRequest.destinationsId
+  delete tripRequest.destinationsId;
   try {
-    const trip = await tripServices.createTripRequest(tripRequest, destinations);
+    const trip = await tripServices.createTripRequest(
+      tripRequest,
+      destinations
+    );
     return res.status(201).send("Trip request successfully created");
   } catch (err) {
     console.log(err);
@@ -96,37 +101,40 @@ export const createTripRequest = async (req, res) => {
 export const editTripRequest = async (req, res) => {
   const tripRequest = req.body;
   const tripRequestId = req.params.id;
-  try{
+  try {
     await tripServices.getOneTripRequest(req.user, tripRequestId);
-  const departureValid = await checkLocation(tripRequest.departureId);
-  let destinationsValid;
-  if(typeof tripRequest.destinationsId == "number"){
-    destinationsValid = await checkLocation(tripRequest.destinationsId);
-    tripRequest.destinationsId = [tripRequest.destinationsId];
-    if(!destinationsValid){
-      return errorResponse(res,400,"Invalid Destination Location");
-    }
-  }
-  else{
-    tripRequest.destinationsId.forEach(async destinationId => {
-      const destinationValid=await checkLocation(destinationId)
-
-      if(!destinationValid){
-        return errorResponse(res, 400,`Destination ${destinationId} doesn't exist.`);
+    const departureValid = await checkLocation(tripRequest.departureId);
+    let destinationsValid;
+    if (typeof tripRequest.destinationsId == "number") {
+      destinationsValid = await checkLocation(tripRequest.destinationsId);
+      tripRequest.destinationsId = [tripRequest.destinationsId];
+      if (!destinationsValid) {
+        return errorResponse(res, 400, "Invalid Destination Location");
       }
-    })
-  }
-  if (!departureValid) {
-    return errorResponse(res, 400, "Invalid Departure Location");
-  }
+    } else {
+      tripRequest.destinationsId.forEach(async (destinationId) => {
+        const destinationValid = await checkLocation(destinationId);
 
-  const user = req.user;
+        if (!destinationValid) {
+          return errorResponse(
+            res,
+            400,
+            `Destination ${destinationId} doesn't exist.`
+          );
+        }
+      });
+    }
+    if (!departureValid) {
+      return errorResponse(res, 400, "Invalid Departure Location");
+    }
 
-  if (tripRequest.dateOfReturn) {
-    tripRequest.tripType = "return";
-  } else {
-    tripRequest.tripType = "oneway";
-  }
+    const user = req.user;
+
+    if (tripRequest.dateOfReturn) {
+      tripRequest.tripType = "return";
+    } else {
+      tripRequest.tripType = "oneway";
+    }
 
     const result = await tripServices.editTripRequest(
       tripRequest,
@@ -230,6 +238,9 @@ export const searchTripRequest = async (req, res) => {
     return successResponse(res, 200, "trips found", result);
   } catch (err) {
     return errorResponse(res, 500, err.message);
+  }
+};
+
 export const updateTripRequestStatus = async (req, res) => {
   const user = req.user;
   const tripId = req.params.id;

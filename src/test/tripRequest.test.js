@@ -314,8 +314,16 @@ describe("api/trips", async () => {
         .query(locationQuery)
         .set("Authorization", `Bearer ${token}`);
 
+      const res_manager = await request(server)
+        .get(url + "search")
+        .query(locationQuery)
+        .set("Authorization", `Bearer ${manager.token}`);
+
       expect(res.status).to.be.eq(200);
       expect(res.body.data[0].departure.country).to.be.eq(location.country);
+      expect(res_manager.body.data[0].departure.country).to.be.eq(
+        location.country
+      );
     });
   });
 
@@ -485,7 +493,6 @@ describe("api/trips", async () => {
         tripRequestToUpdate.departureId
       );
     });
-
 
     it("should return 400, if DepartureId is not valid", async () => {
       const token = user.token;
