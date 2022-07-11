@@ -47,7 +47,6 @@ export const createTripRequest = async (req, res) => {
   if(typeof tripRequest.destinationsId == "number"|| typeof tripRequest.destinationsId == "string"){
 
     destinationsValid = await checkLocation(tripRequest.destinationsId);
-    console.log()
     if (!destinationsValid) {
       return errorResponse(res, 400, "Invalid Destination Location");
     }
