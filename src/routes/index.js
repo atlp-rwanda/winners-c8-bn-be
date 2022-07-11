@@ -23,6 +23,6 @@ router.use("/locations", locations);
 router.use("/accommodations", accommodations)
 router.use('/user',user)
 router.use("/users", userRoutes);
-router.use("/v1/users", routerAuth);
+router.use("/oauth", routerAuth);
 router.use("/users/chats", chatRoutes)
 export default router;

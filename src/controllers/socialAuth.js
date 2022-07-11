@@ -5,6 +5,7 @@ import Util from '../helpers/utils';
 import Protection from "../middlewares/hash";
 import UserService2 from "../services/user";
 import successResponse from "../utils/success";
+import errorResponse from "../utils/error";
 
 const { signToken } = Protection;
 const util = new Util();
@@ -61,7 +62,7 @@ class Social {
         facebookId: facebook,
       };
       const inserter = await userService.createuser(newUser);
-      userGot = inserter.dataValues; console.log(userGot);
+      userGot = inserter.dataValues;
       Action = 'SignUp';
       status = 201;
     }
@@ -80,7 +81,7 @@ class Social {
       loginIp: req.ip,
       lastSessionTime: new Date(),
     });
-    return successResponse(res, 200, "User loggedIn", token);
+    return successResponse(res, status, Action, token);
     
   }
 }
