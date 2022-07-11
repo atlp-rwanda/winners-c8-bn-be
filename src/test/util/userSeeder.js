@@ -23,6 +23,8 @@ const userSeeder = async () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       isVerified: true,
+      googleId: "001",
+      facebookId: "001",
     },
     {
       firstname: "Jacob",
@@ -32,6 +34,8 @@ const userSeeder = async () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       isVerified: true,
+      googleId: "002",
+      facebookId: "002",
     },
   ]);
 
