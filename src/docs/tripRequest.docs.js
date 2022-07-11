@@ -78,7 +78,7 @@
  *     post:
  *       security:
  *         - BearerToken: []
- *       description: It will create a single or multi city trip request for the user who signed in 
+ *       description: It will create a single or multi city trip request for the user who signed in
  *       requestBody:
  *         "$ref": "#/components/requestBodies/tripRequestBody"
  *       tags:
@@ -245,7 +245,7 @@
  *           type: string
  *           name: departure
  *           required: false
- *           description: Name of destination for the trip request
+ *           description: Name of departure for the trip request
  *         - in: query
  *           type: string
  *           name: departure_date
