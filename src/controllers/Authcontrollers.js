@@ -78,7 +78,6 @@ class Auth {
       });
       return successResponse(res, 200, "User loggedIn", token);
     } catch (error) {
-      console.log(error);
       return errorResponse(
         res,
         500,
@@ -138,7 +137,6 @@ class Auth {
   static async getUserSessions(request, response) {
     try {
       const sessions = await request.user.getUserSessions();
-      console.log(sessions);
       return successResponse(
         response,
         200,
@@ -175,6 +173,6 @@ class Auth {
       );
     }
   }
-		}
+}
 
 export default Auth;

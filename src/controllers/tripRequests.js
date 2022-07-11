@@ -3,6 +3,7 @@ import successResponse from "../utils/success";
 import { tripServices } from "../services";
 import { checkLocation } from "../services/locationServices";
 import RoleService from "../services/roleServices";
+import sendNotification from "../utils/sendNotification";
 
 export const getAllTripRequests = async (req, res) => {
   const user = req.user;
@@ -91,6 +92,12 @@ export const createTripRequest = async (req, res) => {
       tripRequest,
       destinations
     );
+    await sendNotification({
+      title: "The new trip request that need approval",
+      message: `${req.user.name} created a new trip request that need approval.`,
+      link: `${process.env.FRONTEND_URL}/trip-requests/${trip.id}`,
+      userIds: [trip.managerId],
+    });
     return res.status(201).send("Trip request successfully created");
   } catch (err) {
     return errorResponse(res, 500, err.message);

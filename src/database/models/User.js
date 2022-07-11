@@ -69,23 +69,27 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: null,
       },
-    username: DataTypes.STRING,
-    phoneNumber: DataTypes.STRING,
-    image: DataTypes.STRING,
-    gender: DataTypes.STRING,
-    preferredLanguage: DataTypes.STRING,
-    preferredCurrency:DataTypes.STRING,
-    department:DataTypes.STRING,
-    googleId: {
-      type: DataTypes.STRING,
+      username: DataTypes.STRING,
+      phoneNumber: DataTypes.STRING,
+      image: DataTypes.STRING,
+      gender: DataTypes.STRING,
+      preferredLanguage: DataTypes.STRING,
+      preferredCurrency: DataTypes.STRING,
+      department: DataTypes.STRING,
+      googleId: {
+        type: DataTypes.STRING,
+      },
+      facebookId: {
+        type: DataTypes.STRING,
+      },
+      allowedNotificationMethod: {
+        type: DataTypes.ENUM(["email", "inapp", "both", "none"]),
+      },
     },
-    facebookId: {
-      type: DataTypes.STRING,
-    },
-   }
-  , {
-    sequelize,
-    modelName: 'User',
-  });
+    {
+      sequelize,
+      modelName: "User",
+    }
+  );
   return User;
 };
