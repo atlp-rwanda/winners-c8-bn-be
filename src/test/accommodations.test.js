@@ -9,7 +9,6 @@ import accommodationSeeder from "./util/accommodationSeeder";
 import accommodationRoomSeeder from "./util/accommodationRoomSeeder";
 import locationSeeder from "./util/locationSeeder";
 import chaiHttp from "chai-http";
-import fs from "fs";
 
 chai.use(chaiHttp);
 const { request } = chai;
