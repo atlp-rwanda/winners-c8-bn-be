@@ -20,7 +20,7 @@ const tripRequestSeeder = async (userId, managerId) => {
       },
       {
         id: 2,
-        departureId: 1,        
+        departureId: 1,
         travel_reason: "Tourism",
         accommodationId: 1,
         dateOfDeparture: "2022-07-17",
@@ -35,7 +35,7 @@ const tripRequestSeeder = async (userId, managerId) => {
       {
         id: 3,
         departureId: 1,
-                travel_reason: "Tourism",
+        travel_reason: "Tourism",
         accommodationId: 1,
         dateOfDeparture: "2022-07-17",
         dateOfReturn: "2022-07-27",

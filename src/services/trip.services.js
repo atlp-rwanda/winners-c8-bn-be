@@ -1,3 +1,4 @@
+import { get } from "config";
 import Db from "../database/models";
 import RoleService from "./roleServices";
 
@@ -5,6 +6,38 @@ const { findRoleById } = RoleService;
 
 const TripRequest = Db.TripRequest;
 const TripRequestDestination = Db.TripRequestDestination;
+
+const tripAttributes = [
+  "id",
+  "status",
+  "travel_reason",
+  "accommodationId",
+  "dateOfDeparture",
+  "dateOfReturn",
+  "tripType",
+];
+
+const tripInclude = [
+  {
+    model: Db.User,
+    as: "manager",
+    attributes: ["id", "firstName", "lastName", "email"],
+  },
+  {
+    model: Db.User,
+    as: "owner",
+    attributes: ["id", "firstName", "lastName", "email"],
+  },
+  {
+    model: Db.Location,
+    as: "departure",
+    attributes: ["id", "city", "state", "province", "country"],
+  },
+  {
+    model: Db.Location,
+    as: "destinations",
+  },
+];
 
 export const getAllTripRequests = async (user) => {
   let result;
@@ -14,77 +47,18 @@ export const getAllTripRequests = async (user) => {
       where: {
         managerId: user.id,
       },
-      include: [
-        {
-          model: Db.User,
-          as: "manager",
-          attributes: ["id", "firstName", "lastName", "email"],
-        },
-        {
-          model: Db.User,
-          as: "owner",
-          attributes: ["id", "firstName", "lastName", "email"],
-        },
-        {
-          model: Db.Location,
-          as: "departure",
-          attributes: ["id", "city", "state", "province", "country"],
-        },
-        {
-          model: Db.Location,
-          as:"destinations",
-        }
-        
-      ],
-      attributes: [
-        "id",
-        "status",
-        "travel_reason",
-        "accommodationId",
-        "dateOfDeparture",
-        "dateOfReturn",
-        "tripType",
-      ],
+      include: tripInclude,
+      attributes: tripAttributes,
     });
   } else {
     result = await TripRequest.findAll({
       where: {
         ownerId: user.id,
       },
-      include: [
-        {
-          model: Db.User,
-          as: "manager",
-          attributes: ["id", "firstName", "lastName", "email"],
-        },
-        {
-          model: Db.User,
-          as: "owner",
-          attributes: ["id", "firstName", "lastName", "email"],
-        },
-        {
-          model: Db.Location,
-          as: "departure",
-          attributes: ["id", "city", "state", "province", "country"],
-        }
-        ,
-        {
-          model: Db.Location,
-          as:"destinations",
-        }
-      ],
-      attributes: [
-        "id",
-        "status",
-        "travel_reason",
-        "accommodationId",
-        "dateOfDeparture",
-        "dateOfReturn",
-        "tripType",
-      ],
+      include: tripInclude,
+      attributes: tripAttributes,
     });
   }
-
   return result;
 };
 
@@ -93,36 +67,8 @@ export const getOneTripRequest = async (user, tripId) => {
     where: {
       id: tripId,
     },
-    include: [
-      {
-        model: Db.User,
-        as: "manager",
-        attributes: ["id", "firstName", "lastName", "email"],
-      },
-      {
-        model: Db.User,
-        as: "owner",
-        attributes: ["id", "firstName", "lastName", "email"],
-      },
-      {
-        model: Db.Location,
-        as: "departure",
-        attributes: ["id", "city", "state", "province", "country"],
-      },
-      {
-        model: Db.Location,
-        as:"destinations",
-      }
-    ],
-    attributes: [
-      "id",
-      "status",
-      "travel_reason",
-      "accommodationId",
-      "dateOfDeparture",
-      "dateOfReturn",
-      "tripType",
-    ],
+    include: tripInclude,
+    attributes: tripAttributes,
   });
 
   if (result == null) {
@@ -149,9 +95,9 @@ export const getOneTripRequest = async (user, tripId) => {
 export const createTripRequest = async (tripRequest, destinations) => {
   const result = await TripRequest.create(tripRequest);
 
-  destinations.forEach(async destination => {
-    await addDestination(result.dataValues.id, destination)
-  })
+  destinations.forEach(async (destination) => {
+    await addDestination(result.dataValues.id, destination);
+  });
 
   return result;
 };
@@ -181,12 +127,11 @@ export const editTripRequest = async (tripRequest, tripRequestId, user) => {
   tripRequest.status = tripRequestToUpdate.status;
   tripRequest.updatedAt = new Date();
 
- const destinations = tripRequest.destinationsId;
- delete  tripRequest.destinationsId;
+  const destinations = tripRequest.destinationsId;
+  delete tripRequest.destinationsId;
   const result = await TripRequest.upsert(tripRequest);
 
- editDestination(tripRequestId,destinations);
-
+  editDestination(tripRequestId, destinations);
 
   return result;
 };
@@ -218,14 +163,76 @@ export const deleteTripRequest = async (tripRequestId, user) => {
 
   return result;
 };
-export const addDestination=async (tripId, destinationId) => {
-  const destination=await TripRequestDestination.create({
+
+export const searchTripRequest = async (queryParameters, locations, user) => {
+  let trips;
+
+  if ((await findRoleById(user.user_role)).roleName == "manager") {
+    trips = await TripRequest.findAll({
+      where: {
+        ...queryParameters,
+        managerId: user.id,
+      },
+      include: tripInclude,
+      attributes: tripAttributes,
+    });
+  } else {
+    trips = await TripRequest.findAll({
+      where: {
+        ...queryParameters,
+        ownerId: user.id,
+      },
+      include: tripInclude,
+      attributes: tripAttributes,
+    });
+  }
+
+  const filterdTrips = trips.filter((trip) => {
+    let valid = true;
+    if (locations.destination) {
+      let inDestination = false;
+      trip.destinations.forEach((destination) => {
+        Object.keys(destination.dataValues).forEach((key) => {
+          let value = destination.dataValues[key];
+          typeof value === "string" ? (value = value.toLowerCase().trim()) : "";
+
+          if (value == locations.destination.toLowerCase().trim()) {
+            inDestination = true;
+          }
+        });
+      });
+
+      !inDestination ? (valid = false) : "";
+    }
+
+    if (locations.departure) {
+      let inDeparture = false;
+      Object.keys(trip.departure.dataValues).forEach((key) => {
+        let value = trip.departure.dataValues[key];
+        typeof value === "string" ? (value = value.toLowerCase().trim()) : "";
+
+        if (value == locations.departure.toLowerCase().trim()) {
+          inDeparture = true;
+        }
+      });
+
+      !inDeparture ? (valid = false) : "";
+    }
+
+    return valid;
+  });
+  return filterdTrips;
+};
+export const addDestination = async (tripId, destinationId) => {
+  const destination = await TripRequestDestination.create({
     tripId,
-    destinationId
-  })
+    destinationId,
+  });
   return destination;
 };
-export const editDestination=async (tripId, destinationIds) => {
-  await TripRequestDestination.destroy({ where:{tripId}  });
-  destinationIds.forEach(async destinationId => await addDestination(tripId,destinationId))
+export const editDestination = async (tripId, destinationIds) => {
+  await TripRequestDestination.destroy({ where: { tripId } });
+  destinationIds.forEach(
+    async (destinationId) => await addDestination(tripId, destinationId)
+  );
 };

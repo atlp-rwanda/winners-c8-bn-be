@@ -1,4 +1,3 @@
-import express from "express";
 import errorResponse from "../utils/error";
 import successResponse from "../utils/success";
 import { tripServices } from "../services";
@@ -44,28 +43,30 @@ export const createTripRequest = async (req, res) => {
   const tripRequest = req.body;
   const departureValid = await checkLocation(tripRequest.departureId);
   let destinationsValid;
-  if(typeof tripRequest.destinationsId == "number"|| typeof tripRequest.destinationsId == "string"){
-
+  if (
+    typeof tripRequest.destinationsId == "number" ||
+    typeof tripRequest.destinationsId == "string"
+  ) {
     destinationsValid = await checkLocation(tripRequest.destinationsId);
     if (!destinationsValid) {
       return errorResponse(res, 400, "Invalid Destination Location");
     }
     tripRequest.destinationsId = [tripRequest.destinationsId];
-    
-  }
-   else{
-    tripRequest.destinationsId.forEach(async destinationId => {
-      const destinationValid= await checkLocation(destinationId);
-      if(!destinationValid){
-        return errorResponse (res, 400,`Destination ${destinationId} doesn't exist.`)
+  } else {
+    tripRequest.destinationsId.forEach(async (destinationId) => {
+      const destinationValid = await checkLocation(destinationId);
+      if (!destinationValid) {
+        return errorResponse(
+          res,
+          400,
+          `Destination ${destinationId} doesn't exist.`
+        );
       }
-    })
-   }
+    });
+  }
   if (!departureValid) {
     return errorResponse(res, 400, "Invalid Departure Location");
   }
-
-
 
   if (tripRequest.dateOfReturn) {
     tripRequest.tripType = "return";
@@ -84,49 +85,55 @@ export const createTripRequest = async (req, res) => {
   }
   tripRequest.managerId = req.user.managerId;
   let destinations = tripRequest.destinationsId;
-  delete tripRequest.destinationsId
+  delete tripRequest.destinationsId;
   try {
-    const trip = await tripServices.createTripRequest(tripRequest, destinations);
+    const trip = await tripServices.createTripRequest(
+      tripRequest,
+      destinations
+    );
     return res.status(201).send("Trip request successfully created");
   } catch (err) {
-    return errorResponse(res,500,err.message);
+    return errorResponse(res, 500, err.message);
   }
 };
 
 export const editTripRequest = async (req, res) => {
   const tripRequest = req.body;
   const tripRequestId = req.params.id;
-  try{
+  try {
     await tripServices.getOneTripRequest(req.user, tripRequestId);
-  const departureValid = await checkLocation(tripRequest.departureId);
-  let destinationsValid;
-  if(typeof tripRequest.destinationsId == "number"){
-    destinationsValid = await checkLocation(tripRequest.destinationsId);
-    tripRequest.destinationsId = [tripRequest.destinationsId];
-    if(!destinationsValid){
-      return errorResponse(res,400,"Invalid Destination Location");
-    }
-  }
-  else{
-    tripRequest.destinationsId.forEach(async destinationId => {
-      const destinationValid=await checkLocation(destinationId)
-
-      if(!destinationValid){
-        return errorResponse(res, 400,`Destination ${destinationId} doesn't exist.`);
+    const departureValid = await checkLocation(tripRequest.departureId);
+    let destinationsValid;
+    if (typeof tripRequest.destinationsId == "number") {
+      destinationsValid = await checkLocation(tripRequest.destinationsId);
+      tripRequest.destinationsId = [tripRequest.destinationsId];
+      if (!destinationsValid) {
+        return errorResponse(res, 400, "Invalid Destination Location");
       }
-    })
-  }
-  if (!departureValid) {
-    return errorResponse(res, 400, "Invalid Departure Location");
-  }
+    } else {
+      tripRequest.destinationsId.forEach(async (destinationId) => {
+        const destinationValid = await checkLocation(destinationId);
 
-  const user = req.user;
+        if (!destinationValid) {
+          return errorResponse(
+            res,
+            400,
+            `Destination ${destinationId} doesn't exist.`
+          );
+        }
+      });
+    }
+    if (!departureValid) {
+      return errorResponse(res, 400, "Invalid Departure Location");
+    }
 
-  if (tripRequest.dateOfReturn) {
-    tripRequest.tripType = "return";
-  } else {
-    tripRequest.tripType = "oneway";
-  }
+    const user = req.user;
+
+    if (tripRequest.dateOfReturn) {
+      tripRequest.tripType = "return";
+    } else {
+      tripRequest.tripType = "oneway";
+    }
 
     const result = await tripServices.editTripRequest(
       tripRequest,
@@ -152,7 +159,7 @@ export const editTripRequest = async (req, res) => {
           .json({ error: "The user is not the owner of the trip request" });
         break;
       default:
-          errorResponse(res, 500, err.message);
+        errorResponse(res, 500, err.message);
     }
     return;
   }
@@ -189,6 +196,50 @@ export const deleteTripRequest = async (req, res) => {
     return;
   }
 };
+
+export const searchTripRequest = async (req, res) => {
+  const user = req.user;
+
+  const allowedQueries = {
+    owner_id: "ownerId",
+    destination: "destination",
+    departure: "departure",
+    departure_date: "dateOfDeparture",
+    status: "status",
+    type: "tripType",
+  };
+
+  let queries = {};
+
+  let locations = {};
+
+  Object.keys(req.query).forEach((query) => {
+    // Check if query is contained in allowed queries
+    const isValidQuery = Object.keys(allowedQueries).includes(query);
+
+    if (!isValidQuery) {
+      return errorResponse(res, 400, `Invalid query parameter ${query}`);
+    }
+    if (query == "destination" || query == "departure") {
+      locations[query] = req.query[query];
+    } else {
+      queries[allowedQueries[query]] = req.query[query];
+    }
+  });
+
+  try {
+    const result = await tripServices.searchTripRequest(
+      queries,
+      locations,
+      user
+    );
+
+    return successResponse(res, 200, "trips found", result);
+  } catch (err) {
+    return errorResponse(res, 500, err.message);
+  }
+};
+
 export const updateTripRequestStatus = async (req, res) => {
   const user = req.user;
   const tripId = req.params.id;
