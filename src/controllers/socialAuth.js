@@ -1,14 +1,11 @@
 /* eslint-disable */
-import jwt from 'jsonwebtoken';
 import userService from '../services/userService';
-import Util from '../helpers/utils';
 import Protection from "../middlewares/hash";
 import UserService2 from "../services/user";
 import successResponse from "../utils/success";
 import errorResponse from "../utils/error";
 
 const { signToken } = Protection;
-const util = new Util();
 class Social {
   static async Oauth(req, res) {
     let Action;
@@ -21,11 +18,7 @@ class Social {
       google = req.user.id; 
     } else {
       facebook = req.user.id;
-    } 
-    // return res.status(200).json({
-    //   message: `authenticated at last!!!!`,
-    //   body: req.user,
-    // });
+    }
     const googleSearch = await userService.findByProp({
       googleId: req.user.id,
     });

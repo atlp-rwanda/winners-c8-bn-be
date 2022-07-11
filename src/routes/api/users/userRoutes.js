@@ -1,11 +1,9 @@
 import express from 'express';
-import validateUserData from '../../../middlewares/validators/UserValidator'; 
-import UserController from '../../../controllers/User';
 import passport from 'passport';
 import '../../../database/config/passportSetup'; 
 import Social from '../../../controllers/socialAuth';
 import errorResponse from "../../../utils/error";
-import successResponse from "../../../utils/success";
+// import successResponse from "../../../utils/success";
 const router = express.Router();
 
 const session = require('express-session');

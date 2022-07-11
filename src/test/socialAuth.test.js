@@ -1,35 +1,15 @@
 import chai, { expect } from "chai";
-import models from "../database/models";
 import Social from '../controllers/socialAuth';
 import server from "../index";
-import Protection from "../middlewares/hash";
-import { signup } from "./mocks/Users";
-import userSeeder from "./util/userSeeder";
 import socialAuthData from "./mocks/socialAuthData";
 import chaiHttp from "chai-http";
 
 chai.use(chaiHttp);
 const { request } = chai;
 
-const { User } = { ...models };
 
 describe("Social auth controller", async () => {
-    before(async () => {
-      try {
-        await User.destroy({ where: {} });
-      } catch (error) {
-        console.log({ error });
-      }
-    });
-  
-    after(async () => {
-      try {
-        await User.destroy({ where: {} });
-      } catch (error) {
-        console.error({ error });
-      }
-    });
-  
+
     describe("Sign up using facebook", () => {
       it("should return 403 if the FB account has no associated email", async () => {
         const req = {};
@@ -139,6 +119,18 @@ describe("Social Auth Endpoints", async () => {
         const res = await request(server).get('/api/oauth/facebook')
   
         expect(res.status).to.be.eq(200);
+      });
+
+      it("should return 401 code (route: /api/oauth/facebook/failure)", async () => {
+        const res = await request(server).get('/api/oauth/facebook/failure')
+  
+        expect(res.status).to.be.eq(401);
+      });
+
+      it("should return 401 code (route: /api/oauth/google/failure)", async () => {
+        const res = await request(server).get('/api/oauth/google/failure')
+  
+        expect(res.status).to.be.eq(401);
       });
     });
 });
