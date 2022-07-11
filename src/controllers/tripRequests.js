@@ -89,7 +89,7 @@ export const createTripRequest = async (req, res) => {
     const trip = await tripServices.createTripRequest(tripRequest, destinations);
     return res.status(201).send("Trip request successfully created");
   } catch (err) {
-    console.log(err);
+    return errorResponse(res,500,err.message);
   }
 };
 
@@ -152,7 +152,7 @@ export const editTripRequest = async (req, res) => {
           .json({ error: "The user is not the owner of the trip request" });
         break;
       default:
-        console.log(err);
+          errorResponse(res, 500, err.message);
     }
     return;
   }
@@ -184,7 +184,7 @@ export const deleteTripRequest = async (req, res) => {
           .json({ error: "The user is not the owner of the trip request" });
         break;
       default:
-        console.log(err);
+        errorResponse(res, 500, err.message);
     }
     return;
   }
