@@ -11,7 +11,7 @@ module.exports = {
             id: "7adae2f1-4d35-470d-8512-1b9634330a9f",
             firstName: "Manager",
             lastName: "User",
-            email: "manager@gmail.com",
+            email: "bagira.sostenee@gmail.com",
             password: hashPassword("String@01"),
             user_role: "6927442b-84fb-4fc3-b799-11449fa62f52",
             isVerified: true,

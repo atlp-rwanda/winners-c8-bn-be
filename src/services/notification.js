@@ -4,8 +4,11 @@ class NotificationService {
   static createNotification({ title, message, link, userId }) {
     return Notification.create({ title, message, link, userId });
   }
-  static getNotification(id) {
-    return Notification.findOne({ where: { id } });
+  static getNotifications(userId) {
+    return Notification.findAll({ where: { userId } });
+  }
+  static getNotification(id, userId) {
+    return Notification.findOne({ where: { id, userId } });
   }
   static deleteNotification(id, userId) {
     return Notification.destroy({ where: { id, userId } });

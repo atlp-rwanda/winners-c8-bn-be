@@ -75,6 +75,7 @@ module.exports = {
       },
       allowedNotificationMethod: {
         type: Sequelize.ENUM(["email", "inapp", "both", "none"]),
+        defaultValue: "both",
       },
       createdAt: {
         allowNull: false,

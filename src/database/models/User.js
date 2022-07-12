@@ -33,6 +33,9 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Chat, {
         foreignKey: "postedBy",
       });
+      this.hasMany(models.Notification, {
+        foreignKey: "userId",
+      });
     }
   }
   User.init(
@@ -84,6 +87,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       allowedNotificationMethod: {
         type: DataTypes.ENUM(["email", "inapp", "both", "none"]),
+        defaultValue: "both",
       },
     },
     {

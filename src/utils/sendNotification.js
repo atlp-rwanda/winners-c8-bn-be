@@ -12,24 +12,38 @@ async function sendNotification({
 }) {
   userIds.forEach(async (id) => {
     const user = await userService.checkUserById(id);
-    if (throughEmail && (user.allowedNotificationMethod = "email" || "both")) {
-      sendEmail({
+    if (
+      throughEmail &&
+      (user.allowedNotificationMethod == "email" ||
+        user.allowedNotificationMethod == "both")
+    ) {
+      console.log("Sending the email");
+      await sendEmail({
         to: user.email,
         subject: title,
         body: message,
         link: link,
       });
     }
-    if (throughInApp && (user.allowedNotificationMethod = "inapp" || "both")) {
-      //check if the user is online
-      const online = ipsconnected.find((ipdata) => ipdata.user.id === id);
-      if (online) online.socket.emit("notification", { title, message, link });
+    if (
+      throughInApp &&
+      (user.allowedNotificationMethod == "inapp" ||
+        user.allowedNotificationMethod == "both")
+    ) {
+      for (let value in ipsconnected) {
+        if (ipsconnected[value].user.id === id)
+          ipsconnected[value].socket.emit("notification", {
+            title,
+            message,
+            link,
+          });
+      }
     }
     await NotificationService.createNotification({
       title,
       message,
       link,
-      userId,
+      userId: id,
     });
   });
 }

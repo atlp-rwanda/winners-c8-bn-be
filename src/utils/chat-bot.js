@@ -20,7 +20,7 @@ io.use(async (socket, next) => {
 });
 
 let onlineUsers = 0;
-export const ipsconnected = [];
+export const ipsconnected = {};
 
 io.on("connection", async (socket) => {
   const { token } = socket.handshake.auth;
@@ -39,8 +39,6 @@ io.on("connection", async (socket) => {
     onlineUsers += 1;
     io.emit("online", onlineUsers);
   }
-  console.log(ipsconnected);
-
   // associate connected socket to user
   io.to(socket.id).emit("onLoad", user);
 

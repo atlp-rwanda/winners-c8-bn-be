@@ -93,10 +93,10 @@ export const createTripRequest = async (req, res) => {
       destinations
     );
     await sendNotification({
-      title: "The new trip request that need approval",
-      message: `${req.user.name} created a new trip request that need approval.`,
+      title: "The new trip request has been created",
+      message: `${req.user.firstName} created a new trip request that for  approval.`,
       link: `${process.env.FRONTEND_URL}/trip-requests/${trip.id}`,
-      userIds: [trip.managerId],
+      userIds: [trip.managerId, req.user.id],
     });
     return res.status(201).send("Trip request successfully created");
   } catch (err) {
