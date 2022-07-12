@@ -8,6 +8,8 @@ import chatRoutes from "../routes/chatRoutes";
 import accommodations from "./accommodations";
 import bookingRoutes from "./bookingRoomRoutes";
 import user from './user';
+import routerAuth from "./api/users/userRoutes";
+
 
 const router = Router();
 
@@ -24,6 +26,6 @@ router.use("/rooms", bookingRoutes);
 router.use("/accommodations", accommodations);
 router.use('/user',user);
 router.use("/users", userRoutes);
-router.use("/users/chats", chatRoutes);
-
+router.use("/oauth", routerAuth);
+router.use("/users/chats", chatRoutes)
 export default router;
