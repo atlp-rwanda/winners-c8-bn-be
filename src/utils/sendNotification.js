@@ -10,7 +10,8 @@ async function sendNotification({
   throughEmail = true,
   throughInApp = true,
 }) {
-  userIds.forEach(async (id) => {
+  const notifications = [];
+  for (let id of userIds) {
     const user = await userService.checkUserById(id);
     if (
       throughEmail &&
@@ -39,13 +40,15 @@ async function sendNotification({
           });
       }
     }
-    await NotificationService.createNotification({
+    const notification = await NotificationService.createNotification({
       title,
       message,
       link,
       userId: id,
     });
-  });
+    notifications.push(notification);
+  }
+  return notifications;
 }
 
 export default sendNotification;
