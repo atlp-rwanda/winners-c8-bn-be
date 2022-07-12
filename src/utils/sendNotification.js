@@ -12,13 +12,13 @@ async function sendNotification({
 }) {
   const notifications = [];
   for (let id of userIds) {
+    if (!id) continue;
     const user = await userService.checkUserById(id);
     if (
       throughEmail &&
       (user.allowedNotificationMethod == "email" ||
         user.allowedNotificationMethod == "both")
     ) {
-      console.log("Sending the email");
       await sendEmail({
         to: user.email,
         subject: title,

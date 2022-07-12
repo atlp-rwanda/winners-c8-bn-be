@@ -108,7 +108,7 @@ export const editTripRequest = async (req, res) => {
   const tripRequest = req.body;
   const tripRequestId = req.params.id;
   try {
-    await tripServices.getOneTripRequest(req.user, tripRequestId);
+    const trip = await tripServices.getOneTripRequest(req.user, tripRequestId);
     const departureValid = await checkLocation(tripRequest.departureId);
     let destinationsValid;
     if (typeof tripRequest.destinationsId == "number") {
@@ -147,6 +147,12 @@ export const editTripRequest = async (req, res) => {
       tripRequestId,
       user
     );
+    await sendNotification({
+      title: "The  trip request has been edited",
+      message: `The trip request has been edited `,
+      link: `${process.env.FRONTEND_URL}/trip-requests/${tripRequestId}`,
+      userIds: [trip.manager.id, req.user.id],
+    });
     return res.status(201).send("Trip request successfully updated");
   } catch (err) {
     switch (err.message) {

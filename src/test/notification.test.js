@@ -53,7 +53,6 @@ describe("Notificatons test", () => {
       .set("authorization", `Bearer ${token}`);
     expect(res.status).to.be.eq(200);
     expect(res.body.data).to.be.an("array");
-    console.log(res.body.data);
     validNotificationId = res.body.data[0]?.id;
   });
 
@@ -81,7 +80,6 @@ describe("Notificatons test", () => {
     const res = await request(app)
       .get(basePath + validNotificationId)
       .set("authorization", `Bearer ${token}`);
-    console.log(res.body);
     expect(res.status).to.be.eq(200);
   });
   it("PATCH /user/notifications/{notificationid} should return 401  if user is not logged in", async () => {
