@@ -1,5 +1,4 @@
 import models from '../database/models';
-import AccommodationService from "../services/accommodation";
 import { tripServices} from "../services";
 import {compareBookingDuration} from "../helpers/compareBookingDuration";
 
