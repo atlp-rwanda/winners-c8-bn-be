@@ -36,4 +36,8 @@ router.put(
 );
 router.delete("/:id", [authChecker], tripControllers.deleteTripRequest);
 
+//Trip statistics for users(travellers) and managers
+
+router.get("/trip/statistics", tripStats.getAllTrips);
+
 export default router;
