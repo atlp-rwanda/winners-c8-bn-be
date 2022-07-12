@@ -10,7 +10,6 @@ module.exports = {
           {
             id: 1,
             departureId: 1,
-            destinationId: 2,
             travel_reason: "Studying my bachelor degree",
             accommodationId: -1,
             dateOfDeparture: "17-07-2022",
@@ -25,7 +24,6 @@ module.exports = {
           {
             id: 2,
             departureId: 1,
-            destinationId: 2,
             travel_reason: "Tourism",
             accommodationId: 0,
             dateOfDeparture: "17-07-2022",
@@ -34,6 +32,24 @@ module.exports = {
             tripType: "return",
             ownerId: uuidv4(),
             managerId: uuidv4(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        ],
+        {}
+      );
+      await queryInterface.bulkInsert(
+        "TripRequestDestinations",
+        [
+          {
+            tripId: 1,
+            destinationId: 1,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+          {
+            tripId: 2,
+            destinationId: 2,
             createdAt: new Date(),
             updatedAt: new Date(),
           },
@@ -50,7 +66,8 @@ module.exports = {
      * Add commands to revert seed here.
      *
      * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+     *    */
+     await queryInterface.bulkDelete('trip_requests', null, {});
+  
   },
 };

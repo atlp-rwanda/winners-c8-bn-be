@@ -5,10 +5,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.TripRequest, {
         foreignKey: "departureId",
-        foreignKey: "destinationId",
       });
-    }
-    static associate(models) {
+      this.belongsToMany(models.TripRequest, {
+        foreignKey: "destinationId",
+        through: models.TripRequestDestination,
+      });
+    
       this.hasMany(models.Accommodation, {
         foreignKey: "location_id",
       });

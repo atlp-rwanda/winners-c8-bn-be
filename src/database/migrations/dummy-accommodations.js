@@ -61,10 +61,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      destinationId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
       travel_reason: {
         type: Sequelize.STRING,
         allowNull: false,

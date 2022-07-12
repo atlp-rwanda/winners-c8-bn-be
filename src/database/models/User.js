@@ -76,6 +76,12 @@ module.exports = (sequelize, DataTypes) => {
     preferredLanguage: DataTypes.STRING,
     preferredCurrency:DataTypes.STRING,
     department:DataTypes.STRING,
+    googleId: {
+      type: DataTypes.STRING,
+    },
+    facebookId: {
+      type: DataTypes.STRING,
+    },
    }
   , {
     sequelize,

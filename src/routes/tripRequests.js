@@ -14,6 +14,7 @@ router.get("/", [authChecker], tripControllers.getAllTripRequests);
 //Trip statistics for users(travellers) and managers
 
 router.get("/tripstatistics", tripStats.getAllTrips);
+router.get("/search", [authChecker], tripControllers.searchTripRequest);
 
 router.get("/:id", [authChecker], tripControllers.getOneTripRequest);
 
