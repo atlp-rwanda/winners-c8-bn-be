@@ -40,4 +40,6 @@ router.delete("/:id", [authChecker], tripControllers.deleteTripRequest);
 
 router.get("/trip/statistics", tripStats.getAllTrips);
 
+router.get("/trip/managerstatistics", tripStats.getAllManagerTrips);
+
 export default router;
