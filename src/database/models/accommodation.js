@@ -12,16 +12,20 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "accommodationId",
         onDelete: "cascade",
       });
-    }
-    static associate(models) {
+
       Accommodation.hasMany(models.AccommodationRoom, {
         foreignKey: "accommodation_id",
         onDelete: "cascade",
       });
-    }
-    static associate(models) {
+
       this.belongsTo(models.Location, {
         foreignKey: { name: "location_id", type: DataTypes.INTEGER },
+      });
+
+      this.belongsToMany(models.User, {
+        foreignKey: "accommodationId",
+        as: "usersLiked",
+        through: models.AccommodationLikes,
       });
     }
   }
@@ -62,20 +66,20 @@ module.exports = (sequelize, DataTypes) => {
       add_on_services: {
         type: DataTypes.TEXT,
         get: function () {
-          return JSON.parse(this.getDataValue('add_on_services'));
+          return JSON.parse(this.getDataValue("add_on_services"));
         },
         set: function (add_on_services) {
-            this.setDataValue('add_on_services', JSON.stringify(add_on_services));
+          this.setDataValue("add_on_services", JSON.stringify(add_on_services));
         },
         allowNull: true,
       },
       amenities: {
         type: DataTypes.TEXT,
         get: function () {
-          return JSON.parse(this.getDataValue('amenities'));
+          return JSON.parse(this.getDataValue("amenities"));
         },
         set: function (amenities) {
-            this.setDataValue('amenities', JSON.stringify(amenities));
+          this.setDataValue("amenities", JSON.stringify(amenities));
         },
         allowNull: true,
       },
