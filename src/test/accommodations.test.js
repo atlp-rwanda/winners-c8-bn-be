@@ -97,8 +97,9 @@ describe("api/accommodations/", async () => {
 
   describe("POST /", () => {
     it("should return 403 if user is not travel admin", async () => {
-      const res = await request(server).post(url)
-      .set("Authorization", `Bearer ${user.token}`);
+      const res = await request(server)
+        .post(url)
+        .set("Authorization", `Bearer ${user.token}`);
 
       expect(res.status).to.be.eq(403);
     });
@@ -106,8 +107,8 @@ describe("api/accommodations/", async () => {
     it("should return 400 if input form validations are violated", async () => {
       const res = await request(server)
         .post(url)
-        .field("name", 'New Bees')
-        .field("description", 'A fake place you can imagine')
+        .field("name", "New Bees")
+        .field("description", "A fake place you can imagine")
         .field("location_id", "-1000")
         .set("Authorization", `Bearer ${admin.token}`);
 
@@ -117,25 +118,33 @@ describe("api/accommodations/", async () => {
     it("should return 404 when location_id does not exist", async () => {
       const res = await request(server)
         .post(url)
-        .field("name", 'New Bees')
-        .field("description", 'A fake place you can imagine')
+        .field("name", "New Bees")
+        .field("description", "A fake place you can imagine")
         .field("location_id", "-1000")
         .field("latitude", "10")
         .field("longitude", "20")
-        .attach("accommodation_image","./src/test/mocks/files/accommodation_images/house.jpg","house.jpg")
-        .set("Authorization", `Bearer ${admin.token}`)
-        expect(res.status).to.be.eq(404);
+        .attach(
+          "accommodation_image",
+          "./src/test/mocks/files/accommodation_images/house.jpg",
+          "house.jpg"
+        )
+        .set("Authorization", `Bearer ${admin.token}`);
+      expect(res.status).to.be.eq(404);
     });
 
     it("should return 201, if all validations are passing", async () => {
       const res = await request(server)
         .post(url)
-        .field("name", 'New Bees')
-        .field("description", 'A fake place you can imagine')
+        .field("name", "New Bees")
+        .field("description", "A fake place you can imagine")
         .field("location_id", "1")
         .field("latitude", "10")
         .field("longitude", "20")
-        .attach("accommodation_image","./src/test/mocks/files/accommodation_images/house.jpg","house.jpg")
+        .attach(
+          "accommodation_image",
+          "./src/test/mocks/files/accommodation_images/house.jpg",
+          "house.jpg"
+        )
         .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(201);
@@ -144,45 +153,45 @@ describe("api/accommodations/", async () => {
 
   describe("GET /", () => {
     before(async () => {
-        // let locations = await locationSeeder();
-        try {
-          await AccommodationRoom.destroy({ where: {} });
-          await Accommodation.destroy({ where: {} });
-          await accommodationSeeder();
-        }
-        catch(error){
-          console.error({ error });
-        }
+      // let locations = await locationSeeder();
+      try {
+        await AccommodationRoom.destroy({ where: {} });
+        await Accommodation.destroy({ where: {} });
+        await accommodationSeeder();
+      } catch (error) {
+        console.error({ error });
       }
-    );
+    });
     it("should return 200 code with all accommodations", async () => {
-      const res = await request(server).get(url)
-      .set("Authorization", `Bearer ${admin.token}`);
+      const res = await request(server)
+        .get(url)
+        .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(200);
     });
 
     it("should return 200 code with a single accommodation, id = 1", async () => {
-      const res = await request(server).get(url+ "1")
-      .set("Authorization", `Bearer ${admin.token}`);
+      const res = await request(server)
+        .get(url + "1")
+        .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(200);
     });
 
     it("should return 404 code when accommodation id does not exist", async () => {
-      const res = await request(server).get(url+ "-100")
-      .set("Authorization", `Bearer ${admin.token}`);
+      const res = await request(server)
+        .get(url + "-100")
+        .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(404);
     });
   });
 
   describe("PATCH /", () => {
-
     it("should return 400 if input form validations are violated", async () => {
       const res = await request(server)
         .patch(url + 1)
-        .send({"name": 12345})
+        .send({ name: 12345 })
         .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(400);
@@ -191,8 +200,8 @@ describe("api/accommodations/", async () => {
     it("should return 404 when location_id does not exist", async () => {
       const res = await request(server)
         .patch(url + 1)
-        .field("name", 'New Bees')
-        .field("description", 'A fake place you can imagine')
+        .field("name", "New Bees")
+        .field("description", "A fake place you can imagine")
         .field("location_id", "-1000")
         .field("latitude", "10")
         .field("longitude", "20")
@@ -204,8 +213,8 @@ describe("api/accommodations/", async () => {
     it("should return 404, if the accommodation_id does not exist", async () => {
       const res = await request(server)
         .patch(url + "-123244")
-        .field("name", 'New Bees')
-        .field("description", 'A fake place you can imagine')
+        .field("name", "New Bees")
+        .field("description", "A fake place you can imagine")
         .field("location_id", "1")
         .field("latitude", "10")
         .field("longitude", "20")
@@ -218,12 +227,16 @@ describe("api/accommodations/", async () => {
       // console.log("\n\n\n the url is :", url);
       const res = await request(server)
         .patch(url + 1)
-        .field("name", 'New Bees')
-        .field("description", 'A fake place you can imagine')
+        .field("name", "New Bees")
+        .field("description", "A fake place you can imagine")
         .field("location_id", "1")
         .field("latitude", "10")
         .field("longitude", "20")
-        .attach("accommodation_image","./src/test/mocks/files/accommodation_images/house.jpg","house.jpg")
+        .attach(
+          "accommodation_image",
+          "./src/test/mocks/files/accommodation_images/house.jpg",
+          "house.jpg"
+        )
         .set("Authorization", `Bearer ${admin.token}`);
       // console.log({status: res.status, body: res.body})
       expect(res.status).to.be.eq(201);
@@ -234,30 +247,30 @@ describe("api/accommodations/", async () => {
       const res = await request(server)
         .patch(url + 1)
         .send({
-          "add_on_services": [
-                {
-                    "name": "Car",
-                    "details": "A five-seats car is proviced."
-                },
-                {
-                    "name": "Pool",
-                    "details": "a 3x3x3 metres swimming pool."
-                }
-            ],
-          "amenities": [
-              {
-                  "name": "Car",
-                  "details": "A five-seats car is proviced."
-              },
-              {
-                  "name": "Pool",
-                  "details": "a 3x3x3 metres swimming pool."
-              }
-            ],
-          "images_links": [
+          add_on_services: [
+            {
+              name: "Car",
+              details: "A five-seats car is proviced.",
+            },
+            {
+              name: "Pool",
+              details: "a 3x3x3 metres swimming pool.",
+            },
+          ],
+          amenities: [
+            {
+              name: "Car",
+              details: "A five-seats car is proviced.",
+            },
+            {
+              name: "Pool",
+              details: "a 3x3x3 metres swimming pool.",
+            },
+          ],
+          images_links: [
             "https://freesvg.org/img/SC0007.Scribble-house.png",
-            "https://freesvg.org/img/maison2.png"
-          ]
+            "https://freesvg.org/img/maison2.png",
+          ],
         })
         .set("Authorization", `Bearer ${admin.token}`);
       // console.log({status: res.status, body: res.body})
@@ -268,20 +281,95 @@ describe("api/accommodations/", async () => {
   describe("DELETE /", async () => {
     it("should return 404 if accommodation_id does not exit", async () => {
       const res = await request(server)
-      .delete(url + "-12121")
-      .set("Authorization", `Bearer ${admin.token}`);
+        .delete(url + "-12121")
+        .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(404);
     });
 
     it("should return 200 on a successful deletion", async () => {
       const res = await request(server)
-      .delete(url + 1)
-      .set("Authorization", `Bearer ${admin.token}`);
+        .delete(url + 1)
+        .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(200);
     });
+  });
 
+  describe("POST /{accommodation_id}/like", () => {
+    before(async () => {
+      // let locations = await locationSeeder();
+      try {
+        await AccommodationRoom.destroy({ where: {} });
+        await Accommodation.destroy({ where: {} });
+        await accommodationSeeder();
+      } catch (error) {
+        console.error({ error });
+      }
+    });
+
+    it("should return 401 if no token is provided", async () => {
+      const res = await request(server).post(`${url}/1/like`);
+
+      expect(res.status).to.be.eq(401);
+    });
+
+    it("should return 404 if accommodation is not found", async () => {
+      const res = await request(server)
+        .post(`${url}/100000/like`)
+        .set("Authorization", `Bearer ${user.token}`);
+
+      expect(res.status).to.be.eq(404);
+    });
+
+    it("should return 403 if user is not a requester", async () => {
+      const res = await request(server)
+        .post(`${url}/1/like`)
+        .set("Authorization", `Bearer ${admin.token}`);
+
+      expect(res.status).to.be.eq(403);
+    });
+
+    it("should return 200 on a successful like", async () => {
+      const accommodations = await request(server)
+        .get(url)
+        .set("Authorization", `Bearer ${user.token}`);
+
+      console.log(accommodations);
+      const accommodation = accommodations.body.data[0];
+
+      const res = await request(server)
+        .post(`${url}/${accommodation.id}/like`)
+        .set("Authorization", `Bearer ${user.token}`);
+
+      const likedAccommodation = await request(server)
+        .get(`${url}/${accommodation.id}`)
+        .set("Authorization", `Bearer ${user.token}`);
+
+      expect(res.status).to.be.eq(200);
+      expect(likedAccommodation.body.data.isLiked).be.true;
+    });
+
+    it("should return 200 on a successful dislike", async () => {
+      const accommodations = await request(server)
+        .get(url)
+        .set("Authorization", `Bearer ${user.token}`);
+
+      const accommodation = accommodations.body.data[0];
+
+      await request(server).post(`${url}/${accommodation.id}/like`);
+
+      const res = await request(server)
+        .post(`${url}/${accommodation.id}/like`)
+        .set("Authorization", `Bearer ${user.token}`);
+
+      const disLikedAccommodation = await request(server)
+        .get(`${url}/${accommodation.id}`)
+        .set("Authorization", `Bearer ${user.token}`);
+
+      expect(res.status).to.be.eq(200);
+      expect(disLikedAccommodation.body.data.isLiked).be.false;
+    });
   });
 });
 
@@ -361,11 +449,10 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
   // });
 
   describe("POST /", () => {
-
     it("should return 400 if input form validations are violated", async () => {
       const res = await request(server)
         .post(url)
-        .field("name", 'New Bees')
+        .field("name", "New Bees")
         .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(400);
@@ -375,8 +462,8 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
       let url = "/api/accommodations/-100/rooms";
       const res = await request(server)
         .post(url)
-        .field("bed_type", 'small')
-        .field("cost", '7993')
+        .field("bed_type", "small")
+        .field("cost", "7993")
         .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(404);
@@ -385,9 +472,13 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
     it("should return 201, if all validations are passing", async () => {
       const res = await request(server)
         .post(url)
-        .field("bed_type", 'small')
-        .field("cost", '7546')
-        .attach("room_image","./src/test/mocks/files/accommodation_images/room.png","room.png")
+        .field("bed_type", "small")
+        .field("cost", "7546")
+        .attach(
+          "room_image",
+          "./src/test/mocks/files/accommodation_images/room.png",
+          "room.png"
+        )
         .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(201);
@@ -396,8 +487,9 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
 
   describe("GET /", () => {
     it("should return 200 code with all rooms with accommodation_id = 1", async () => {
-      const res = await request(server).get(url)
-      .set("Authorization", `Bearer ${admin.token}`);
+      const res = await request(server)
+        .get(url)
+        .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(200);
     });
@@ -408,8 +500,7 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
       try {
         await AccommodationRoom.destroy({ where: {} });
         await accommodationRoomSeeder();
-      } 
-      catch (error) {
+      } catch (error) {
         console.log({ error });
       }
     });
@@ -417,7 +508,7 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
     it("should return 400 if input form validations are violated", async () => {
       const res = await request(server)
         .patch(url + 1)
-        .field("name", 'New Bees')
+        .field("name", "New Bees")
         .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(400);
@@ -427,8 +518,8 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
       let url = "/api/accommodations/-100/rooms/";
       const res = await request(server)
         .patch(url + 1)
-        .field("bed_type", 'small')
-        .field("cost", '7993')
+        .field("bed_type", "small")
+        .field("cost", "7993")
         .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(404);
@@ -437,9 +528,9 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
     it("should return 404 when accommodation_id (in body) does not exist", async () => {
       const res = await request(server)
         .patch(url + 1)
-        .field("accommodation_id", '-100')
-        .field("bed_type", 'small')
-        .field("cost", '7993')
+        .field("accommodation_id", "-100")
+        .field("bed_type", "small")
+        .field("cost", "7993")
         .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(404);
@@ -448,9 +539,13 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
     it("should return 201, if all validations are passing", async () => {
       const res = await request(server)
         .patch(url + 1)
-        .field("bed_type", 'small')
-        .field("cost", '7546')
-        .attach("room_image","./src/test/mocks/files/accommodation_images/room.png","room.png")
+        .field("bed_type", "small")
+        .field("cost", "7546")
+        .attach(
+          "room_image",
+          "./src/test/mocks/files/accommodation_images/room.png",
+          "room.png"
+        )
         .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(201);
@@ -460,10 +555,10 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
       const res = await request(server)
         .patch(url + 1)
         .send({
-          "images_links": [
+          images_links: [
             "https://freesvg.org/img/SC0007.Scribble-house.png",
-            "https://freesvg.org/img/maison2.png"
-          ]
+            "https://freesvg.org/img/maison2.png",
+          ],
         })
         .set("Authorization", `Bearer ${admin.token}`);
 
@@ -474,19 +569,18 @@ describe("api/accommodations/{accommodation_id}/rooms", async () => {
   describe("DELETE /", async () => {
     it("should return 404 if room_id does not exit", async () => {
       const res = await request(server)
-      .delete(url + "-12121")
-      .set("Authorization", `Bearer ${admin.token}`);
+        .delete(url + "-12121")
+        .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(404);
     });
 
     it("should return 200 on a successful deletion", async () => {
       const res = await request(server)
-      .delete(url + 1)
-      .set("Authorization", `Bearer ${admin.token}`);
+        .delete(url + 1)
+        .set("Authorization", `Bearer ${admin.token}`);
 
       expect(res.status).to.be.eq(200);
     });
-
   });
 });

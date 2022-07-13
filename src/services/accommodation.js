@@ -29,7 +29,14 @@ class AccommodationService {
   };
 
   static getAll = async () => {
-    const accommodationFacilities = await Accommodation.findAll();
+    const accommodationFacilities = await Accommodation.findAll({
+      include: [
+        {
+          model: User,
+          as: "usersLiked",
+        },
+      ],
+    });
     return accommodationFacilities;
   };
 
@@ -68,7 +75,6 @@ class AccommodationService {
 
     if (!accommodation) {
       throw new Error("Accommodation not found");
-      return;
     }
 
     const isLiked = await AccommodationLikes.findOne({
@@ -92,11 +98,6 @@ class AccommodationService {
 
       return "disliked";
     }
-
-    await AccommodationLikes.create({
-      userId: user.id,
-      accommodationId: accommodationId,
-    });
   };
 
   static async createOneRoom(data) {

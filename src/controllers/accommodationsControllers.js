@@ -8,6 +8,22 @@ const accommodationController = {};
 accommodationController.getAll = async (req, res) => {
   let result = await AccommodationService.getAll();
   result = JSON.parse(JSON.stringify(result));
+
+  result.forEach((accommodation) => {
+    accommodation.usersLiked.forEach((user) => {
+      if (user.id === req.user.id) {
+        accommodation.isLiked = true;
+      }
+    });
+    if (!accommodation.isLiked) {
+      accommodation.isLiked = false;
+    }
+
+    accommodation.likes = accommodation.usersLiked.length;
+
+    delete accommodation.usersLiked;
+  });
+
   for (let i = 0; i < result.length; i++) {
     result[i].rooms = await AccommodationService.getAllRooms(result[i].id);
   }
@@ -150,10 +166,8 @@ accommodationController.likeOrDislike = async (req, res) => {
         );
       case "disliked":
         return successResponse(res, 200, "Accommodation has been disliked");
-        break;
       case "liked":
         return successResponse(res, 200, "Accommodation has been liked");
-        break;
     }
   } catch (err) {
     return errorResponse(res, 404, err.message);
