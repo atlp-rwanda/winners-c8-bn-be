@@ -92,12 +92,14 @@ try{
           // [sequelize.fn('COUNT', sequelize.col('id')), 'visitCount'],
          
         ],
+        limit: 3
         },
         
         {
           model: TripRequest,
           where: { status: "Approved"},
           attributes: []
+          
         }
       ],   
     });
