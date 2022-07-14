@@ -3,7 +3,7 @@ import Models from "../database/models";
 const { TripRequest } = Models;
 
 export const getAllTrips = async ({userId,from,to}) =>{
-    // console.log(userId,from,to)
+    console.log(userId,from,to)
     const trips = await TripRequest.findAll(
         {
             attributes: [

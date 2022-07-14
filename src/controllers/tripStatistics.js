@@ -23,7 +23,7 @@ export const getAllManagerTrips = async(req,res) =>{
     const from = req.body;
     const to = req.body;
     try {
-        const requestedTrips = await tripStats.getAllManagerTrips(managerId);
+        const requestedTrips = await tripStats.getAllManagerTrips({managerId, from, to});
         return res.status(200).json({
             success: true,
             status: 200,
