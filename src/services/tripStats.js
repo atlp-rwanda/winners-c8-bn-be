@@ -1,20 +1,20 @@
 import { Op } from "sequelize";
-import Models from "../database/models";
+import Models, { sequelize } from "../database/models";
 const { TripRequest } = Models;
 
 export const getAllTrips = async ({userId,from,to}) =>{
     console.log(userId,from,to)
-    const trips = await TripRequest.findAll(
+    const approvedTrips = await TripRequest.findAll(
         {
-            attributes: [
-                'id','status','ownerId','managerId','updatedAt',
-            ],
+            attributes:[ "status",
+            [sequelize.fn('COUNT', sequelize.col('status')), 'statusCount']],
+            group: ["status"]
+            ,
             where: {
-                status: 'pending',
                 ownerId: userId,
                 createdAt: {
-                    [Op.lt]: from,
-                    [Op.gt]: to
+                    [Op.gte]: from,
+                    [Op.lte]: to
                   },
             },
 
@@ -22,16 +22,21 @@ export const getAllTrips = async ({userId,from,to}) =>{
         },
         
         );
-    return trips;
+    return approvedTrips;
 }
 
 
-export const getAllManagerTrips = async ({managerId}) =>{
+export const getAllManagerTrips = async ({managerId,from,to}) =>{
     const trips = await TripRequest.findAll({
-        attributes: ['id','status','managerId','updatedAt'],
+        attributes:[ "status",
+            [sequelize.fn('COUNT', sequelize.col('status')), 'statusCount']],
+            group: ["status"],
         where: {
-            status: 'pending',
-            managerId: managerId
+            managerId: managerId,
+            createdAt: {
+                [Op.gte]: from,
+                [Op.lte]: to
+              },
         },
     });
     return trips;

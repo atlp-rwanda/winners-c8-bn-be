@@ -13,8 +13,8 @@ router.get("/", [authChecker], tripControllers.getAllTripRequests);
 
 //Trip statistics for users(travellers) and managers
 
-router.get("/tripstatistics/", tripStats.getAllTrips);
-router.get("/managerstatistics/", tripStats.getAllManagerTrips);
+router.get("/tripstatistics/",[authChecker], tripStats.getAllTrips);
+router.get("/managerstatistics/",[authChecker], tripStats.getAllManagerTrips);
 
 router.get("/:id", [authChecker], tripControllers.getOneTripRequest);
 
