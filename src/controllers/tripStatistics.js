@@ -10,7 +10,7 @@ export const getAllTrips = async(req,res) =>{
             success: true,
             status: 200,
             message: "Successfully retrieved all done trips",
-            statistics: requestedTrips,
+            Tripstatistics: requestedTrips,
           });
     } catch (error) {
         errorResponse(res, 500, error.message);
@@ -26,7 +26,7 @@ export const getAllManagerTrips = async(req,res) =>{
             success: true,
             status: 200,
             message: "Successfully retrieved all done trips",
-            statistics: requestedTrips,
+            Tripstatistics: requestedTrips,
           });
     } catch (error) {
         errorResponse(res, 500, error.message);

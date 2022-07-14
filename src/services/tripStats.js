@@ -4,7 +4,7 @@ const { TripRequest } = Models;
 
 export const getAllTrips = async ({userId,from,to}) =>{
     console.log(userId,from,to)
-    const approvedTrips = await TripRequest.findAll(
+    let approvedTrips = await TripRequest.findAll(
         {
             attributes:[ "status",
             [sequelize.fn('COUNT', sequelize.col('status')), 'statusCount']],
@@ -22,12 +22,18 @@ export const getAllTrips = async ({userId,from,to}) =>{
         },
         
         );
-    return approvedTrips;
+        approvedTrips=JSON.parse(JSON.stringify(approvedTrips));
+        const ApprovedTripsObject = {}
+
+        for(let i = 0; i<approvedTrips.length; i++){
+            ApprovedTripsObject[approvedTrips[i].status]=approvedTrips[i].statusCount
+        }
+    return ApprovedTripsObject;
 }
 
 
 export const getAllManagerTrips = async ({managerId,from,to}) =>{
-    const trips = await TripRequest.findAll({
+    let trips = await TripRequest.findAll({
         attributes:[ "status",
             [sequelize.fn('COUNT', sequelize.col('status')), 'statusCount']],
             group: ["status"],
@@ -39,5 +45,12 @@ export const getAllManagerTrips = async ({managerId,from,to}) =>{
               },
         },
     });
-    return trips;
+
+    trips=JSON.parse(JSON.stringify(trips));
+        const TripsObject = {}
+
+        for(let i = 0; i<trips.length; i++){
+            TripsObject[trips[i].status]=trips[i].statusCount
+        }
+    return TripsObject;
 }
