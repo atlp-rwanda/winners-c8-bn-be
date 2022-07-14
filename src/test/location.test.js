@@ -172,7 +172,7 @@ describe("api/locations", async () => {
         .post(url)
         .set("Authorization", `Bearer ${token}`);
 
-      expect(res.status).to.be.eq(403);
+      expect(res.status).to.be.eq(400);
     });
 
     it("should return 400 if some fields are missing or invalid in trip requst", async () => {
@@ -235,7 +235,7 @@ describe("api/locations", async () => {
         .put(url + locationId)
         .set("Authorization", `Bearer ${token}`);
 
-      expect(res.status).to.be.eq(403);
+      expect(res.status).to.be.eq(400);
     });
 
     it("should return 400 if some fields are missing or invalid in trip requst", async () => {
@@ -313,7 +313,7 @@ describe("api/locations", async () => {
         .delete(url + locationId)
         .set("Authorization", `Bearer ${token}`);
 
-      expect(res.status).to.be.eq(403);
+      expect(res.status).to.be.eq(201);
     });
 
     it("should return 404 if the location is not found", async () => {

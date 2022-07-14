@@ -1,6 +1,8 @@
-import Models from "../database/models";
-
-const { Location } = Models;
+// import { where } from "sequelize/types";
+import { group } from "console";
+import Models, { sequelize }  from "../database/models";
+import triprequestdestinations from "../database/models/triprequestdestinations";
+const { Location, TripRequestDestination,TripRequest} = Models;
 
 export const getAllLocations = async () => {
   const locations = Location.findAll();
@@ -30,6 +32,8 @@ export const updateLocation = async (locationId, locationData) => {
       id: locationId,
     },
   });
+
+
 
   if (!locationToUpdate) {
     throw new Error("notFound");
@@ -68,3 +72,23 @@ export const checkLocation = async (locationId) => {
 
   return true;
 };
+
+export const getAllDestinationStats = async (tripId) => {
+// try{   
+    const statistics =  await TripRequest.count({
+      id: tripId
+    })
+      // {
+      //   attibutes: [
+      //     'destinationId',
+      //     [sequelize.fn('COUNT', sequelize.col('TripRequestDestination.destinationId')), 'destinationId']
+      //   ],
+      //   group: ['TripRequestDestination.destionationId'],
+      //   limit: 3,
+      // })
+  return {statistics};
+
+// } catch(err)  {
+// return err
+// }
+}

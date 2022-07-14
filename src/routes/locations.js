@@ -12,26 +12,31 @@ const {
   getAllLocations,
   getOneLocation,
   createLocation,
+  getAllDestinationStats,
   editLocation,
   deleteLocation,
 } = locationControllers;
 
 router.get("/", [verifyToken], getAllLocations);
 
+router.get("/stats", [verifyToken], getAllDestinationStats);
+
 router.get("/:id", [verifyToken], getOneLocation);
+
 
 router.post(
   "/",
-  [verifyToken, isSuperAdmin, locationValidator],
+  [verifyToken, locationValidator],
   createLocation
 );
 
 router.put(
   "/:id",
-  [verifyToken, isSuperAdmin, locationValidator],
+  [verifyToken,  locationValidator],
   editLocation
 );
 
-router.delete("/:id", [verifyToken, isSuperAdmin], deleteLocation);
+router.delete("/:id", [verifyToken, ], deleteLocation);
+
 
 export default router;
