@@ -35,6 +35,12 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.hasMany(models.Notification, {
         foreignKey: "userId",
+        onDelete: "CASCADE",
+        onUpdate: "RESCRICT",
+      });
+      this.belongsToMany(models.Accommodation, {
+        foreignKey: "userId",
+        through: models.AccommodationLikes,
       });
     }
   }

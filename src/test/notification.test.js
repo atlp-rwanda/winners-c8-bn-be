@@ -114,4 +114,27 @@ describe("Notificatons test", () => {
       .set("authorization", `Bearer ${token}`);
     expect(res.status).to.be.eq(200);
   });
+  it("PATCH /user/notifications/method should return 401  if user is not logged in", async () => {
+    const res = await request(app).patch(basePath + "method");
+    expect(res.status).to.be.eq(401);
+  });
+  it("PATCH /user/notifications/method should invalid notification is given ", async () => {
+    const res = await request(app)
+      .patch(basePath + "method")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        method: "test",
+      });
+    expect(res.status).to.be.eq(400);
+  });
+  it("PATCH /user/notifications/method should return 200  if user is logged in", async () => {
+    const res = await request(app)
+      .patch(basePath + "method")
+      .set("authorization", `Bearer ${token}`)
+      .send({
+        method: "email",
+      });
+    console.log(res);
+    expect(res.status).to.be.eq(200);
+  });
 });

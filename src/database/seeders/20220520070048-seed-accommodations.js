@@ -1,44 +1,13 @@
 "use strict";
-const { v4: uuidv4 } = require("uuid");
-const { hashPassword } = require("../../middlewares/hash");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     try {
       await queryInterface.bulkInsert(
-        "Users",
-        [
-          {
-            id: "7adae2f1-4d35-470d-8512-1b9634330a9f",
-            firstName: "Manager",
-            lastName: "User",
-            email: "manager@gmail.com",
-            password: hashPassword("String@01"),
-            user_role: "6927442b-84fb-4fc3-b799-11449fa62f52",
-            isVerified: true,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-          {
-            id: "7adae2f1-4d36-470d-8512-1b9634330a9f",
-            firstName: "Requester",
-            lastName: "User",
-            email: "requester@gmail.com",
-            password: hashPassword("String@01"),
-            user_role: "7adae2f1-4d35-470d-8512-1b9634330a9e",
-            isVerified: true,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            managerId: "7adae2f1-4d35-470d-8512-1b9634330a9f",
-          },
-        ],
-        {}
-      );
-
-      await queryInterface.bulkInsert(
         "accommodations",
         [
           {
-            id: -1,
+            id: 1,
             name: "Toronto Hotel",
             description: "capital street, Toronto, Ontario",
             location_id: 1,
@@ -72,7 +41,7 @@ module.exports = {
             updatedAt: new Date(),
           },
           {
-            id: 0,
+            id: 2,
             name: "Reethi beach resort",
             description: "Reethi Beach, Fonimagoodhoo Island 20215",
             location_id: 2,
@@ -108,13 +77,38 @@ module.exports = {
         ],
         {}
       );
+
+      await queryInterface.bulkInsert(
+        "accommodation_likes",
+        [
+          {
+            accommodationId: 1,
+            userId: "2bc69d45-b9a3-4440-a48a-6a232fa79600",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+          {
+            accommodationId: 2,
+            userId: "2bc69d45-b9a3-4440-a48a-6a232fa79600",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+          {
+            accommodationId: 1,
+            userId: "babd475d-a21f-4a65-bc92-fe13489ce4ff",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        ],
+        {}
+      );
     } catch (err) {
       console.log(err);
     }
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Users", null, {});
+    await queryInterface.bulkDelete("accommodation_likes", null, {});
     await queryInterface.bulkDelete("accommodations", null, {});
   },
 };

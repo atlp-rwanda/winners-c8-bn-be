@@ -32,6 +32,31 @@
  *           description: Bad Request
  *         '500':
  *           description: Internal server error
+ *   /user/notifications/method:
+ *     patch:
+ *       summary: update notification method
+ *       tags:
+ *         - Notification
+ *         - User
+ *       security:
+ *               - BearerToken: []
+ *       requestBody:
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  method:
+ *                   type: string
+ *       responses:
+ *         '200':
+ *           description: Successfully.
+ *         '401':
+ *           description: Token is invalid or expired
+ *         '400':
+ *           description: Bad Request
+ *         '500':
+ *           description: Internal server error
  *   /user/notifications/{notificationId}:
  *     get:
  *       summary: get all a single notifications

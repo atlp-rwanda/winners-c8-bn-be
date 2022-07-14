@@ -82,3 +82,17 @@ export const deleteNotification = async (req, res) => {
     errorResponse(res, 400, err.message);
   }
 };
+export const updateNotificationMethod = async (req, res) => {
+  try {
+    const method = req.body.method;
+    await notificationService.changeNotificationMethod(req.user.id, method);
+    return successResponse(
+      res,
+      200,
+      "Notification method successfully changed",
+      "Notification method successfully changed"
+    );
+  } catch (err) {
+    errorResponse(res, 400, err.message);
+  }
+};

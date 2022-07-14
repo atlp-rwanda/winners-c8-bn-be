@@ -14,5 +14,4 @@ lib/
 #test report output
 .nyc_output
 coverage
-cross-env NODE_ENV=test
 sequelize-meta.json

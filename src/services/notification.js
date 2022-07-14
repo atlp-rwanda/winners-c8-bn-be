@@ -1,5 +1,5 @@
 /*eslint-disable */
-import { Notification } from "../database/models";
+import { Notification, User } from "../database/models";
 class NotificationService {
   static createNotification({ title, message, link, userId }) {
     return Notification.create({ title, message, link, userId });
@@ -27,6 +27,12 @@ class NotificationService {
       {
         where: { userId },
       }
+    );
+  }
+  static changeNotificationMethod(userId, method) {
+    return User.update(
+      { allowedNotificationMethod: method },
+      { where: { id: userId } }
     );
   }
 }
