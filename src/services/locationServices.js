@@ -1,7 +1,6 @@
 // import { where } from "sequelize/types";
 import { group } from "console";
 import Models, { sequelize }  from "../database/models";
-import triprequestdestinations from "../database/models/triprequestdestinations";
 const { Location, TripRequestDestination,TripRequest} = Models;
 
 export const getAllLocations = async () => {
@@ -73,22 +72,39 @@ export const checkLocation = async (locationId) => {
   return true;
 };
 
-export const getAllDestinationStats = async (tripId) => {
-// try{   
-    const statistics =  await TripRequest.count({
-      id: tripId
-    })
-      // {
-      //   attibutes: [
-      //     'destinationId',
-      //     [sequelize.fn('COUNT', sequelize.col('TripRequestDestination.destinationId')), 'destinationId']
-      //   ],
-      //   group: ['TripRequestDestination.destionationId'],
-      //   limit: 3,
-      // })
+export const getAllDestinationStats = async () => {
+try{   
+    const statistics =  await TripRequestDestination.findAll(
+      {
+        attributes: [
+          [sequelize.fn('COUNT', sequelize.col('destinationId')), 'visitCount'],
+         
+        ],
+        // order: ['visitCount', 'DESC'],
+        // where:{status: "Approved"},
+        group: ['Locations.id', 'destinationId'],
+      // limit: 2,   
+
+      include: [
+        { 
+          model: Location,
+          attributes: ['city'
+          // [sequelize.fn('COUNT', sequelize.col('id')), 'visitCount'],
+         
+        ],
+        },
+        
+        {
+          model: TripRequest,
+          where: { status: "Approved"},
+          attributes: []
+        }
+      ],   
+    });
   return {statistics};
 
-// } catch(err)  {
-// return err
-// }
+} catch(err)  {
+  console.log(err)
+return err
+}
 }
