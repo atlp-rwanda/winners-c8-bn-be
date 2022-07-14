@@ -12,7 +12,7 @@ module.exports = {
             departureId: 1,
             destinationId: 2,
             travel_reason: "Studying my bachelor degree",
-            accommodationId: -1,
+            accommodationId: 1,
             dateOfDeparture: "17-07-2022",
             dateOfReturn: null,
             status: "thinking",
@@ -27,7 +27,7 @@ module.exports = {
             departureId: 1,
             destinationId: 2,
             travel_reason: "Tourism",
-            accommodationId: 0,
+            accommodationId: 2,
             dateOfDeparture: "17-07-2022",
             dateOfReturn: "1-07-2022",
             status: "thinking",
@@ -46,11 +46,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    await queryInterface.bulkDelete("trip_requests", null, {});
   },
 };

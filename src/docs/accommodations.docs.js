@@ -257,6 +257,35 @@
  *           description: Internal server error
  *           content:
  *             application/json: {}
+ *
+ *   "/accommodations/{accomodationID}/like":
+ *     post:
+ *       tags:
+ *         - accommodations
+ *       summary: Likes and Dislikes accommodations
+ *       parameters:
+ *         - name: accomodationID
+ *           in: path
+ *           description: specifies the id of the accommodation facility
+ *           required: true
+ *           schema:
+ *             type: string
+ *       security:
+ *         - BearerToken: []
+ *       responses:
+ *         "200":
+ *           description: Successful response
+ *           content:
+ *             application/json: {}
+ *         "401":
+ *           description: Unauthorized (something wrong with auth token)
+ *           content:
+ *             application/json: {}
+ *         "403":
+ *           description: Not a requester
+ *           content:
+ *             application/json: {}
+ *
  *   "/accommodations/{accommodationID}/rooms/":
  *     post:
  *       tags:

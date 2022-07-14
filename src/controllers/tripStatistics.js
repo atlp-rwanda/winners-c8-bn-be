@@ -2,7 +2,9 @@ import {tripStats} from '../services';
 import errorResponse from "../utils/error";
 
 export const getAllTrips = async(req,res) =>{
-    const userId = req.params;
+    const userId = req.body;
+    const from = req.body;
+    const to = req.body;
     try {
         const requestedTrips = await tripStats.getAllTrips(userId);
         return  res.status(200).json({
@@ -17,7 +19,9 @@ export const getAllTrips = async(req,res) =>{
 };
 
 export const getAllManagerTrips = async(req,res) =>{
-    const managerId = req.params;
+    const managerId = req.body;
+    const from = req.body;
+    const to = req.body;
     try {
         const requestedTrips = await tripStats.getAllManagerTrips(managerId);
         return res.status(200).json({

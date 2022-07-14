@@ -1,7 +1,9 @@
+import { Op } from "sequelize";
 import Models from "../database/models";
 const { TripRequest } = Models;
 
-export const getAllTrips = async ({userId}) =>{
+export const getAllTrips = async ({userId,from,to}) =>{
+    // console.log(userId,from,to)
     const trips = await TripRequest.findAll(
         {
             attributes: [
@@ -9,7 +11,11 @@ export const getAllTrips = async ({userId}) =>{
             ],
             where: {
                 status: 'pending',
-                ownerId: userId
+                ownerId: userId,
+                createdAt: {
+                    [Op.lt]: from,
+                    [Op.gt]: to
+                  },
             },
 
             

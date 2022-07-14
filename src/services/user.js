@@ -16,7 +16,6 @@ class UserService {
     return user;
   };
 
-
   static checkManager = async (userId) => {
     if (!userId) {
       return true;

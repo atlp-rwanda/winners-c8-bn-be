@@ -4,7 +4,7 @@
   "main": "test.js",
   "scripts": {
     "build": "npx babel src --out-dir lib",
-    "test": "cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed-roles && cross-env NODE_ENV=test nyc --reporter=text --reporter=html  mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 100000 --exit && cross-env NODE_ENV=test npm run unmigrate",
+    "test": "cross-env NODE_ENV=test npm run unmigrate && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed-roles && cross-env NODE_ENV=test nyc --reporter=text --reporter=html  mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 100000 --exit && cross-env NODE_ENV=test npm run unmigrate",
     "coverage": "nyc  --reporter=text-lcov --reporter=lcov npm run test | coveralls",
     "start": "cross-env NODE_ENV=production npm run migrate && node lib/index.js",
     "dev": "cross-env NODE_ENV=development nodemon --exec npx babel-node src/index.js",
@@ -15,7 +15,7 @@
     "dbseed": "npx sequelize-cli db:seed:all",
     "seed-roles": "npx sequelize-cli db:seed --seed 20220617223718-seed-roles",
     "seed-locations": "npx sequelize-cli db:seed --seed 20220623153808-demo-locations.js",
-    "seed-accommodations": "npx sequelize-cli db:seed --seed 20220520070048-dummy-user.js",
+    "seed-accommodations": "npx sequelize-cli db:seed --seed 20220520070048-seed-accommodations.js",
     "seed-admin": "npx sequelize-cli db:seed --seed 20220617225052-seed-super-admin",
     "dbseed:undo": "npx sequelize-cli db:seed:undo",
     "dbseed:undo:all": "npx sequelize-cli db:seed:undo:all",
