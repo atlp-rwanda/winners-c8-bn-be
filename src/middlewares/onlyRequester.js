@@ -9,6 +9,6 @@ export async function isRequester (req, res, next){
 	if(findRoleById.roleName !== 'requester'){
 		return res.status(403).json({status: 403, message: 'Only Requesters are allowed to perform this task', });
 	}
-
+	req.user = user;
 	next();
 }

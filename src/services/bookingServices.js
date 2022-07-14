@@ -35,4 +35,11 @@ export class BookingService{
     return null;
     
   }
+  static checkBooked = async id =>{
+    return await models.BookingRoom.findOne({where:{roomId:id}});
+  }
+
+  static deleteBooked = async id =>{
+    return await models.BookingRoom.destroy({where:{roomId:id}});
+  }
 }

@@ -40,4 +40,21 @@
  *         500:
  *           description: Internal Server Error
  * 
- */
+ * 
+ * /rooms/{roomId}/freeRoom:
+ *   post:
+ *      tags: [Room Booking]
+ *      summary: It makes room available once it was booked.
+ *      description: Only travel admin is allowed to free the room.
+ *      parameters:
+ *              - name: roomId
+ *                in: path
+ *                required: true
+ *      responses:
+ *          200:
+ *             description: Room is set to free now.
+ *          401:
+ *             description: Unauthorized | only travel admin
+ *          404:
+ *             description: Not found
+*/
