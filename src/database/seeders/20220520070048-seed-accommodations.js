@@ -7,7 +7,7 @@ module.exports = {
         "accommodations",
         [
           {
-            id: -1,
+            id: 1,
             name: "Toronto Hotel",
             description: "capital street, Toronto, Ontario",
             location_id: 1,
@@ -41,7 +41,7 @@ module.exports = {
             updatedAt: new Date(),
           },
           {
-            id: 0,
+            id: 2,
             name: "Reethi beach resort",
             description: "Reethi Beach, Fonimagoodhoo Island 20215",
             location_id: 2,
@@ -82,19 +82,19 @@ module.exports = {
         "accommodation_likes",
         [
           {
-            accommodationId: -1,
+            accommodationId: 1,
             userId: "2bc69d45-b9a3-4440-a48a-6a232fa79600",
             createdAt: new Date(),
             updatedAt: new Date(),
           },
           {
-            accommodationId: 0,
+            accommodationId: 2,
             userId: "2bc69d45-b9a3-4440-a48a-6a232fa79600",
             createdAt: new Date(),
             updatedAt: new Date(),
           },
           {
-            accommodationId: -1,
+            accommodationId: 1,
             userId: "babd475d-a21f-4a65-bc92-fe13489ce4ff",
             createdAt: new Date(),
             updatedAt: new Date(),

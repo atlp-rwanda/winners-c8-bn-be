@@ -62,8 +62,6 @@ class AccommodationService {
 
     userRole = JSON.parse(JSON.stringify(userRole));
     if (userRole.roleName !== "requester") {
-      console.log(1111, userRole);
-
       return "notRequester";
     }
 
