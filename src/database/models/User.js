@@ -30,24 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
-      this.hasMany(models.Comments, {
-        foreignKey:'userId',
-      })
-      this.hasMany(models.Chat, {
-        foreignKey: "postedBy",
-      });
-      this.hasMany(models.BookingRoom, {
-        foreignKey: 'userId'
-      })
-      this.hasMany(models.Notification, {
-        foreignKey: "userId",
-        onDelete: "CASCADE",
-        onUpdate: "RESCRICT",
-      });
-      this.belongsToMany(models.Accommodation, {
-        foreignKey: "userId",
-        through: models.AccommodationLikes,
-      });
     }
   }
   User.init(
@@ -84,22 +66,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: null,
       },
-      remember_info: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-      },
-      facebookId: {
-        type: DataTypes.STRING,
-      },
-      allowedNotificationMethod: {
-        type: DataTypes.ENUM(["email", "inapp", "both", "none"]),
-        defaultValue: "both",
-      },
-    },
-    {
-      sequelize,
-      modelName: "User",
-    }
-  );
+    username: DataTypes.STRING,
+    phoneNumber: DataTypes.STRING,
+    image: DataTypes.STRING,
+    gender: DataTypes.STRING,
+    preferredLanguage: DataTypes.STRING,
+    preferredCurrency:DataTypes.STRING,
+    department:DataTypes.STRING,
+   }
+  , {
+    sequelize,
+    modelName: 'User',
+  });
   return User;
 };

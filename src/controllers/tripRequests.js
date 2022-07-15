@@ -45,14 +45,14 @@ export const createTripRequest = async (req, res) => {
   const departureValid = await checkLocation(tripRequest.departureId);
   let destinationsValid;
   if (
-    typeof tripRequest.destinationsId == "number" ||
-    typeof tripRequest.destinationsId == "string"
+    typeof tripRequest.destinationId == "number" ||
+    typeof tripRequest.destinationId == "string"
   ) {
     destinationsValid = await checkLocation(tripRequest.destinationsId);
     if (!destinationsValid) {
       return errorResponse(res, 400, "Invalid Destination Location");
     }
-    tripRequest.destinationsId = [tripRequest.destinationsId];
+    tripRequest.destinationId = [tripRequest.destinationId];
   } else {
     tripRequest.destinationsId.forEach(async (destinationId) => {
       const destinationValid = await checkLocation(destinationId);
@@ -85,8 +85,8 @@ export const createTripRequest = async (req, res) => {
     );
   }
   tripRequest.managerId = req.user.managerId;
-  let destinations = tripRequest.destinationsId;
-  delete tripRequest.destinationsId;
+  let destinations = tripRequest.destinationId;
+  delete tripRequest.destinationId;
   try {
     const trip = await tripServices.createTripRequest(
       tripRequest,
@@ -111,14 +111,14 @@ export const editTripRequest = async (req, res) => {
     const trip = await tripServices.getOneTripRequest(req.user, tripRequestId);
     const departureValid = await checkLocation(tripRequest.departureId);
     let destinationsValid;
-    if (typeof tripRequest.destinationsId == "number") {
-      destinationsValid = await checkLocation(tripRequest.destinationsId);
-      tripRequest.destinationsId = [tripRequest.destinationsId];
+    if (typeof tripRequest.destinationId == "number") {
+      destinationsValid = await checkLocation(tripRequest.destinationId);
+      tripRequest.destinationId = [tripRequest.destinationId];
       if (!destinationsValid) {
         return errorResponse(res, 400, "Invalid Destination Location");
       }
     } else {
-      tripRequest.destinationsId.forEach(async (destinationId) => {
+      tripRequest.destinationId.forEach(async (destinationId) => {
         const destinationValid = await checkLocation(destinationId);
 
         if (!destinationValid) {

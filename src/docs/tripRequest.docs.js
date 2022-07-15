@@ -25,7 +25,7 @@
  *         departureId:
  *           type: integer
  *           required: true
- *         destinationsId:
+ *         destinationId:
  *           type: array
  *           required: true
  *         travelReason:
@@ -41,7 +41,7 @@
  *           type: string
  *       example:
  *         departureId: 1
- *         destinationsId: 2
+ *         destinationId: 2
  *         travelReason: Tour destination
  *         accommodationId: 1
  *         dateOfDeparture: '2022-07-17'

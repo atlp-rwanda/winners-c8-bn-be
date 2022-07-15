@@ -167,6 +167,45 @@ describe('User tests', ()=>{
           });
       });
 
+      let token;
+  // it('should update the remember info option', (done) => {
+  //   const user = {
+  //     firstName: 'john',
+  //     lastName: 'doe',
+  //     username: 'jdoe',
+  //     email: 'jdoe@gmail.com',
+  //     password: 'teste',
+  //     repeat_password: 'teste',
+  //     phoneNumber: '0788800012',
+  //     role: 'requester',
+  //   };
+
+  //   chai.request(app)
+  //           .post('/api/v1/users/signup')
+  //           .send(user)
+  //           .end((error, response)=>{
+  //               token = response.body.data.token;
+  //               response.should.have.status(201);
+  //               done();
+  //           })
+
+  //   chai.request(app)
+  //     .post('/api/v1/user/remember-info')
+  //     .send(user)
+  //     .end((err, res) => {
+  //   chai.request(app)
+  //         .put('/api/v1/user/remember-info')
+  //         .set('Authorization', `Bearer ${token}`)
+  //         .end((err, res) => {
+  //           res.should.have.status(200);
+  //           res.body.should.have.property('message');
+  //           expect(res.body.message).to.equal(
+  //             'remember info option updated successfully',
+  //           );
+  //           done();
+  //         });
+  //     });
+  // });
     
 });
 export {
