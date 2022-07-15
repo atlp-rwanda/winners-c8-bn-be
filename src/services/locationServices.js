@@ -76,34 +76,30 @@ export const getAllDestinationStats = async () => {
 try{   
     const statistics =  await TripRequestDestination.findAll(
       {
-        attributes: [
-          [sequelize.fn('COUNT', sequelize.col('destinationId')), 'visitCount'],
-         
-        ],
-        // order: ['visitCount', 'DESC'],
-        // where:{status: "Approved"},
-        group: ['Locations.id', 'destinationId'],
-      // limit: 2,   
 
-      include: [
-        { 
-          model: Location,
-          attributes: ['city'
-          // [sequelize.fn('COUNT', sequelize.col('id')), 'visitCount'],
-         
-        ],
-        limit: 3
-        },
-        
+        include:[
         {
           model: TripRequest,
-          where: { status: "Approved"},
-          attributes: []
-          
-        }
-      ],   
+          where: { status: 'Approved' },
+          attributes: [],
+          },
+        ],
+        attributes: [
+          [sequelize.fn('COUNT', sequelize.col('destinationId')), 'visitCount'],
+        ],
+        group: ['Locations.id', 'destinationId'],
+        order: [[sequelize.col('visitCount'), 'DESC']],
+
+      include: [
+          {
+          model: Location,
+          attributes: ['city'],
+          required: true
+        },
+      ],
+      
     });
-  return {statistics};
+  return statistics;
 
 } catch(err)  {
   console.log(err)

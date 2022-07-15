@@ -89,12 +89,14 @@ export const deleteLocation = async (req, res) => {
 
 export const getAllDestinationStats = async (req, res) => {
   try {
-  const statstics = await locationServices.getAllDestinationStats();
+  let statstics = await locationServices.getAllDestinationStats();
+  statstics = JSON.parse(JSON.stringify(statstics))
+  const limitStatistics = statstics.slice(0, 3)
   return successResponse(
     res,
     200,
     'Destination statistics fetched successfully',
-    statstics
+    limitStatistics
   );
 
 } catch (err) {
