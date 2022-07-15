@@ -1,6 +1,6 @@
 export const noDepartureTripRequest = () => {
   return {
-    destinationId: 2,
+    destinationsId: [1, 2],
     travelReason: "Studying my bachelor degree",
     accommodationId: 1,
     dateOfDeparture: "2022-07-17",
@@ -11,7 +11,7 @@ export const noDepartureTripRequest = () => {
 export const fullTripRequest = () => {
   return {
     departureId: 2,
-    destinationId: 3,
+    destinationsId: [1, 2],
     travelReason: "Studying my bachelor degree",
     accommodationId: 1,
     dateOfDeparture: "2022-07-17",
@@ -36,7 +36,7 @@ export const ownedTrip =
 export const oneWayTripRequest = () => {
   return {
     departureId: 2,
-    destinationId: 3,
+    destinationsId: [3, 2],
     travelReason: "Studying my bachelor degree",
     accommodationId: 1,
     dateOfDeparture: "2022-07-17",

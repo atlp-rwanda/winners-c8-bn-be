@@ -33,6 +33,14 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Comments, {
         foreignKey:'userId',
       })
+      this.hasMany(models.Chat, {
+        foreignKey: "postedBy",
+      });
+
+      this.belongsToMany(models.Accommodation, {
+        foreignKey: "userId",
+        through: models.AccommodationLikes,
+      });
     }
   }
   User.init(
@@ -68,6 +76,19 @@ module.exports = (sequelize, DataTypes) => {
       managerId: {
         type: DataTypes.UUID,
         defaultValue: null,
+      },
+      username: DataTypes.STRING,
+      phoneNumber: DataTypes.STRING,
+      image: DataTypes.STRING,
+      gender: DataTypes.STRING,
+      preferredLanguage: DataTypes.STRING,
+      preferredCurrency: DataTypes.STRING,
+      department: DataTypes.STRING,
+      googleId: {
+        type: DataTypes.STRING,
+      },
+      facebookId: {
+        type: DataTypes.STRING,
       },
     },
     {

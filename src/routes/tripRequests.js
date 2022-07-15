@@ -12,6 +12,8 @@ const router = express.Router();
 
 router.get("/", [authChecker], tripControllers.getAllTripRequests);
 
+router.get("/search", [authChecker], tripControllers.searchTripRequest);
+
 router.get("/:id", [authChecker], tripControllers.getOneTripRequest);
 
 router.post(
@@ -25,7 +27,11 @@ router.put(
   [authChecker, tripValidator],
   tripControllers.editTripRequest
 );
-
+router.put(
+  "/:id/status",
+  [authChecker, Validations.verifyTripRequestStatusUpdate],
+  tripControllers.updateTripRequestStatus
+);
 router.delete("/:id", [authChecker], tripControllers.deleteTripRequest);
 
 router.get(

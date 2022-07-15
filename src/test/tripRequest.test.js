@@ -16,7 +16,7 @@ import {
 
 const { hashPassword, verifyToken } = Protection;
 
-const { TripRequest, Accommodation, User } = { ...models };
+const { TripRequest, Accommodation, User, Location } = { ...models };
 let user;
 let manager;
 let userToken;
@@ -111,7 +111,7 @@ describe("api/trips", async () => {
       expect(res.status).to.be.eq(401);
     });
 
-    it("should return 200, and all posts that belong to the user", async () => {
+    it("should return 200, and all trips that belong to the user", async () => {
       const tripRequests = await tripRequestSeeder(
         user.data.id,
         manager.data.id
@@ -124,7 +124,7 @@ describe("api/trips", async () => {
       expect(res.body.every((t) => t.owner.id === user.data.id)).to.be.true;
     });
 
-    it("should return 200, and all posts that belong to the manager", async () => {
+    it("should return 200, and all trips that belong to the manager", async () => {
       const tripRequests = await tripRequestSeeder(
         user.data.id,
         manager.data.id
@@ -266,6 +266,67 @@ describe("api/trips", async () => {
     });
   });
 
+  describe("GET /search", () => {
+    it("should return 401 if user does not provide token(Not logged in)", async () => {
+      const res = await request(server).get(url + "search");
+
+      expect(res.status).to.be.eq(401);
+    });
+
+    it("should return 401 if token is invalid", async () => {
+      const token = "a"; // Invalid token
+
+      const res = await request(server)
+        .get(url + "search")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).to.be.eq(401);
+    });
+
+    it("should return 400 if search parameter provided is invalid", async () => {
+      // Seed trip requests
+      await tripRequestSeeder(user.data.id, manager.data.id);
+      const token = user.token;
+      const invalidQuery = { invalid: "continue" };
+
+      const res = await request(server)
+        .get(url + "search")
+        .query(invalidQuery)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).to.be.eq(400);
+    });
+
+    it("Should return 200, if successful in retrieving the trip requests matching the search parameters", async () => {
+      const tripRequests = await tripRequestSeeder(
+        user.data.id,
+        manager.data.id
+      );
+      const locationId = tripRequests[1].departureId;
+      const location = await Location.findOne({
+        where: { id: locationId },
+      });
+      const locationQuery = { departure: location.country };
+      const token = user.token;
+
+      const res = await request(server)
+        .get(url + "search")
+        .query(locationQuery)
+        .set("Authorization", `Bearer ${token}`);
+
+      const res_manager = await request(server)
+        .get(url + "search")
+        .query(locationQuery)
+        .set("Authorization", `Bearer ${manager.token}`);
+
+      expect(res.status).to.be.eq(200);
+      expect(res.body.data[0].departure.country).to.be.eq(location.country);
+      expect(res_manager.body.data[0].departure.country).to.be.eq(
+        location.country
+      );
+    });
+  });
+
   describe("POST /", () => {
     it("should return 401 if user does not provide token(Not logged in)", async () => {
       const res = await request(server).post(url);
@@ -311,7 +372,7 @@ describe("api/trips", async () => {
     it("should return 400, if DestinationId is not valid", async () => {
       const token = user.token;
       const tripRequest = fullTripRequest();
-      tripRequest.destinationId = 777;
+      tripRequest.destinationsId = [777];
       const res = await request(server)
         .post(url)
         .send(tripRequest)
@@ -341,9 +402,6 @@ describe("api/trips", async () => {
 
       expect(res.status).to.be.eq(201);
       expect(tripRequestFromDb).to.not.be.null;
-      expect(tripRequestFromDb.destinationId).to.be.eq(
-        tripRequest.destinationId
-      );
       expect(tripRequestFromDb.dateOfDeparture).to.be.eq(
         tripRequest.dateOfDeparture
       );
@@ -353,8 +411,8 @@ describe("api/trips", async () => {
   describe("PUT /:tripId", () => {
     it("should return 401 if user does not provide token(Not logged in)", async () => {
       const res = await request(server).put(url + 1);
-
       expect(res.status).to.be.eq(401);
+      
     });
 
     it("should return 401 if token is invalid", async () => {
@@ -394,7 +452,6 @@ describe("api/trips", async () => {
         .put(url + tripRequestId)
         .send(tripRequestToUpdate)
         .set("Authorization", `Bearer ${token}`);
-
       expect(res.status).to.be.eq(404);
     });
 
@@ -437,27 +494,6 @@ describe("api/trips", async () => {
       );
     });
 
-    it("should return 403, IF trip request does not have status of pending", async () => {
-      const token = user.token;
-      const tripRequests = await tripRequestSeeder(
-        user.data.id,
-        manager.data.id
-      );
-      const tripRequestId = tripRequests[2].id;
-      const tripRequestToUpdate = fullTripRequest();
-
-      const res = await request(server)
-        .put(url + tripRequestId)
-        .send(tripRequestToUpdate)
-        .set("Authorization", `Bearer ${token}`);
-
-      const tripAfterUpdate = await TripRequest.findOne({
-        where: { id: tripRequestId },
-      });
-      expect(res.status).to.be.eq(403);
-      expect(tripAfterUpdate.status).to.not.be.eq("pending");
-    });
-
     it("should return 400, if DepartureId is not valid", async () => {
       const token = user.token;
       const tripRequest = fullTripRequest();
@@ -483,7 +519,7 @@ describe("api/trips", async () => {
         manager.data.id
       );
       const tripRequestId = tripRequests[1].id;
-      tripRequest.destinationId = 777;
+      tripRequest.destinationsId = 777;
       const res = await request(server)
         .put(url + tripRequestId)
         .send(tripRequest)
@@ -499,7 +535,6 @@ describe("api/trips", async () => {
       );
       const tripRequestId = tripRequests[1].id;
       const tripRequestToUpdate = fullTripRequest();
-
       const res = await request(server)
         .put(url + tripRequestId)
         .send(tripRequestToUpdate)

@@ -4,7 +4,11 @@ import DB from "./database/index";
 import express from "express";
 import routes from "./routes/index";
 import "dotenv/config";
+import fileUpload from "express-fileupload";
 import getDefault from "./helpers/getEnvironment";
+import socket from "socket.io";
+import path from "path";
+import io from "./utils/chat-bot";
 
 const PORT = getDefault(process.env.PORT, "5000");
 
@@ -12,6 +16,7 @@ const app = express();
 
 // allow to parse json in body
 app.use(express.json());
+app.use(fileUpload({useTempFiles: true}))
 
 app.use("/api", routes);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
@@ -23,8 +28,14 @@ DB.authenticate().then(() => {
   console.log("Database Connected");
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log("Server has started on port", PORT);
 });
 
+io.attach(server)
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/chats', (req,res)=>{
+  res.sendFile(path.join(`${__dirname}/public/login.html`));
+})
 export default app;

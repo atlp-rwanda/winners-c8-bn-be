@@ -5,7 +5,8 @@ import app from '../index';
 import Protection from '../middlewares/hash';
 import { signup, commentor, unknown } from './mocks/Users';
 import { ownedTrip } from './mocks/TripRequests';
-import { realAccomodation } from './mocks/accomodation';
+// import { realAccomodation } from './mocks/accomodation';
+import accommodationSeeder from './util/accommodationSeeder';
 const { hashPassword, verifyToken } = Protection;
 
 const { User, TripRequest, Accommodation } = { ...models };
@@ -37,6 +38,9 @@ describe('TESTING COMMENTS API', async () => {
 	// Create tables in the test databases
 	before(async () => {
 		try {
+			await User.destroy({ where: {} });
+			await TripRequest.destroy({ where: {} });
+			await Accommodation.destroy({ where: {} });
 			await User.create({
 				...adminMock,
 				password: hashPassword(signup.password),
@@ -85,8 +89,7 @@ describe('TESTING COMMENTS API', async () => {
 
 			user.token = resUser.body.data;
 			user.data = await verifyToken(user.token);
-
-			const accomodation = await Accommodation.create(realAccomodation);
+			 await accommodationSeeder();
 
 			const trip = await TripRequest.create(ownedTrip );
 			trips.tripId = trip.id;

@@ -1,4 +1,4 @@
-import Joi from 'Joi'
+import Joi from 'joi'
 
 function commentValidation(req, res, next) {
 	const commentValiationSchema = Joi.object({

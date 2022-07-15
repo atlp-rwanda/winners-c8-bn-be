@@ -24,6 +24,9 @@ const swaggerOptions = {
       {
         url: "https://winners-c8-bn-be-staging.herokuapp.com/api",
       },
+      {
+        url: "/api",
+      },
     ],
     components: {
       securitySchemes: {

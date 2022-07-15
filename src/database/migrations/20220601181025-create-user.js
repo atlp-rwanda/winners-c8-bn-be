@@ -44,17 +44,46 @@ module.exports = {
         },
         onDelete: "cascade",
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
+		  username: {
+			type: Sequelize.STRING,
+      unique: true,
+		  },
+		  phoneNumber: {
+			type: Sequelize.STRING,
+      unique: true,
+		  },
+		  image: {
+			type: Sequelize.STRING
+		  },
+		  gender:{
+			type: Sequelize.STRING
+		  },
+		  preferredLanguage:{
+			type: Sequelize.STRING
+		  },
+		  preferredCurrency:{
+			type: Sequelize.STRING
+		  },
+		  department:{
+			type: Sequelize.STRING
+		  },
+      googleId: {
+        type: Sequelize.STRING,
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
+      facebookId: {
+        type: Sequelize.STRING,
       },
-    });
+		createdAt: {
+			allowNull: false,
+			type: Sequelize.DATE,
+		},
+		updatedAt: {
+			allowNull: false,
+			type: Sequelize.DATE,
+		},
+	});
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Users");
-  },
+    await queryInterface.dropTable('Users');
+  }
 };

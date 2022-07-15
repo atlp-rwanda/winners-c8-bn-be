@@ -10,15 +10,35 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
-      address: {
+      description: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
-      country: {
-        type: Sequelize.STRING,
-      },
-      rating: {
+      location_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      latitude: {
+        type: Sequelize.DOUBLE,
+        allowNull: true,
+      },
+      longitude: {
+        type: Sequelize.DOUBLE,
+        allowNull: true,
+      },
+      images_links: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: true,
+      },
+      add_on_services: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      amenities: {
+        type: Sequelize.TEXT,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
@@ -38,10 +58,6 @@ module.exports = {
         autoIncrement: true,
       },
       departureId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      destinationId: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },

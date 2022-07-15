@@ -18,8 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Location, {
         as: "departure",
       });
-      this.belongsTo(models.Location, {
-        as: "destination",
+      this.belongsToMany(models.Location, {
+        as: "destinations",
+        through: models.TripRequestDestination,
+        foreignKey: "tripId",
       });
       this.hasMany(models.Comments, {
 			foreignKey: 'tripId',
@@ -30,10 +32,6 @@ module.exports = (sequelize, DataTypes) => {
   TripRequest.init(
     {
       departureId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      destinationId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
