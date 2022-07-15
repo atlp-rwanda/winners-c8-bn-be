@@ -9,18 +9,18 @@ const addManagerValidations = Validations.verifyManager;
 router.patch(
   "/assignRole",
   verifyToken,
-  // isSuperAdmin,
+  isSuperAdmin,
   UserControllers.assignRole
 );
 router.patch(
   "/assignManager",
   verifyToken,
-  // isSuperAdmin,
+  isSuperAdmin,
   addManagerValidations,
   UserControllers.assignManager
 );
 
-router.get("/managers", verifyToken, UserControllers.getManagers);
-router.get("/roles", verifyToken, UserControllers.getRoles);
+router.get("/managers", verifyToken,isSuperAdmin, UserControllers.getManagers);
+router.get("/roles", verifyToken,isSuperAdmin, UserControllers.getRoles);
 
 export default router;

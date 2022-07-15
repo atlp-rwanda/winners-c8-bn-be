@@ -80,7 +80,7 @@ try{
         include:[
         {
           model: TripRequest,
-          where: { status: 'Approved' },
+          where: { status: 'approved' },
           attributes: [],
           },
         ],
