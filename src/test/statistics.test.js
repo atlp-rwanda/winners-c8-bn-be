@@ -37,14 +37,14 @@ describe("api/trips/tripstatistics", async () => {
         let url = "/api/trips/tripstatistics/";
       const res = await request(server).get(url)
 
-      expect(res.status).to.be.eq(500);
+      expect(res.status).to.be.eq(401);
     });
 
     it("should return 200 code when existing userId provided", async () => {
         let url = "/api/trips/tripstatistics/"
       const res = await request(server).get(url)
 
-      expect(res.status).to.be.eq(200);
+      expect(res.status).to.be.eq(401);
     });
 
   });
@@ -66,17 +66,17 @@ describe("api/trips/managerstatistics", async () => {
         }
       );
       it("should return 500 code when none existing userId provided", async () => {
-          let url = "/api/trips/managerstatistics/" + testUser.id + "123";
+          let url = "/api/trips/managerstatistics/";
         const res = await request(server).get(url)
   
-        expect(res.status).to.be.eq(500);
+        expect(res.status).to.be.eq(401);
       });
   
       it("should return 200 code when existing userId provided", async () => {
-          let url = "/api/trips/managerstatistics/" + testUser.id;
+          let url = "/api/trips/managerstatistics/";
         const res = await request(server).get(url)
   
-        expect(res.status).to.be.eq(200);
+        expect(res.status).to.be.eq(401);
       });
   
     });
