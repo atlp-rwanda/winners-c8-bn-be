@@ -1,5 +1,5 @@
 import express from "express";
-import { tripControllers } from "../controllers";
+import { tripControllers, tripStats } from "../controllers";
 import Validations from "../validations";
 import authChecker from "../middlewares/Authorization";
 
@@ -8,6 +8,11 @@ const tripValidator = Validations.verifyTripRequest;
 const router = express.Router();
 
 router.get("/", [authChecker], tripControllers.getAllTripRequests);
+
+//Trip statistics for users(travellers) and managers
+
+router.get("/tripstatistics/",[authChecker], tripStats.getAllTrips);
+router.get("/managerstatistics/",[authChecker], tripStats.getAllManagerTrips);
 
 router.get("/search", [authChecker], tripControllers.searchTripRequest);
 
