@@ -5,7 +5,7 @@ const { hashPassword } = Protection;
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      "users",
+      "Users",
       [
         {
           id: "f683cce1-a43a-41aa-8fd4-f3cb68e5d865",
