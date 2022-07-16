@@ -107,7 +107,7 @@ describe("PATCH Update manager of User", () => {
   it("it should update user manager", async () => {
     const managers = await UserService.findAllManagers();
     const managerId = managers[0].id;
-    console.log(managerId);
+    // console.log(managerId);
     const res = await chai
       .request(app)
       .patch("/api/users/assignManager")
