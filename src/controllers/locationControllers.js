@@ -85,3 +85,21 @@ export const deleteLocation = async (req, res) => {
     }
   }
 };
+
+
+export const getAllDestinationStats = async (req, res) => {
+  try {
+  let statstics = await locationServices.getAllDestinationStats();
+  statstics = JSON.parse(JSON.stringify(statstics))
+  const limitStatistics = statstics.slice(0, 3)
+  return successResponse(
+    res,
+    200,
+    'Destination statistics fetched successfully',
+    limitStatistics
+  );
+
+} catch (err) {
+  errorResponse(res, 500, err.message);
+}
+};

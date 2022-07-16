@@ -20,7 +20,7 @@ router.patch(
   UserControllers.assignManager
 );
 
-router.get("/managers", verifyToken, isSuperAdmin, UserControllers.getManagers);
-router.get("/roles", verifyToken, isSuperAdmin, UserControllers.getRoles);
+router.get("/managers", verifyToken,isSuperAdmin, UserControllers.getManagers);
+router.get("/roles", verifyToken,isSuperAdmin, UserControllers.getRoles);
 
 export default router;
