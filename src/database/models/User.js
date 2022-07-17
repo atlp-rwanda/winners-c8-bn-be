@@ -30,6 +30,9 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
+      this.hasMany(models.Comments, {
+        foreignKey:'userId',
+      })
       this.hasMany(models.Chat, {
         foreignKey: "postedBy",
       });

@@ -1,5 +1,5 @@
 import errorResponse from "../utils/error";
-import { User } from "../database/models";
+import { User, TripRequest } from "../database/models";
 import Protection from "./hash";
 // eslint-disable-next-line consistent-return
 
@@ -21,7 +21,8 @@ const verifyToken = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    return errorResponse(res, 401, "Access denied. Invalid token");
+    return errorResponse(res, 401, "Access denied. Invalid token", error);
   }
 };
+
 export default verifyToken;

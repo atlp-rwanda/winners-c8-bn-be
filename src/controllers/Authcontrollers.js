@@ -89,6 +89,7 @@ class Auth {
   static async signout(req, res) {
     try {
       if (!req.user || !req.headers["authorization"]) {
+ 
         errorResponse(res, 403, "User not logged in");
       }
 
