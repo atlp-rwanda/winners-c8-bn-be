@@ -36,7 +36,11 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Chat, {
         foreignKey: "postedBy",
       });
-
+      this.hasMany(models.Notification, {
+        foreignKey: "userId",
+        onDelete: "CASCADE",
+        onUpdate: "RESCRICT",
+      });
       this.belongsToMany(models.Accommodation, {
         foreignKey: "userId",
         through: models.AccommodationLikes,
@@ -89,6 +93,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       facebookId: {
         type: DataTypes.STRING,
+      },
+      allowedNotificationMethod: {
+        type: DataTypes.ENUM(["email", "inapp", "both", "none"]),
+        defaultValue: "both",
       },
     },
     {

@@ -1,9 +1,10 @@
+import moment from "moment";
 export const noDepartureTripRequest = () => {
   return {
     destinationsId: [1, 2],
     travelReason: "Studying my bachelor degree",
     accommodationId: 1,
-    dateOfDeparture: "2022-07-17",
+    dateOfDeparture: moment().add(1, "day").format("YYYY-MM-DD"),
     dateOfReturn: null,
   };
 };
@@ -14,8 +15,8 @@ export const fullTripRequest = () => {
     destinationsId: [1, 2],
     travelReason: "Studying my bachelor degree",
     accommodationId: 1,
-    dateOfDeparture: "2022-07-17",
-    dateOfReturn: "2022-07-27",
+    dateOfDeparture: moment().add(1, "day").format("YYYY-MM-DD"),
+    dateOfReturn: moment().add(4, "day").format("YYYY-MM-DD"),
   };
 };
 
@@ -39,6 +40,6 @@ export const oneWayTripRequest = () => {
     destinationsId: [3, 2],
     travelReason: "Studying my bachelor degree",
     accommodationId: 1,
-    dateOfDeparture: "2022-07-17",
+    dateOfDeparture: moment().add(1, "day").format("YYYY-MM-DD").toString(),
   };
 };
