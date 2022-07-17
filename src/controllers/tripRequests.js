@@ -151,7 +151,7 @@ export const editTripRequest = async (req, res) => {
       title: "The  trip request has been edited",
       message: `The trip request has been edited `,
       link: `${process.env.FRONTEND_URL}/trip-requests/${tripRequestId}`,
-      userIds: [trip.manager.id, req.user.id],
+      userIds: [trip.manager.id],
     });
     return res.status(201).send("Trip request successfully updated");
   } catch (err) {
@@ -269,6 +269,12 @@ export const updateTripRequestStatus = async (req, res) => {
         "You are not authorized to update trip request status"
       );
     await trip.update({ status });
+    await sendNotification({
+      title: `The  trip request has been ${status}`,
+      message: `The trip request has been ${status} `,
+      link: `${process.env.FRONTEND_URL}/trip-requests/${tripId}`,
+      userIds: [trip.owner.id],
+    });
     return res
       .status(200)
       .json({ message: "Trip request status updated", trip });
@@ -281,6 +287,9 @@ export const updateTripRequestStatus = async (req, res) => {
         break;
       case "notFound":
         res.status(404).json({ error: "The trip request not found" });
+        break;
+      default:
+        res.status(500).json({ error: err.message });
         break;
     }
   }

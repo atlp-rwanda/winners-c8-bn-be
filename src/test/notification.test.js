@@ -134,7 +134,6 @@ describe("Notificatons test", () => {
       .send({
         method: "email",
       });
-    console.log(res);
     expect(res.status).to.be.eq(200);
   });
 });

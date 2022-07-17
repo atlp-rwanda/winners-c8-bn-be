@@ -23,7 +23,7 @@ module.exports = {
           id: "f683cce1-a43a-41aa-8fd4-f3cb68e5d866",
           firstName: "manager 2",
           lastName: "Doe",
-          email: "bagira.sostenee@gmail.com",
+          email: "manager2@gmail.com",
           password: hashPassword("Password@123"),
           user_role: "6927442b-84fb-4fc3-b799-11449fa62f52",
           managerId: null,
@@ -50,7 +50,7 @@ module.exports = {
           email: "john@seed.com",
           password: hashPassword("Password@123"),
           user_role: "7adae2f1-4d35-470d-8512-1b9634330a9e",
-          managerId: "f683cce1-a43a-41aa-8fd4-f3cb68e5d865",
+          managerId: "f683cce1-a43a-41aa-8fd4-f3cb68e5d866",
           isVerified: true,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -65,7 +65,7 @@ module.exports = {
      * Add commands to revert seed here.
      *
      * Example:
-     * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete("Users", null, {});
   },
 };
