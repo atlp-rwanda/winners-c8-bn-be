@@ -90,33 +90,7 @@ describe('POST/rooms/{roomId}/booking', ()=>{
       managerToken = res.body.data;
   });
 
-  // it("should return 201, if successful created the trip request", async () => {
-  //   const tripRequest = fullTripRequest();
-  //   await chai
-  //     .request(app)
-  //     .post("/api/trips/")
-  //     .send(oneWayTripRequest())
-  //     .set("Authorization", `Bearer ${userToken}`);
-
-  //   const res = await request(app)
-  //     .post("/api/trips/")
-  //     .send(tripRequest)
-  //     .set("Authorization", `Bearer ${userToken}`);
-
-  //   const tripRequestFromDb = await TripRequest.findOne({
-  //     where: {
-  //       departureId: tripRequest.departureId,
-  //     },
-  //   });
-
-  //   expect(res.status).to.be.eq(201);
-  //   expect(tripRequestFromDb).to.not.be.null;
-  //   expect(tripRequestFromDb.dateOfDeparture).to.be.eq(
-  //     tripRequest.dateOfDeparture
-  //   );
-  // });
-
-    
+  
     it('it should book room when trip request is approved', async ()=>{
         const res = await chai
             .request(app)
@@ -130,6 +104,21 @@ describe('POST/rooms/{roomId}/booking', ()=>{
             expect(res.status).to.be.eq(201);
     })
     
+    it('it should not book room when room is booked', async ()=>{
+      const res = await chai
+          .request(app)
+          .post(`/api/rooms/${room_id}/booking`)
+          .send({
+            tripId:1,
+            from:"2022-07-10", 
+            to:"2022-07-10"
+          })
+          .set("Authorization", `Bearer ${userToken}`);
+          expect(res.status).to.be.eq(400);
+          expect(res.body).to.have.property('message');
+          expect(res.body.message).to.be.equal('Room has been already booked!')
+    })
+  
     after(async () => {
       await AccommodationRoom.destroy({ where: {} });
       await User.destroy({ where: {} });
