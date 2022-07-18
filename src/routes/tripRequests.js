@@ -14,8 +14,8 @@ router.get("/", [authChecker], tripControllers.getAllTripRequests);
 
 //Trip statistics for users(travellers) and managers
 
-router.get("/tripstatistics/",[authChecker], tripStats.getAllTrips);
-router.get("/managerstatistics/",[authChecker], tripStats.getAllManagerTrips);
+router.post("/tripstatistics/",[authChecker], tripStats.getAllTrips);
+router.post("/managerstatistics/",[authChecker], tripStats.getAllManagerTrips);
 
 router.get("/search", [authChecker], tripControllers.searchTripRequest);
 

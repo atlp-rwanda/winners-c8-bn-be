@@ -1,7 +1,7 @@
 /**
  * @openapi
  * /trips/tripstatistics:
- *  get:
+ *  post:
  *      tags: [Trip Stats]
  *      security:
  *          - BearerToken: []
@@ -30,7 +30,7 @@
  *              description: internal server error
  *
  * /trips/managerstatistics:
- *  get:
+ *  post:
  *      tags: [Trip Stats]
  *      security:
  *          - BearerToken: []
