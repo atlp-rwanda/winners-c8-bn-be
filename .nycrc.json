@@ -7,5 +7,6 @@
   "lines": 80,
   "include": ["src/**/*.js"],
   "exclude": ["src/test/**", "src/database", "src/docs", "src/public", 
-  "src/utils/chat-bot.js", "src/controllers/resetPassword.js", "src/helpers/photoUpload.js", "src/helpers/sendResetEmail.js"]
+  "src/utils/chat-bot.js", "src/controllers/resetPassword.js", "src/helpers/photoUpload.js", "src/helpers/sendResetEmail.js",
+  "src/helpers/user-roles.js"]
 }
