@@ -18,7 +18,7 @@ adminMock.email = "testing225@gmail.com";
 
 describe("api/trips/managerstatistics", async () => {
 
-  describe("GET /", () => {
+  describe("POST /", () => {
     let admin = {};
     before(async () => {
         try {
@@ -41,13 +41,13 @@ describe("api/trips/managerstatistics", async () => {
     );
     it("should return 401 code when none existing userId provided", async () => {
         let url = "/api/trips/managerstatistics/";
-      const res = await request(server).get(url)
+      const res = await request(server).post(url)
       expect(res.status).to.be.eq(401);
     });
 
     it("should return 200 code when existing userId provided", async () => {
         let url = "/api/trips/managerstatistics/"
-      const res = await request(server).get(url).set('Authorization', `Bearer ${admin.token}`)
+      const res = await request(server).post(url).set('Authorization', `Bearer ${admin.token}`)
       expect(res.status).to.be.eq(200);
     });
 
@@ -57,7 +57,7 @@ describe("api/trips/managerstatistics", async () => {
 
 describe("api/trips/tripstatistics", async () => {
  let user = {};
-    describe("GET /", () => {
+    describe("POST /", () => {
       before(async () => {
           try {
 
@@ -85,13 +85,13 @@ describe("api/trips/tripstatistics", async () => {
       })
       it("should return 401 code when no user loged in", async () => {
           let url = "/api/trips/tripstatistics/";
-        const res = await request(server).get(url)
+        const res = await request(server).post(url)
         expect(res.status).to.be.eq(401);
       });
   
       it("should return 200 code when existing userId provided", async () => {
           let url = "/api/trips/tripstatistics/";
-        const res = await request(server).get(url).set('Authorization', `Bearer ${user.token}`)
+        const res = await request(server).post(url).set('Authorization', `Bearer ${user.token}`)
         expect(res.status).to.be.eq(200);
       });
   
