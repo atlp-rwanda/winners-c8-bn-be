@@ -3,6 +3,7 @@ import successResponse from "../utils/success";
 import { tripServices } from "../services";
 import { checkLocation } from "../services/locationServices";
 import RoleService from "../services/roleServices";
+import sendNotification from "../utils/sendNotification";
 
 export const getAllTripRequests = async (req, res) => {
   const user = req.user;
@@ -91,6 +92,12 @@ export const createTripRequest = async (req, res) => {
       tripRequest,
       destinations
     );
+    await sendNotification({
+      title: "The new trip request has been created",
+      message: `${req.user.firstName} created a new trip request that for  approval.`,
+      link: `${process.env.FRONTEND_URL}/trip-requests/${trip.id}`,
+      userIds: [trip.managerId, req.user.id],
+    });
     return res.status(201).send("Trip request successfully created");
   } catch (err) {
     return errorResponse(res, 500, err.message);
@@ -101,7 +108,7 @@ export const editTripRequest = async (req, res) => {
   const tripRequest = req.body;
   const tripRequestId = req.params.id;
   try {
-    await tripServices.getOneTripRequest(req.user, tripRequestId);
+    const trip = await tripServices.getOneTripRequest(req.user, tripRequestId);
     const departureValid = await checkLocation(tripRequest.departureId);
     let destinationsValid;
     if (typeof tripRequest.destinationsId == "number") {
@@ -140,6 +147,12 @@ export const editTripRequest = async (req, res) => {
       tripRequestId,
       user
     );
+    await sendNotification({
+      title: "The  trip request has been edited",
+      message: `The trip request has been edited `,
+      link: `${process.env.FRONTEND_URL}/trip-requests/${tripRequestId}`,
+      userIds: [trip.manager.id],
+    });
     return res.status(201).send("Trip request successfully updated");
   } catch (err) {
     switch (err.message) {
@@ -256,6 +269,12 @@ export const updateTripRequestStatus = async (req, res) => {
         "You are not authorized to update trip request status"
       );
     await trip.update({ status });
+    await sendNotification({
+      title: `The  trip request has been ${status}`,
+      message: `The trip request has been ${status} `,
+      link: `${process.env.FRONTEND_URL}/trip-requests/${tripId}`,
+      userIds: [trip.owner.id],
+    });
     return res
       .status(200)
       .json({ message: "Trip request status updated", trip });
@@ -268,6 +287,9 @@ export const updateTripRequestStatus = async (req, res) => {
         break;
       case "notFound":
         res.status(404).json({ error: "The trip request not found" });
+        break;
+      default:
+        res.status(500).json({ error: err.message });
         break;
     }
   }

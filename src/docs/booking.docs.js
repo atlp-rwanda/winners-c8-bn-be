@@ -37,12 +37,16 @@
  *           description: Bad Request!
  *         401:
  *           description: Unauthorized  
+ *         403:
+ *           description: Forbidden to perform this.
  *         500:
  *           description: Internal Server Error
  * 
  * 
  * /rooms/{roomId}/freeRoom:
  *   post:
+ *      security:
+ *          - BearerToken: []
  *      tags: [Room Booking]
  *      summary: It makes room available once it was booked.
  *      description: Only travel admin is allowed to free the room.
@@ -55,6 +59,8 @@
  *             description: Room is set to free now.
  *          401:
  *             description: Unauthorized | only travel admin
+ *          403:
+ *             description: Forbidden to perform this task.
  *          404:
  *             description: Not found
 */

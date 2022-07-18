@@ -39,6 +39,7 @@ const schema = {
           "{{#label}} must contain at least a number, a special character, an upper-case letter and longer than 8 characters",
       }),
   }),
+
   signin: Joi.object({
     email: Joi.string().required(),
     password: Joi.string().required(),
@@ -68,19 +69,13 @@ const schema = {
         "string.pattern.base":
           "{{#label}} must contain only characters from a to z.",
       }),
-    phoneNumber: Joi.string()
-      .required()
-      .empty()
-      .min(10)
-      .max(10)
-      .messages({
-        "any.required": "{{#label}} field is required",
-        "string.base": "{{#label}} must be of type string",
-        "string.empty": "{{#label}} can not be empty",
-        "string.pattern.base":
-          "{{#label}} must contain 10 numbers",
-      }),
-      username: Joi.string()
+    phoneNumber: Joi.string().required().empty().min(10).max(10).messages({
+      "any.required": "{{#label}} field is required",
+      "string.base": "{{#label}} must be of type string",
+      "string.empty": "{{#label}} can not be empty",
+      "string.pattern.base": "{{#label}} must contain 10 numbers",
+    }),
+    username: Joi.string()
       .empty()
       .min(6)
       .max(20)
@@ -92,7 +87,7 @@ const schema = {
         "string.pattern.base":
           "{{#label}} must contain only characters from a to z.",
       }),
-      gender: Joi.string()
+    gender: Joi.string()
       .empty()
       .min(1)
       .max(10)
@@ -104,16 +99,13 @@ const schema = {
         "string.pattern.base":
           "{{#label}} must contain only characters from a to z.",
       }),
-      image: Joi.string()
-      .empty()
-      .messages({
-        "any.required": "{{#label}} field is required",
-        "string.base": "{{#label}} must be of type string",
-        "string.empty": "{{#label}} can not be empty",
-        "string.pattern.base":
-          "{{#label}} must contain only image format.",
-      }),
-      preferredLanguage: Joi.string()
+    image: Joi.string().empty().messages({
+      "any.required": "{{#label}} field is required",
+      "string.base": "{{#label}} must be of type string",
+      "string.empty": "{{#label}} can not be empty",
+      "string.pattern.base": "{{#label}} must contain only image format.",
+    }),
+    preferredLanguage: Joi.string()
       .empty()
       .min(6)
       .max(20)
@@ -125,7 +117,7 @@ const schema = {
         "string.pattern.base":
           "{{#label}} must contain only characters from a to z.",
       }),
-      preferredCurrency: Joi.string()
+    preferredCurrency: Joi.string()
       .empty()
       .min(3)
       .max(10)
@@ -137,7 +129,7 @@ const schema = {
         "string.pattern.base":
           "{{#label}} must contain only characters from a to z.",
       }),
-      department: Joi.string()
+    department: Joi.string()
       .empty()
       .min(3)
       .max(20)
@@ -161,7 +153,11 @@ const schema = {
   tripRequest: Joi.object({
     departureId: Joi.number().required(),
     destinationsId: Joi.alternatives()
-     .try(Joi.number(),Joi.string(), Joi.array().items(Joi.alternatives(Joi.number(), Joi.string())))
+      .try(
+        Joi.number(),
+        Joi.string(),
+        Joi.array().items(Joi.alternatives(Joi.number(), Joi.string()))
+      )
       .required()
       .invalid(Joi.ref("departureId"))
       .messages({
@@ -293,6 +289,17 @@ class AuthValidation {
     try {
       const result = await Joi.object({
         status: Joi.valid("Approved", "Rejected").required(),
+      }).validateAsync(req.body);
+      req.body = result;
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    return next();
+  }
+  static async verifyNotificationMethod(req, res, next) {
+    try {
+      const result = await Joi.object({
+        method: Joi.valid("email", "inapp", "both", "none").required(),
       }).validateAsync(req.body);
       req.body = result;
     } catch (err) {

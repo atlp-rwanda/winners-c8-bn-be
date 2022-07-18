@@ -17,7 +17,7 @@ export class BookingService{
 
   static tripApproved = async (user, trip)=>{
     const myTrip = await tripServices.getOneTripRequest(user, trip);
-    if(myTrip.status === 'approved'){
+    if(myTrip.status === 'Approved'){
       return true;
     }
     return false;
