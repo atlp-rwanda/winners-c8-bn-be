@@ -1,5 +1,5 @@
 import socket from "socket.io";
-import {server} from "../index"
+import { server } from "../index";
 import { verifyToken } from "../middlewares/hash";
 import chatService from "../services/chatServices";
 import UserService from "../services/user";
@@ -16,62 +16,66 @@ io.use(async (socket, next) => {
     decodedToken = await verifyToken(accesstoken);
     return next();
   }
-  return next(new Error('not Authorized, please login!'),);
+  return next(new Error("not Authorized, please login!"));
 });
 
 let onlineUsers = 0;
-const ipsconnected = [];
+export const ipsconnected = {};
 
-io.on('connection', async socket=>{
+io.on("connection", async (socket) => {
   const { token } = socket.handshake.auth;
   const accessToken = JSON.parse(token);
   decodedToken = await verifyToken(accessToken);
   const user = await UserService.checkUser(decodedToken.email);
 
-  console.log(`${user.firstName} connected`)
+  console.log(`${user.firstName} connected`);
 
   const connectedUser = socket.id; // for real app use user.id or socket.handshake.address
   if (!ipsconnected.hasOwnProperty(connectedUser)) {
-    ipsconnected[connectedUser] = 1;
+    ipsconnected[connectedUser] = {
+      socket,
+      user: { firstName: user.firstName, id: user.id },
+    };
     onlineUsers += 1;
-    io.emit('online', onlineUsers);
+    io.emit("online", onlineUsers);
   }
-  
   // associate connected socket to user
-  io.to(socket.id).emit('onLoad', user);
+  io.to(socket.id).emit("onLoad", user);
 
   // receive data from client
-  socket.on('chat', data=>{
+  socket.on("chat", (data) => {
     const newChat = {
-      sender:`${user.firstName}`+` ${user.lastName}`.toLowerCase(),
-      postedBy:user.id,
-      message:data.message.toLowerCase()
-    }
+      sender: `${user.firstName}` + ` ${user.lastName}`.toLowerCase(),
+      postedBy: user.id,
+      message: data.message.toLowerCase(),
+    };
     //save ew chat in db
     chatService.saveMessage(newChat);
 
     // send back data to all connected users/sockets
-    socket.broadcast.emit('chat', data)
-    io.to(socket.id).emit('onlyMe', data);
+    socket.broadcast.emit("chat", data);
+    io.to(socket.id).emit("onlyMe", data);
   });
 
-
   const Chats = await chatService.retrieveMessages();
- 
-  io.to(socket.id).emit('message', {Chats, sender:`${user.firstName} ${user.lastName}`});
+
+  io.to(socket.id).emit("message", {
+    Chats,
+    sender: `${user.firstName} ${user.lastName}`,
+  });
 
   // typing info to other sockets except me
-  socket.on('typing', data=>{
-    socket.broadcast.emit('typing', data)
-  })
+  socket.on("typing", (data) => {
+    socket.broadcast.emit("typing", data);
+  });
 
-  socket.on('disconnect', () => {
+  socket.on("disconnect", () => {
     if (ipsconnected.hasOwnProperty(connectedUser)) {
       delete ipsconnected[connectedUser];
       onlineUsers -= 1;
-      io.emit('online', onlineUsers);
+      io.emit("online", onlineUsers);
     }
   });
-})
+});
 
 export default io;

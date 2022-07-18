@@ -91,7 +91,7 @@ describe("api/trips", async () => {
       await TripRequest.sync({ force: true });
     } catch (err) {
       console.log({ err });
-    }
+    } ;
   });
 
   describe("GET /", () => {
@@ -411,8 +411,8 @@ describe("api/trips", async () => {
   describe("PUT /:tripId", () => {
     it("should return 401 if user does not provide token(Not logged in)", async () => {
       const res = await request(server).put(url + 1);
-
       expect(res.status).to.be.eq(401);
+      
     });
 
     it("should return 401 if token is invalid", async () => {

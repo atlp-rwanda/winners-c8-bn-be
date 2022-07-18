@@ -2,6 +2,7 @@ import { Router } from "express";
 import auth from "./Auth";
 import locations from "./locations";
 import trips from "./tripRequests";
+import commentRoutes from './tripRequests'
 import isAuthenticated from "../middlewares/Authorization";
 import userRoutes from "./usersRoutes";
 import chatRoutes from "../routes/chatRoutes";
