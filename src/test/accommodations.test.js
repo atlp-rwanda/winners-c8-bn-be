@@ -335,6 +335,7 @@ describe("api/accommodations/", async () => {
         .get(url)
         .set("Authorization", `Bearer ${user.token}`);
         
+
       const accommodation = accommodations.body.data[0];
 
       const res = await request(server)
