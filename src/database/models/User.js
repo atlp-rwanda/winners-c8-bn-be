@@ -36,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Chat, {
         foreignKey: "postedBy",
       });
+      this.hasMany(models.BookingRoom, {
+        foreignKey: 'userId'
+      })
       this.hasMany(models.Notification, {
         foreignKey: "userId",
         onDelete: "CASCADE",
