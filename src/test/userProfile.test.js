@@ -7,6 +7,8 @@ import {signup,update_user} from './mocks/Users';
 
 chai.use(chaiHttp);
 
+let token
+
 describe('Testing  User Profile endpoint', () => {
 	before(async () => {
 		await User.destroy({ where: {} });
@@ -16,7 +18,7 @@ describe('Testing  User Profile endpoint', () => {
 			.request(app)
 			.post('/api/auth/register')
 			.send(signup);
-       const token=`Bearer ${res.body.data}`
+       token=`Bearer ${res.body.data}`
        const update=await chai.request(app)
        .patch('/api/user/update')
        .send(update_user)
@@ -33,7 +35,7 @@ describe('Testing  User Profile endpoint', () => {
 			.request(app)
 			.post('/api/auth/register')
 			.send(signup);
-       const token=`Bearer ${res.body.data}`
+       token=`Bearer ${res.body.data}`
        const update=await chai.request(app)
        .patch('/api/user/update')
        .send()
@@ -50,9 +52,20 @@ describe('Testing  User Profile endpoint', () => {
 			'Not authorized, no token',
 		);
 	});
-	
+});
+
+describe("Get profile information from trip request", () => {
+	it("should update the remember info option", async() => {
+	 const res = await chai
+		.request(app)
+		.put("/api/user/remember-info")
+		.set("Authorization", token)
+		  expect(res.status).to.be.equal(200);
+		  expect(res.body).to.have.property(
+			'message', 
+			'remember info option updated successfully');
+	});
 	after(async () => {
 		await User.destroy({ where: {} });
 	});
-});
-
+  });
