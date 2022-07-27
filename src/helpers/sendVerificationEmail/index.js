@@ -5,6 +5,7 @@ import "dotenv/config";
 const sendVerificationEmail = (userEmail, token) => {
   const port = process.env.PORT;
   const link = `${process.env.FRONTEND_ADDRESS}/verifyUser/${token}`;
+  
   const mailObj = {
     receiverEmail: userEmail,
     subject: "Barefoot Nomad Email Verification",
