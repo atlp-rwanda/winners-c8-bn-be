@@ -9,7 +9,7 @@ import sessionsRoutes from "./session";
 
 const router = Router();
 
-const { signup, signin, verifyUser, signout } = authcontrollers;
+const { signup, signin, verifyUser, signout, verifyUser_email } = authcontrollers;
 const { requestResetPassword, resetPassword } = passwordResetController;
 const { verifySignup, verifySignin } = AuthValidation;
 
@@ -143,6 +143,7 @@ router.use("/sessions", isAuthenticated, sessionsRoutes);
  */
 
 router.get("/register/verifyuser/:token", verifyUser);
+router.get("/register/verifyuser/email/:token",verifyUser_email);
 
 router.post("/requestPasswordReset", requestResetPassword);
 /**
