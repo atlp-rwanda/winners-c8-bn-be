@@ -1,12 +1,15 @@
 import { Router } from "express";
-import { updateUserProfile } from "../controllers/user";
+import { updateUserProfile} from "../controllers/user";
+import { userInformation } from "../controllers";
 import { protect } from "../middlewares/AuthoMiddleware";
 import Validations from "../validations";
+import authChecker from "../middlewares/Authorization";
 import notificationRoutes from "./notification";
 
 const verifyUpdateUserProfile = Validations.verifyUpdateUserProfile;
 
 const router = Router();
+router.get("/user", [authChecker], userInformation.getUser);
 router.patch("/update", [protect, verifyUpdateUserProfile], updateUserProfile);
 router.use("/notifications", notificationRoutes);
 

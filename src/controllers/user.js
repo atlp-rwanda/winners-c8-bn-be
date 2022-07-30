@@ -2,9 +2,26 @@ import { User } from "../database/models";
 import errorResponse from "../utils/error";
 import successResponse from "../utils/success";
 import imageUploader from "../helpers/photoUpload";
-exports.updateUserProfile = async (req, res) => {
+import {userDetailsService} from "../services";
+
+export const getUser = async (req, res) =>{
+  const userId = req.user.id;
+  
+  try {
+    const userDetails = await userDetailsService.getUser({userId});
+    return  res.status(200).json({
+        success: true,
+        status: 200,
+        message: "Successfully retrieved user details",
+        user: userDetails,
+      });
+  } catch (error) {
+    errorResponse(res, 500, error.message);
+}
+
+}
+export const updateUserProfile = async (req, res) => {
   const user = req.user.dataValues;
-  // console.log(req.user)
   try {
     if (req.files) {
       const imageFile = await imageUploader(req);

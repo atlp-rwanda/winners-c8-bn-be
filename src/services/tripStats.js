@@ -3,7 +3,6 @@ import Models, { sequelize } from "../database/models";
 const { TripRequest } = Models;
 
 export const getAllTrips = async ({userId,from,to}) =>{
-    console.log(userId,from,to)
     let approvedTrips = await TripRequest.findAll(
         {
             attributes:[ "status",
