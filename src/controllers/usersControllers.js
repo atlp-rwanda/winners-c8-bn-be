@@ -80,7 +80,15 @@ export class UserControllers {
       return res.status(500).json({ error: error.message });
     }
   }
-
+  static async getAllUsers(req, res) {
+    try {
+      const users = await UserService.findAllUsers();
+      if (users == null) return errorResponse(res, 404, "No users not show");
+      return successResponse(res, 200, "All Users found successfully", users);
+    } catch (error) {
+      return errorResponse(res, 500, error.message);
+    }
+  }
   static async getManagers(req, res) {
     try {
       const managers = await UserService.findAllManagers();

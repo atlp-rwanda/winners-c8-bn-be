@@ -6,6 +6,12 @@ import { isSuperAdmin } from "../middlewares/isSuperAdmin";
 import Validations from "../validations";
 
 const addManagerValidations = Validations.verifyManager;
+router.get(
+  "/", 
+  verifyToken, 
+  isSuperAdmin,
+  UserControllers.getAllUsers
+  );
 router.patch(
   "/assignRole",
   verifyToken,

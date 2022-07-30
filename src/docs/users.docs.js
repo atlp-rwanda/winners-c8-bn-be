@@ -1,5 +1,23 @@
 /**
  * @openapi
+* /users:
+ *   get:
+ *       security:
+ *          - BearerToken: []
+ *       tags: [User]
+ *       summary: This is returns all users of application
+ *       description: Super admin allowed to view all users of the application!
+ *
+ *       responses:
+ *           200:
+ *               description: Successfully users retrieved!
+ *           401:
+ *              description: Unauthorized | only admin
+ *           404:
+ *               description: Yet no User to show!
+ *           500:
+ *               description: Internal server error!
+ *
  * /users/assignRole:
  *  patch:
  *      tags: [Role]
