@@ -1,18 +1,20 @@
-const form = document.querySelector('#join-form');
-const email = document.querySelector('#email');
-const password = document.querySelector('#password');
+const form = document.querySelector("#join-form");
+const email = document.querySelector("#email");
+const password = document.querySelector("#password");
 
-form.addEventListener('submit', (e)=>{
-    e.preventDefault();
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-    //collect data from  inputs
-    const data = {
-        email:email.value,
-        password:password.value
-    }
+  //collect data from  inputs
+  const data = {
+    email: email.value,
+    password: password.value,
+  };
 
-    const endpoint = '/api/auth/signin';
+  const endpoint = "/api/auth/signin";
 
-    loggingUserIn(endpoint, data);
-
-})
+  loggingUserIn(endpoint, data);
+});
+if (localStorage.getItem("token")) {
+  window.location.href = "/chat.html";
+}

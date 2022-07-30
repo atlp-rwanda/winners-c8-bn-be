@@ -6,13 +6,14 @@ import routes from "./routes/index";
 import "dotenv/config";
 import fileUpload from "express-fileupload";
 import getDefault from "./helpers/getEnvironment";
-import socket from "socket.io";
 import path from "path";
 import io from "./utils/chat-bot";
+import cors from 'cors';
 
 const PORT = getDefault(process.env.PORT, "5000");
 
 const app = express();
+app.use(cors());
 
 // allow to parse json in body
 app.use(express.json());
@@ -32,7 +33,7 @@ const server = app.listen(PORT, () => {
   console.log("Server has started on port", PORT);
 });
 
-io.attach(server)
+io.attach(server);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/chats', (req,res)=>{

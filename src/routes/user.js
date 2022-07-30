@@ -1,12 +1,14 @@
 import { Router } from "express";
-import {updateUserProfile} from '../controllers/user'
+import { updateUserProfile } from "../controllers/user";
 import { protect } from "../middlewares/AuthoMiddleware";
 import Validations from "../validations";
+import notificationRoutes from "./notification";
 
-const verifyUpdateUserProfile=Validations.verifyUpdateUserProfile
+const verifyUpdateUserProfile = Validations.verifyUpdateUserProfile;
 
-const router=Router()
-router.patch('/update',[protect,verifyUpdateUserProfile],updateUserProfile)
+const router = Router();
+router.patch("/update", [protect, verifyUpdateUserProfile], updateUserProfile);
+router.use("/notifications", notificationRoutes);
 
 /**
  * @swagger
@@ -26,7 +28,7 @@ router.patch('/update',[protect,verifyUpdateUserProfile],updateUserProfile)
  *         description: Bad Request
  *       '500':
  *         description: Internal server error
- *  
+ *
  *     requestBody:
  *      content:
  *       multipart/form-data:
@@ -44,22 +46,19 @@ router.patch('/update',[protect,verifyUpdateUserProfile],updateUserProfile)
  *                          gender:
  *                              type: string
  *                          image:
-*                              type: file
+ *                              type: file
  *                          preferredLanguage:
  *                              type: string
  *                          preferredCurrency:
  *                              type: string
  *                          department:
  *                              type: string
- *                          
- *                          
- *                       
- *                 
- *      
- * 
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
-
-
- 
-export default router
+export default router;
