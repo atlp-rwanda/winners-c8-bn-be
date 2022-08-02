@@ -13,6 +13,7 @@ class Social {
     let userGot;
     let google = null;
     let facebook = null;
+    let userEmail;
     const column = `${req.user.provider}`;
     if (column === 'google') {
       google = req.user.id; 
@@ -25,12 +26,17 @@ class Social {
     const facebookSearch = await userService.findByProp({
       facebookId: req.user.id,
     });
-    if(req.user.emails.length == 0) {
-      return errorResponse(res, 403, `cannot login. the user's ${req.user.provider} account has no assigned email.`);
+    const userDetails = req.user;
+    let exist = [];
+    if(!(Object.keys(userDetails).includes("emails"))) {
+      userEmail=req.user.id + "@fake_" +req.user.provider+".com";
     }
-    const exist = await userService.findByProp({
-      email: req.user.emails[0].value,
-    });
+    else{
+      exist = await userService.findByProp({
+        email: req.user.emails[0].value,
+      });
+      userEmail = req.user.emails[0].value;
+    }
     if (googleSearch[0] || facebookSearch[0]) {
       if (!googleSearch[0]) {
         userGot = facebookSearch[0].dataValues;
@@ -48,9 +54,9 @@ class Social {
       const newUser = {
         firstName: req.user.name.familyName,
         lastName: req.user.name.givenName,
-        email: req.user.emails[0].value,
+        email: userEmail,
         password: Math.random().toString(),
-        isVerified: req.user.emails[0].verified,
+        isVerified: true,
         googleId: google,
         facebookId: facebook,
       };
@@ -74,7 +80,7 @@ class Social {
       loginIp: req.ip,
       lastSessionTime: new Date(),
     });
-    return successResponse(res, status, Action, token);
+    res.redirect('https://nomad-travelers-winners.herokuapp.com/?token='+token);
     
   }
 }
