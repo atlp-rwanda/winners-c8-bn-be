@@ -4,6 +4,7 @@ import models from "../database/models";
 import server from "../index";
 import Protection from "../middlewares/hash";
 import { signup } from "./mocks/Users";
+import userSeeder from "./util/userSeeder";
 
 const { hashPassword, verifyToken } = Protection;
 
@@ -16,6 +17,10 @@ describe("api/users", async () => {
   const user = {
     token: null,
   };
+  const loginAdmin = {
+    email: 'honore@gmail.com',
+    password: 'This@2022'
+  }
   const admin = {
     token: null,
   };
@@ -32,7 +37,10 @@ describe("api/users", async () => {
         password: hashPassword(signup.password),
         isVerified: true,
       });
-
+     const loginAdmin = {
+      email: "nyakamweaimable@gmail.com",
+      password: "Tester@12345",
+     }
       const res = await request(server)
         .post("/api/auth/signin")
         .send({ email: adminMock.email, password: signup.password });
@@ -72,7 +80,7 @@ describe("api/users", async () => {
     });
 
     it("should return 401 if provided token is invalid", async () => {
-      const token = "xty"; 
+      const token = "a"; 
 
       const res = await request(server)
         .get(url)
@@ -80,13 +88,13 @@ describe("api/users", async () => {
 
       expect(res.status).to.be.eq(401);
     });
+  it('It should get all users in application with status 200', async () => {
+    const res = await request(server)
+    .get(url)
+    .set("Authorization", `Bearer ${admin.token}`);
 
-    it("should return all users in applications with status 200", async () => {
-      const res = await request(server)
-        .get(url)
-        .set("Authorization", `Bearer ${admin.token}`);
+  expect(res.status).to.be.eq(200);
+});
 
-      expect(res.status).to.be.eq(200);
-    });
-  });
+});
 })
