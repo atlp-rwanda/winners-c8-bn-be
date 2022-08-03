@@ -84,6 +84,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: null,
       },
+      remember_info: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
       username: DataTypes.STRING,
       phoneNumber: DataTypes.STRING,
       image: DataTypes.STRING,

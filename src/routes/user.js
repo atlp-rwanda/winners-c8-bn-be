@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { updateUserProfile } from "../controllers/user";
+import { updateUserProfile, updateRememberInfo } from "../controllers/user";
 import { protect } from "../middlewares/AuthoMiddleware";
 import Validations from "../validations";
 import notificationRoutes from "./notification";
@@ -60,5 +60,27 @@ router.use("/notifications", notificationRoutes);
  *
  *
  */
+
+ router.put('/remember-info', protect, updateRememberInfo)
+ /**
+  * @swagger
+  * /user/remember-info:
+  *   put:
+  *     summary: update remember information
+  *     tags:
+  *       - User
+  *     security:
+  *             - BearerToken: []
+  *     responses:
+  *       '200':
+  *         description: Successfully.
+  *       '401':
+  *         description: Token is invalid or expired
+  *       '400':
+  *         description: Bad Request
+  *       '500':
+  *         description: Internal server error
+  *
+  */
 
 export default router;

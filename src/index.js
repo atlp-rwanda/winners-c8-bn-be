@@ -10,7 +10,7 @@ import path from "path";
 import io from "./utils/chat-bot";
 import cors from 'cors';
 
-const PORT = getDefault(process.env.PORT, "5000");
+const PORT = getDefault(process.env.PORT, "3000");
 
 const app = express();
 app.use(cors());
