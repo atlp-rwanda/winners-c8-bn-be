@@ -72,6 +72,6 @@ describe("Auth check middlewares", () => {
       .request(app)
       .get("/api/users")
       .set("authorization", `Bearer ${token}`);
-    expect(response.status).to.equal(200);
+    expect(response.status).to.equal(403);
   });
 });

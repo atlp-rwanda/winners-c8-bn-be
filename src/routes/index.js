@@ -14,11 +14,6 @@ import routerAuth from "./api/users/userRoutes";
 
 const router = Router();
 
-router.get("/users", isAuthenticated, async (req, res) => {
-  res.send({
-    message: "Middlewares works successful!",
-  });
-});
 
 router.use("/auth", auth);
 router.use("/trips", trips);

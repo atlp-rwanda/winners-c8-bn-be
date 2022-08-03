@@ -83,7 +83,12 @@ class UserService {
 
     return await user.update({ managerId });
   }
-
+  static findAllUsers = async () => {
+    const users = User.findAll({
+      attributes: ["firstName","lastName","email"],
+    });
+    return users;
+  };
   static findAllManagers = async () => {
     const managerId = await RoleService.findRoleIdByName("manager");
     const managers = await User.findAll({
