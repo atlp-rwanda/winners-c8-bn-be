@@ -3,10 +3,16 @@ import { updateUserProfile, updateRememberInfo } from "../controllers/user";
 import { protect } from "../middlewares/AuthoMiddleware";
 import Validations from "../validations";
 import notificationRoutes from "./notification";
+import { userInformation } from "../controllers";
+import authChecker from "../middlewares/Authorization";
+
+
 
 const verifyUpdateUserProfile = Validations.verifyUpdateUserProfile;
 
 const router = Router();
+
+router.get("/user", [authChecker], userInformation.getUser);
 router.patch("/update", [protect, verifyUpdateUserProfile], updateUserProfile);
 router.use("/notifications", notificationRoutes);
 
