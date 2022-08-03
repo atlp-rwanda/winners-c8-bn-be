@@ -8,7 +8,6 @@ import { User } from "../database/models";
 import { signup } from "./mocks/Users";
 
 chai.use(chaiHttp);
-
 let authTokenTest = "";
 describe("send verification email - testing", () => {
   it("should successfully send the email", function (done) {
