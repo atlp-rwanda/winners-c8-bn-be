@@ -2,6 +2,27 @@ import { User } from "../database/models";
 import errorResponse from "../utils/error";
 import successResponse from "../utils/success";
 import imageUploader from "../helpers/photoUpload";
+import {userDetailsService} from "../services"
+
+
+export const getUser = async (req, res) =>{
+  const userId = req.user.id;
+  
+  try {
+    const userDetails = await userDetailsService.getUser({userId});
+    return  res.status(200).json({
+        success: true,
+        status: 200,
+        message: "Successfully retrieved user details",
+        user: userDetails,
+      });
+  } catch (error) {
+    errorResponse(res, 500, error.message);
+}
+
+}
+
+
 exports.updateUserProfile = async (req, res) => {
   const user = req.user.dataValues;
   // console.log(req.user)
@@ -48,10 +69,11 @@ exports.updateUserProfile = async (req, res) => {
       preferredCurrency,
       department,
     };
-    const updatedUser = await User.update(
-      {
-        data,
+  
+        const updatedUser=  await User.update({
+          firstName,lastName,username,phoneNumber,image,gender,preferredLanguage,preferredCurrency,department
       },
+    
       {
         where: { id: user.id },
       }
