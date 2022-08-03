@@ -118,6 +118,20 @@ describe('POST/rooms/{roomId}/booking', ()=>{
           expect(res.body).to.have.property('message');
           expect(res.body.message).to.be.equal('Room has been already booked!')
     })
+    it('room does not exit ', async ()=>{
+      const res = await chai
+          .request(app)
+          .post(`/api/rooms/1875/booking`)
+          .send({
+            tripId:1,
+            from:"2022-07-10", 
+            to:"2022-07-10"
+          })
+          .set("Authorization", `Bearer ${userToken}`);
+          expect(res.status).to.be.eq(404);
+          expect(res.body).to.have.property('message');
+          expect(res.body.message).to.be.equal('room does not exist!')
+    })
   
     after(async () => {
       await AccommodationRoom.destroy({ where: {} });

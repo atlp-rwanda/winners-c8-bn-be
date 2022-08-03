@@ -4,7 +4,7 @@ import "dotenv/config";
 
 const sendVerificationEmail = (userEmail, token) => {
   const port = process.env.PORT;
-  const link = `${process.env.SERVER_ADDRESS}/api/auth/register/verifyuser/${token}`;
+  const link = `${process.env.SERVER_ADDRESS}/api/auth/register/verifyuser/email${token}`;
   
   const mailObj = {
     receiverEmail: userEmail,

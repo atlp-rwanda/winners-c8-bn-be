@@ -28,7 +28,7 @@ class BookingRoomControllers{
             }
             return res.status(400).json({status:400, success:false, message:'Room has been already booked!'});
         }
-        return res.status(404).json({status:404, messae:'room does not exist!'});
+        return res.status(404).json({status:404, message:'room does not exist!'});
 
     }
 

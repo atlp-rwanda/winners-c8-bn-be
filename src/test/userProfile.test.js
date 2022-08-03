@@ -65,6 +65,13 @@ describe("Get profile information from trip request", () => {
 			'message', 
 			'remember info option updated successfully');
 	});
+	it("should not update the remember info option", async() => {
+		const res = await chai
+		   .request(app)
+		   .put("/api/user/remember-info")
+		   .set("Authorization", 'token')
+			 expect(res.status).to.be.equal(401);
+	   });
 	after(async () => {
 		await User.destroy({ where: {} });
 	});

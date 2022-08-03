@@ -134,6 +134,32 @@ class Auth {
       );
     }
   }
+  static async verifyUser_email(req, res) {
+    let data = {};
+    try {
+      data = await verifyToken(req.params.token);
+    } catch (err) {
+      return errorResponse(res, 400, `Invalid or expired Token.`);
+    }
+
+    try {
+      const exists = await checkUser(data.email);
+      if (!exists) {
+        return errorResponse(res, 409, `Ooops! User does not exist!`);
+      }
+      const results = await verifyUserAccount(data.email);
+
+      res.redirect(process.env.FRONTEND_ADDRESS)
+
+    } catch (error) {
+      return errorResponse(
+        res,
+        500,
+        `Ooops! Unable to verify User ${error.message}`
+      );
+    }
+  }
+
 
   static async getUserSessions(request, response) {
     try {
