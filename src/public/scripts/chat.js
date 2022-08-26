@@ -62,6 +62,7 @@ socket.on("message", ({ Chats, sender }) => {
 
 socket.on("connect_error", (err) => {
   alert(`${err.message}`);
+  window.localStorage.clear();
   location.replace("/login.html");
 });
 socket.on("notification", (data) => {
