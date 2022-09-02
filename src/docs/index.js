@@ -6,8 +6,7 @@ const swaggerOptions = {
     info: {
       title: "Barefoot nomad",
       version: "1.0.0",
-      description:
-        "Welcome to Barefoot Nomad global travel and accommodation easy",
+      description: "Welcome to Barefoot Nomad global travel and accommodation easy",
       license: {
         name: "Licensed Under MIT",
         url: "https://spdx.org/licenses/MIT.html",
@@ -19,13 +18,13 @@ const swaggerOptions = {
     },
     servers: [
       {
+        url: "/api",
+      },
+      {
         url: "http://localhost:3000/api",
       },
       {
         url: "https://winners-c8-bn-be-staging.herokuapp.com/api",
-      },
-      {
-        url: "/api",
       },
     ],
     components: {

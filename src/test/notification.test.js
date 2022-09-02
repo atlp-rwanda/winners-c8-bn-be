@@ -29,9 +29,11 @@ describe("Notificatons test", () => {
     });
     expect(res.status).to.equal(200);
     token = res.body.data;
+    global.ipsConnected = [{ user, socket: { emit: () => {} } }];
     const notifications = await sendNotification({
       title: "Test",
       link: "test/index.html",
+      message: "Test",
       userIds: [user.id],
     });
     expect(notifications.length).to.greaterThan(0);
@@ -48,9 +50,7 @@ describe("Notificatons test", () => {
     expect(res.status).to.be.eq(401);
   });
   it("GET /user/notifications should return array of notification if valid token is provided", async () => {
-    const res = await request(app)
-      .get(basePath)
-      .set("authorization", `Bearer ${token}`);
+    const res = await request(app).get(basePath).set("authorization", `Bearer ${token}`);
     expect(res.status).to.be.eq(200);
     expect(res.body.data).to.be.an("array");
     validNotificationId = res.body.data[0]?.id;
@@ -61,9 +61,7 @@ describe("Notificatons test", () => {
     expect(res.status).to.be.eq(401);
   });
   it("PATCH /user/notifications should return 200 and number of notification updated if user is logged in", async () => {
-    const res = await request(app)
-      .get(basePath)
-      .set("authorization", `Bearer ${token}`);
+    const res = await request(app).get(basePath).set("authorization", `Bearer ${token}`);
     expect(res.status).to.be.eq(200);
   });
   it("GET /user/notifications/{notificationid} should return 401  if user is not logged in", async () => {

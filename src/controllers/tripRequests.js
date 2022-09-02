@@ -44,10 +44,7 @@ export const createTripRequest = async (req, res) => {
   const tripRequest = req.body;
   const departureValid = await checkLocation(tripRequest.departureId);
   let destinationsValid;
-  if (
-    typeof tripRequest.destinationsId == "number" ||
-    typeof tripRequest.destinationsId == "string"
-  ) {
+  if (typeof tripRequest.destinationsId == "number" || typeof tripRequest.destinationsId == "string") {
     destinationsValid = await checkLocation(tripRequest.destinationsId);
     if (!destinationsValid) {
       return errorResponse(res, 400, "Invalid Destination Location");
@@ -57,11 +54,7 @@ export const createTripRequest = async (req, res) => {
     tripRequest.destinationsId.forEach(async (destinationId) => {
       const destinationValid = await checkLocation(destinationId);
       if (!destinationValid) {
-        return errorResponse(
-          res,
-          400,
-          `Destination ${destinationId} doesn't exist.`
-        );
+        return errorResponse(res, 400, `Destination ${destinationId} doesn't exist.`);
       }
     });
   }
@@ -78,24 +71,17 @@ export const createTripRequest = async (req, res) => {
   tripRequest.status = "pending";
   tripRequest.ownerId = req.user.id;
   if (!req.user.managerId) {
-    return errorResponse(
-      res,
-      403,
-      "Can not create trip request without manager"
-    );
+    return errorResponse(res, 403, "Can not create trip request without manager");
   }
   tripRequest.managerId = req.user.managerId;
   let destinations = tripRequest.destinationsId;
   delete tripRequest.destinationsId;
   try {
-    const trip = await tripServices.createTripRequest(
-      tripRequest,
-      destinations
-    );
+    const trip = await tripServices.createTripRequest(tripRequest, destinations);
     await sendNotification({
       title: "The new trip request has been created",
       message: `${req.user.firstName} created a new trip request that for  approval.`,
-      link: `${process.env.FRONTEND_URL}/trip-requests/${trip.id}`,
+      link: `/dashboard/trips/`,
       userIds: [trip.managerId, req.user.id],
     });
     return res.status(201).send("Trip request successfully created");
@@ -122,11 +108,7 @@ export const editTripRequest = async (req, res) => {
         const destinationValid = await checkLocation(destinationId);
 
         if (!destinationValid) {
-          return errorResponse(
-            res,
-            400,
-            `Destination ${destinationId} doesn't exist.`
-          );
+          return errorResponse(res, 400, `Destination ${destinationId} doesn't exist.`);
         }
       });
     }
@@ -142,15 +124,11 @@ export const editTripRequest = async (req, res) => {
       tripRequest.tripType = "oneway";
     }
 
-    const result = await tripServices.editTripRequest(
-      tripRequest,
-      tripRequestId,
-      user
-    );
+    const result = await tripServices.editTripRequest(tripRequest, tripRequestId, user);
     await sendNotification({
       title: "The  trip request has been edited",
       message: `The trip request has been edited `,
-      link: `${process.env.FRONTEND_URL}/trip-requests/${tripRequestId}`,
+      link: `/dashboard/trips`,
       userIds: [trip.manager.id],
     });
     return res.status(201).send("Trip request successfully updated");
@@ -167,9 +145,7 @@ export const editTripRequest = async (req, res) => {
         });
         break;
       case "owner":
-        res
-          .status(403)
-          .json({ error: "The user is not the owner of the trip request" });
+        res.status(403).json({ error: "The user is not the owner of the trip request" });
         break;
       default:
         errorResponse(res, 500, err.message);
@@ -199,9 +175,7 @@ export const deleteTripRequest = async (req, res) => {
         });
         break;
       case "owner":
-        res
-          .status(403)
-          .json({ error: "The user is not the owner of the trip request" });
+        res.status(403).json({ error: "The user is not the owner of the trip request" });
         break;
       default:
         errorResponse(res, 500, err.message);
@@ -241,11 +215,7 @@ export const searchTripRequest = async (req, res) => {
   });
 
   try {
-    const result = await tripServices.searchTripRequest(
-      queries,
-      locations,
-      user
-    );
+    const result = await tripServices.searchTripRequest(queries, locations, user);
 
     return successResponse(res, 200, "trips found", result);
   } catch (err) {
@@ -263,21 +233,15 @@ export const updateTripRequestStatus = async (req, res) => {
     const trip = await tripServices.getOneTripRequest(user, tripId);
     if (!trip) return errorResponse(res, 404, "trip not found");
     if (trip.manager.id !== user.id)
-      return errorResponse(
-        res,
-        403,
-        "You are not authorized to update trip request status"
-      );
+      return errorResponse(res, 403, "You are not authorized to update trip request status");
     await trip.update({ status });
     await sendNotification({
       title: `The  trip request has been ${status}`,
       message: `The trip request has been ${status} `,
-      link: `${process.env.FRONTEND_URL}/trip-requests/${tripId}`,
+      link: `/dashboard/trips/`,
       userIds: [trip.owner.id],
     });
-    return res
-      .status(200)
-      .json({ message: "Trip request status updated", trip });
+    return res.status(200).json({ message: "Trip request status updated", trip });
   } catch (err) {
     switch (err.message) {
       case "manager":

@@ -13,8 +13,7 @@ io.use(async (socket, next) => {
   const { token } = socket.handshake.auth;
   try {
     if (token) {
-      const accesstoken = JSON.parse(token);
-      decodedToken = await verifyToken(accesstoken);
+      decodedToken = await verifyToken(token);
       socket.decodedToken = decodedToken;
       return next();
     }
