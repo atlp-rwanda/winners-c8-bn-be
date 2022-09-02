@@ -31,16 +31,23 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "CASCADE",
       });
       this.hasMany(models.Comments, {
-        foreignKey:'userId',
-      })
+        foreignKey: "userId",
+      });
       this.hasMany(models.Chat, {
         foreignKey: "postedBy",
       });
       this.hasMany(models.BookingRoom, {
-        foreignKey: 'userId'
-      })
+        foreignKey: "userId",
+      });
       this.hasMany(models.Notification, {
         foreignKey: "userId",
+        as: "owner",
+        onDelete: "CASCADE",
+        onUpdate: "RESCRICT",
+      });
+      this.hasMany(models.Notification, {
+        foreignKey: "associatedUserId",
+        as: "associatedUser",
         onDelete: "CASCADE",
         onUpdate: "RESCRICT",
       });

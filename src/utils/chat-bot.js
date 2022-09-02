@@ -11,25 +11,23 @@ const io = socket(server);
 // middleware for authentication
 io.use(async (socket, next) => {
   const { token } = socket.handshake.auth;
-  if (token) {
-    const accesstoken = JSON.parse(token);
-    decodedToken = await verifyToken(accesstoken);
-    return next();
+  try {
+    if (token) {
+      decodedToken = await verifyToken(token);
+      socket.decodedToken = decodedToken;
+      return next();
+    }
+    throw new Error("User not authorized ");
+  } catch (error) {
+    return next(error);
   }
-  return next(new Error("not Authorized, please login!"));
 });
 
 let onlineUsers = 0;
 export const ipsconnected = {};
 
 io.on("connection", async (socket) => {
-  const { token } = socket.handshake.auth;
-  const accessToken = JSON.parse(token);
-  decodedToken = await verifyToken(accessToken);
-  const user = await UserService.checkUser(decodedToken.email);
-
-  console.log(`${user.firstName} connected`);
-
+  const user = await UserService.checkUser(socket.decodedToken.email);
   const connectedUser = socket.id; // for real app use user.id or socket.handshake.address
   if (!ipsconnected.hasOwnProperty(connectedUser)) {
     ipsconnected[connectedUser] = {

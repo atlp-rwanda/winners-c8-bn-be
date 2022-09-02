@@ -1,6 +1,6 @@
 /**
  * @openapi
-* /users:
+ * /users:
  *   get:
  *       security:
  *          - BearerToken: []
@@ -111,6 +111,21 @@
  *              description: Unauthorized | only admin
  *           404:
  *               description: Yet no Role to show!
+ *           500:
+ *               description: Internal server error!
+ * /user/user:
+ *   get:
+ *       security:
+ *          - BearerToken: []
+ *       tags: [User]
+ *       summary: This will return the user profile
+ *       description: Return the user profile
+ *
+ *       responses:
+ *           200:
+ *               description: User profile returned successfully!
+ *           401:
+ *              description: Unauthorized
  *           500:
  *               description: Internal server error!
  */

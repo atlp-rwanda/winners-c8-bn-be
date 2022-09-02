@@ -5,7 +5,11 @@ class NotificationService {
     return Notification.create({ title, message, link, userId });
   }
   static getNotifications(userId) {
-    return Notification.findAll({ where: { userId } });
+    return Notification.findAll({
+      where: { userId },
+      order: [["createdAt", "DESC"]],
+      include: [{ model: User, as: "associatedUser" }],
+    });
   }
   static getNotification(id, userId) {
     return Notification.findOne({ where: { id, userId } });
@@ -30,10 +34,7 @@ class NotificationService {
     );
   }
   static changeNotificationMethod(userId, method) {
-    return User.update(
-      { allowedNotificationMethod: method },
-      { where: { id: userId } }
-    );
+    return User.update({ allowedNotificationMethod: method }, { where: { id: userId } });
   }
 }
 export default NotificationService;

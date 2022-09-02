@@ -9,7 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.User, {
-        foreignKey: "userId",
+        foreignKey: { name: "userId", allowNull: false },
+        as: "owner",
+      });
+      this.belongsTo(models.User, {
+        foreignKey: { name: "associatedUserId", allowNull: true },
+        as: "associatedUser",
       });
     }
   }
@@ -25,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       title: { type: DataTypes.STRING, allowNull: false },
       link: DataTypes.STRING,
       userId: { type: DataTypes.UUID, allowNull: false },
+      associatedUserId: { type: DataTypes.UUID, allowNull: true },
       status: {
         type: DataTypes.ENUM(["delivered", "read"]),
         allowNull: false,
